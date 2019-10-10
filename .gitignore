@@ -1,0 +1,8 @@
+vendor
+log
+temp
+tests
+app/config/local.neon
+.idea
+www/node_modules
+www/checker
