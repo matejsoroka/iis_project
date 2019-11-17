@@ -31,6 +31,11 @@ final class UserPresenter extends BasePresenter
         $grid->addColumnText("username", "Login")->setFilterText();
         $grid->addColumnText("role", "Rola")->setFilterText();
 
+        $grid->addAction("edit", "", ":edit")
+            ->setIcon("pencil")
+            ->setClass("btn-sm btn-primary");
+
         return $grid;
     }
+    
 }
