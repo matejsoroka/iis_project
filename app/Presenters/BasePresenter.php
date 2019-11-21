@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use Nette;
+use Nette\Application\ForbiddenRequestException;
 
 
 /**
@@ -13,4 +14,11 @@ use Nette;
 
 abstract class BasePresenter extends Nette\Application\UI\Presenter
 {
+    protected function startup(): void
+    {
+        parent::startup();
+        if (!$this->getUser()->isAllowed($this->getName() . ":" . $this->getAction())) {
+            throw new ForbiddenRequestException();
+        }
+    }
 }

@@ -18,18 +18,11 @@ class AuthFactory
         $acl->addRole('leader', 'garant');
         $acl->addRole('admin', 'leader');
 
-//        $acl->addResource('backend');
+        $acl->addResource('Homepage:default');
 //
-//        $acl->allow('admin', 'backend');
+
 //        $acl->deny('guest', 'backend');
-//
-//        // případ A: role admin má menší váhu než role guest
-//        $acl->addRole('john', ['admin', 'guest']);
-//        $acl->isAllowed('john', 'backend'); // false
-//
-//        // případ B: role admin má větší váhu než guest
-//        $acl->addRole('mary', ['guest', 'admin']);
-//        $acl->isAllowed('mary', 'backend'); // true
+        $acl->allow('student', 'Homepage:default');
 
         return $acl;
     }
