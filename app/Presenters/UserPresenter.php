@@ -15,9 +15,10 @@ final class UserPresenter extends BasePresenter
     /** @var UserModel @inject */
     public $userModel;
 
-	public function renderDefault(): void
+	public function renderEdit(int $id): void
 	{
-		$this->template->anyVariable = 'any value';
+	    // Do not want to rename $user variable in template, so I call it row
+		$this->template->row = $this->userModel->getUser($id);
 	}
 
 	public function createComponentUserGrid() : DataGrid
@@ -37,5 +38,5 @@ final class UserPresenter extends BasePresenter
 
         return $grid;
     }
-    
+
 }
