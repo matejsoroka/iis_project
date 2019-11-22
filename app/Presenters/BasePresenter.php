@@ -14,6 +14,13 @@ use Nette\Application\ForbiddenRequestException;
 
 abstract class BasePresenter extends Nette\Application\UI\Presenter
 {
+
+    /**
+     * @var bool If presenter has grid,
+     * it is for including styles and scripts
+     */
+    public $hasGrid = false;
+
     protected function startup(): void
     {
         parent::startup();

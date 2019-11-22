@@ -1,2 +1,9 @@
 {block content}
+    <div class="row homepage">
+        {if !$user->isLoggedIn()}
+        <div class="col-md-6">
+            <a n:href="Sign:in" class="btn btn-primary">Prihlásenie</a>
+        </div>
+        {/if}
+    </div>
 {/block}

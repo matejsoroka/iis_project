@@ -1,0 +1,20 @@
+h1 {
+  padding: 1em 0;
+}
+.datagrid {
+  padding: 0;
+}
+.navbar {
+  padding: 0;
+}
+.navbar .navbar-brand img {
+  height: 60px;
+}
+.homepage {
+  padding: 2em 0;
+}
+.homepage .btn {
+  width: 100%;
+  text-align: left;
+}
+/*# sourceMappingURL=style.css.map */

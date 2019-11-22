@@ -1,0 +1,23 @@
+{
+  "name": "iis",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Matej Soroka <hi@matejsoroka.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/matejsoroka/iis_project",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-select": "^1.13.12",
+    "font-awesome": "^5.11.2",
+    "popper.js": "^1.16.0",
+    "ublaboo-datagrid": "^6.2.4"
+  }
+}

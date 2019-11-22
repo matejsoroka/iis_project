@@ -22,10 +22,16 @@ class AuthFactory
         $acl->addResource('Curse:default'); // Zobrazenie kurzov
         $acl->addResource('Curse:detail'); // Zobrazenie kurzov
         $acl->addResource('Homepage:default'); // Zobrazenie hlavnej stránky
+        $acl->addResource('Sign:in'); // Zobrazenie hlavnej stránky
+        $acl->addResource('Sign:out'); // Zobrazenie hlavnej stránky
+        $acl->addResource('Sign:up'); // Zobrazenie hlavnej stránky
 
         $acl->allow('guest', 'Curse:detail');
         $acl->allow('guest', 'Curse:default');
         $acl->allow('guest', 'Homepage:default');
+        $acl->allow('guest', 'Sign:in');
+        $acl->allow('guest', 'Sign:out');
+        $acl->allow('guest', 'Sign:up');
 
         /* Student */
         $acl->addResource('Curse:register'); // Registracia kurzov
@@ -53,7 +59,7 @@ class AuthFactory
         $acl->allow('admin', 'User:default');
 
         $acl->addResource('User:edit'); // Uprava uzivatela uzivatelov
-        $acl->allow('admin', 'User:default');
+        $acl->allow('admin', 'User:edit');
 
         return $acl;
     }

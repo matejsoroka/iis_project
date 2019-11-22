@@ -6,3 +6,5 @@ app/config/local.neon
 .idea
 www/node_modules
 www/checker
+www/bower_components
+style.css.map
