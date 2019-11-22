@@ -28,22 +28,59 @@ final class UserPresenter extends BasePresenter
 
 	public function createComponentUserGrid() : DataGrid
     {
-        $grid = new DataGrid();
+        $grid = new DataGrid($this, "userGrid");
 
         $grid->setDataSource($this->userModel->getUsers());
 
-        $grid->addColumnText("first_name", "Meno")->setFilterText();
-        $grid->addColumnText("second_name", "Priezvisko")->setFilterText();
-        $grid->addColumnText("username", "Login")->setFilterText();
-        $grid->addColumnText("role", "Rola");
+        $grid->addColumnText("first_name", "Meno")
+            ->setEditableCallback(function($id, $value): void {
+                $this->columnEdit($id, "first_name", $value); die();
+            })
+            ->setFilterText();
 
-        $grid->addFilterSelect("role", "Rola", ["", "admin", "leader", "garant", "lector", "student"]);
+        $grid->addColumnText("second_name", "Priezvisko")
+            ->setEditableCallback(function($id, $value): void {
+                $this->columnEdit($id, "second_name", $value); die();
+            })
+            ->setFilterText();
 
-        $grid->addAction("edit", "", ":edit")
-            ->setIcon("pencil")
-            ->setClass("btn-sm btn-primary");
+        $grid->addColumnText("username", "Login")
+            ->setEditableCallback(function($id, $value): void {
+                $this->columnEdit($id, "username", $value); die();
+            })
+            ->setFilterText();
+
+        $grid->addColumnText("email", "Email")
+            ->setEditableCallback(function($id, $value): void {
+                $this->columnEdit($id, "email", $value); die();
+            })
+            ->setFilterText();
+
+        $grid->addColumnStatus('role', 'Rola')
+            ->setCaret(FALSE)
+            ->addOption("admin", "Admin")
+            ->endOption()
+            ->addOption("leader", "Vedúci")
+            ->endOption()
+            ->addOption("garant", "Garant")
+            ->endOption()
+            ->addOption("lector", "Lektor")
+            ->endOption()
+            ->addOption("student", "Student")
+            ->endOption()
+            ->onChange[] = [$this, 'changeRole'];
 
         return $grid;
+    }
+
+    public function columnEdit(string $id, string $param, string $value) : void
+    {
+        $this->userModel->changeUser((int) $id, [$param => $value]);
+        if ($this->isAjax()) {
+            $this["userGrid"]->redrawItem($id);
+        } else {
+            $this->redirect('this');
+        }
     }
 
 }

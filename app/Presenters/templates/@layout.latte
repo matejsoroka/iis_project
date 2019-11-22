@@ -31,7 +31,8 @@
                 <img alt="FIT VUT" src="{$basePath}/images/fit.png">
             </a>
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -57,9 +58,9 @@
 
 	{block scripts}
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" ></script>
 	<script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>
     <script src="{$basePath}/bower_components/nette.ajax.js/nette.ajax.js"></script>
-    <script type="module" src="{$basePath}/bower_components/popper.js/dist/popper.js"></script>
     <script src="{$basePath}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     {if $presenter->hasGrid}
     {include "grid_scripts.latte"}
