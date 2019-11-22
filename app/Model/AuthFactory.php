@@ -21,8 +21,11 @@ class AuthFactory
         /* Guest */
         $acl->addResource('Curse:default'); // Zobrazenie kurzov
         $acl->addResource('Curse:detail'); // Zobrazenie kurzov
+        $acl->addResource('Homepage:default'); // Zobrazenie hlavnej stránky
+
         $acl->allow('guest', 'Curse:detail');
         $acl->allow('guest', 'Curse:default');
+        $acl->allow('guest', 'Homepage:default');
 
         /* Student */
         $acl->addResource('Curse:register'); // Registracia kurzov
@@ -38,22 +41,19 @@ class AuthFactory
         $acl->allow('student', 'Index:timetable');
 
         /* Lektor */
-        $acl->addResource('Index:timetable'); // Zobrazenie hodnotenia
-        $acl->allow('leander', 'Index:timetable');
-
         $acl->addResource('Curse:edit'); // Uprava kurzu, pozor na restricted inputka
-        $acl->allow('leander', 'Curse:edit');
+        $acl->allow('leader', 'Curse:edit');
 
         /* Leader */
         $acl->addResource('Room:edit'); // Sprava miestnosti
-        $acl->allow('room', 'Room:edit');
+        $acl->allow('leader', 'Room:edit');
 
         /* Admin */
         $acl->addResource('User:default'); // Zoznam uzivatelov
-        $acl->allow('room', 'User:default');
+        $acl->allow('admin', 'User:default');
 
         $acl->addResource('User:edit'); // Uprava uzivatela uzivatelov
-        $acl->allow('room', 'User:default');
+        $acl->allow('admin', 'User:default');
 
         return $acl;
     }
