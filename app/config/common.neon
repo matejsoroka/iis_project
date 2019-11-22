@@ -18,8 +18,10 @@ session:
 services:
 	- App\Model\UserManager
 	- App\Model\UserModel
+	- App\Model\CourseModel
 	- App\Forms\FormFactory
 	- App\Forms\SignInFormFactory
 	- App\Forms\SignUpFormFactory
+	- App\Forms\CourseFormFactory
 	- App\Model\AuthFactory::create
 	router: App\Router\RouterFactory::createRouter

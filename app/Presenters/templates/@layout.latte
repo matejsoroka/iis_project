@@ -27,7 +27,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" n:href="Homepage:">
                 <img alt="FIT VUT" src="{$basePath}/images/fit.png">
             </a>
 
@@ -42,6 +42,12 @@
                     {if $user->isAllowed("User:default")}
                     <li class="nav-item">
                         <a class="nav-link" n:href="User:">Uživatelia</a>
+                    </li>
+                    {/if}
+
+                    {if $user->isAllowed("Course:default")}
+                    <li class="nav-item">
+                        <a class="nav-link" n:href="Course:">Kurzy</a>
                     </li>
                     {/if}
 
