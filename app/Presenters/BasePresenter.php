@@ -18,7 +18,8 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
     {
         parent::startup();
         if (!$this->getUser()->isAllowed($this->getName() . ":" . $this->getAction())) {
-            throw new ForbiddenRequestException();
+            $this->flashMessage("Neopravnený prístup", "warning");
+            $this->redirect("Homepage:");
         }
     }
 }
