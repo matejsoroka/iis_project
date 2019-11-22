@@ -6,7 +6,6 @@ namespace App\Presenters;
 
 
 use App\Model\UserModel;
-use Nette\ComponentModel\IComponent;
 use Ublaboo\DataGrid\DataGrid;
 
 final class UserPresenter extends BasePresenter
@@ -15,7 +14,7 @@ final class UserPresenter extends BasePresenter
     /** @var UserModel @inject */
     public $userModel;
 
-    public function actionDefault()
+    public function actionDefault() : void
     {
         $this->hasGrid = true;
     }

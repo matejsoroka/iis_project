@@ -19,36 +19,36 @@ class AuthFactory
         $acl->addRole('admin', 'leader');
 
         /* Guest */
-        $acl->addResource('Curse:default'); // Zobrazenie kurzov
-        $acl->addResource('Curse:detail'); // Zobrazenie kurzov
+        $acl->addResource('Course:default'); // Zobrazenie kurzov
+        $acl->addResource('Course:detail'); // Zobrazenie kurzov
         $acl->addResource('Homepage:default'); // Zobrazenie hlavnej stránky
         $acl->addResource('Sign:in'); // Zobrazenie hlavnej stránky
         $acl->addResource('Sign:out'); // Zobrazenie hlavnej stránky
         $acl->addResource('Sign:up'); // Zobrazenie hlavnej stránky
 
-        $acl->allow('guest', 'Curse:detail');
-        $acl->allow('guest', 'Curse:default');
+        $acl->allow('guest', 'Course:detail');
+        $acl->allow('guest', 'Course:default');
         $acl->allow('guest', 'Homepage:default');
         $acl->allow('guest', 'Sign:in');
         $acl->allow('guest', 'Sign:out');
         $acl->allow('guest', 'Sign:up');
 
         /* Student */
-        $acl->addResource('Curse:register'); // Registracia kurzov
-        $acl->allow('student', 'Curse:register');
+        $acl->addResource('Course:register'); // Registracia kurzov
+        $acl->allow('student', 'Course:register');
 
         $acl->addResource('Index:default'); // Zobrazenie hodnotenia
         $acl->allow('student', 'Index:default');
 
-        $acl->addResource('Curse:files'); // Zobrazenie suborov
-        $acl->allow('student', 'Curse:files');
+        $acl->addResource('Course:files'); // Zobrazenie suborov
+        $acl->allow('student', 'Course:files');
 
         $acl->addResource('Index:timetable'); // Zobrazenie hodnotenia
         $acl->allow('student', 'Index:timetable');
 
         /* Lektor */
-        $acl->addResource('Curse:edit'); // Uprava kurzu, pozor na restricted inputka
-        $acl->allow('leader', 'Curse:edit');
+        $acl->addResource('Course:edit'); // Uprava kurzu, pozor na restricted inputka
+        $acl->allow('leader', 'Course:edit');
 
         /* Leader */
         $acl->addResource('Room:edit'); // Sprava miestnosti
