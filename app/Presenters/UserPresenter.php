@@ -66,9 +66,20 @@ final class UserPresenter extends BasePresenter
             ->endOption()
             ->addOption("lector", "Lektor")
             ->endOption()
-            ->addOption("student", "Student")
+            ->addOption("student", "Študent")
             ->endOption()
             ->onChange[] = [$this, 'changeRole'];
+
+        $roles = [
+            "",
+            "admin" => "Admin",
+            "leader" => "Vedúci",
+            "garant" => "Garant",
+            "lector" => "Lektor",
+            "student" => "Študent",
+        ];
+
+        $grid->addFilterSelect("role", "Rola", $roles);
 
         return $grid;
     }
