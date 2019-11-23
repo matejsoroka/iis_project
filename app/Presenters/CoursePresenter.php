@@ -94,9 +94,11 @@ final class CoursePresenter extends BasePresenter
         $grid->addColumnText("tags", "Tagy")
             ->setFilterText();
 
-        $grid->addAction('edit', '', 'edit')
-            ->setIcon('pencil')
-            ->setClass('btn btn-xs btn-primary');
+        if ($this->user->isAllowed("Course:edit")) {
+            $grid->addAction('edit', '', 'edit')
+                ->setIcon('pencil')
+                ->setClass('btn btn-xs btn-primary');
+        }
 
         $grid->addFilterSelect("role", "Rola", $this->roles);
 
