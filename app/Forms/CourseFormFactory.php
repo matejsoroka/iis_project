@@ -52,6 +52,7 @@ final class CourseFormFactory
 		$form->onSuccess[] = function (Form $form, array $values, $course_id) use ($onSuccess): void {
 			try {
 			    if ($course_id) {
+			        $values["status"] = 0; // needs to by approved by leader
                     $this->courseModel->add($values);
                 } else {
                     $this->courseModel->edit($course_id, $values);

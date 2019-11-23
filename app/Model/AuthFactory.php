@@ -50,9 +50,16 @@ class AuthFactory
         $acl->addResource('Course:edit'); // Uprava kurzu, pozor na restricted inputka
         $acl->allow('leader', 'Course:edit');
 
+        /* Garant */
+        $acl->addResource("ShowCourseStatus");
+        $acl->allow("garant", "ShowCourseStatus");
+
         /* Leader */
         $acl->addResource('Room:edit'); // Sprava miestnosti
         $acl->allow('leader', 'Room:edit');
+
+        $acl->addResource("EditCourseStatus");
+        $acl->allow("garant", "EditCourseStatus");
 
         /* Admin */
         $acl->addResource('User:default'); // Zoznam uzivatelov

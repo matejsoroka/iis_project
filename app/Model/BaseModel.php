@@ -38,7 +38,7 @@ class BaseModel
 
     public function edit(int $id, array $values) : int
     {
-        return $this->db->table($this->table)->where($id)->update($values);
+        return $this->db->table($this->table)->where("id", $id)->update($values);
     }
 
 }

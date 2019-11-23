@@ -38,6 +38,11 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
         "student" => "Študent",
     ];
 
+    /**
+     * @var array of course statuses
+     */
+    public $courseStatuses = ["" => "", "Neschválený", "Schválený"];
+
     protected function startup(): void
     {
         parent::startup();
