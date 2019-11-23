@@ -13,8 +13,6 @@ final class CourseFormFactory
 {
 	use Nette\SmartObject;
 
-	private const PASSWORD_MIN_LENGTH = 7;
-
 	/** @var FormFactory */
 	private $factory;
 
@@ -47,17 +45,18 @@ final class CourseFormFactory
 
         $form->addHidden("garant", (string) $creator);
 
+        $form->addHidden("id", (string) $course_id);
+
 		$form->addSubmit('send');
 
-		$form->onSuccess[] = function (Form $form, array $values, $course_id) use ($onSuccess): void {
+		$form->onSuccess[] = function (Form $form, array $values) use ($onSuccess): void {
 			try {
-			    if ($course_id) {
-			        $values["status"] = 0; // needs to by approved by leader
-                    $this->courseModel->add($values);
+			    if ($values["id"]) {
+                    $this->courseModel->edit((int) $values["id"], $values);
                 } else {
-                    $this->courseModel->edit($course_id, $values);
+                    $values["status"] = 0; // needs to by approved by leader
+                    $this->courseModel->add($values);
                 }
-
 			} catch (Model\DuplicateNameException $e) {
 				$form['shortcut']->addError('Skratka je už zabraná, použite prosím inú');
 				return;

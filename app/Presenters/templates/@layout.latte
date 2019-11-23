@@ -51,6 +51,12 @@
                     </li>
                     {/if}
 
+                    {if $user->isAllowed("Room:default")}
+                    <li class="nav-item">
+                        <a class="nav-link" n:href="Room:">Miestnosti</a>
+                    </li>
+                    {/if}
+
                 </ul>
             </div>
         </div>

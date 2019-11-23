@@ -34,7 +34,7 @@ final class CoursePresenter extends BasePresenter
     }
 
     /**
-     * Sign-in form factory.
+     * Course form factory.
      */
     protected function createComponentCourseForm(): Form
     {

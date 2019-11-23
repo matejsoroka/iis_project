@@ -55,11 +55,14 @@ class AuthFactory
         $acl->allow("garant", "ShowCourseStatus");
 
         /* Leader */
+        $acl->addResource("Room:default");
+        $acl->allow("leader", "Room:default");
+
         $acl->addResource('Room:edit'); // Sprava miestnosti
         $acl->allow('leader', 'Room:edit');
 
         $acl->addResource("EditCourseStatus");
-        $acl->allow("garant", "EditCourseStatus");
+        $acl->allow("leader", "EditCourseStatus");
 
         /* Admin */
         $acl->addResource('User:default'); // Zoznam uzivatelov
