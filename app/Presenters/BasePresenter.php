@@ -21,6 +21,23 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
      */
     public $hasGrid = false;
 
+    /**
+     * @var array of types of courses
+     */
+    public $types = ["" => "", "Povinný", "Volitelný", "Špeciálny"];
+
+    /**
+     * @var array of roles
+     */
+    public $roles = [
+        "",
+        "admin" => "Admin",
+        "leader" => "Vedúci",
+        "garant" => "Garant",
+        "lector" => "Lektor",
+        "student" => "Študent",
+    ];
+
     protected function startup(): void
     {
         parent::startup();

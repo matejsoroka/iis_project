@@ -67,7 +67,9 @@ final class UserPresenter extends BasePresenter
             ->endOption()
             ->addOption("student", "Študent")
             ->endOption()
-            ->onChange[] = [$this, 'changeRole'];
+            ->onChange[] = function($id, $value): void {
+                $this->columnEdit($id, "role", $value);
+            };
 
         $roles = [
             "",

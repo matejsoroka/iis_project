@@ -11,8 +11,7 @@ class UserModel extends BaseModel
 
     public function getUsers() : Selection
     {
-        $q = $this->db->table("users")->select("id, email, username, first_name, second_name, role");
-        return $q;
+        return $this->db->table("users")->select("id, email, username, first_name, second_name, role");
     }
 
     public function getUser(int $id) : ActiveRow
@@ -24,7 +23,7 @@ class UserModel extends BaseModel
 
     public function changeUser(int $id, array $data) : int
     {
-        return $this->db->table("users")->where("id", $id)->update($data);
+        return $this->edit($id, $data);
     }
 
 }

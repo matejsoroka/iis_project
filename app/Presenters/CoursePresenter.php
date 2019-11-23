@@ -18,19 +18,19 @@ final class CoursePresenter extends BasePresenter
     /** @var CourseFormFactory */
     private $courseFormFactory;
 
+    public function __construct(CourseFormFactory $courseFormFactory)
+    {
+        $this->courseFormFactory = $courseFormFactory;
+    }
+
     public function actionDefault() : void
     {
         $this->hasGrid = true;
     }
 
-    public function renderDetail(int $id)
+    public function renderDetail(int $id) : void
     {
         $this->template->course = $this->courseModel->getCourse($id);
-    }
-
-    public function __construct(CourseFormFactory $courseFormFactory)
-    {
-        $this->courseFormFactory = $courseFormFactory;
     }
 
     /**
@@ -40,14 +40,14 @@ final class CoursePresenter extends BasePresenter
     {
         return $this->courseFormFactory->create(function (): void {
             $this->redirect('Course:');
-        }, (string) $this->user->id);
+        }, $this->user->id, (int) $this->presenter->getParameter("id"));
     }
 
     public function createComponentCourseGrid() : DataGrid
     {
         $grid = new DataGrid($this, "courseGrid");
 
-        $grid->setDataSource($this->courseModel->getCourses());
+        $grid->setDataSource($this->courseModel->getTable());
 
         $grid->addColumnLink("shortcut", "Skratka", 'detail', 'shortcut', ['id'])
             ->setFilterText();
@@ -59,21 +59,19 @@ final class CoursePresenter extends BasePresenter
             ->setFilterText();
 
         $grid->addColumnText("type", "Typ")
-            ->setFilterText();
+            ->setRenderer(function($item) : string {
+                return $this->types[$item->type];
+            })
+            ->setFilterSelect($this->types);
 
         $grid->addColumnText("tags", "Tagy")
             ->setFilterText();
 
-        $roles = [
-            "",
-            "admin" => "Admin",
-            "leader" => "Vedúci",
-            "garant" => "Garant",
-            "lector" => "Lektor",
-            "student" => "Študent",
-        ];
+        $grid->addAction('edit', '', 'edit')
+            ->setIcon('pencil')
+            ->setClass('btn btn-xs btn-primary');
 
-        $grid->addFilterSelect("role", "Rola", $roles);
+        $grid->addFilterSelect("role", "Rola", $this->roles);
 
         return $grid;
     }
