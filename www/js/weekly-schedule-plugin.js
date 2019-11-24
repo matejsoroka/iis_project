@@ -272,7 +272,29 @@ function getSelectedHour() {
     return output;
 }
 
+function getAllSelectedHour() {
+    let dayContainer = $('.day');
+    let output = {};
+    for (let i = 0; i < dayContainer.length; i++) {
+        let children = $(dayContainer[i]).children();
+
+        let hoursSelected = [];
+        for (let j = 0; j < children.length; j++) {
+            if ($(children[j]).hasClass('selected-now')) {
+                hoursSelected.push(children[j].getAttribute('class').split(' ')[1]);
+            } else if ($(children[j]).hasClass('selected')) {
+                hoursSelected.push(children[j].getAttribute('class').split(' ')[1]);
+            }
+        }
+        output[i] = hoursSelected;
+    }
+    return output;
+}
+
+
+
 let outputArray = [];
+let selectedHours = [];
 let index = [];
 $(document).ready(function () {
 
@@ -309,6 +331,7 @@ $(document).ready(function () {
             data: {
                 'hours': outputArray,
                 'roomIds' : index,
+                'newHours' : selectedHours,
             },
         });
     });
@@ -404,7 +427,8 @@ function initSchedule(countRooms, schedules)
                         $('#mySchedule_'+ index[i] + ' #' + id).removeClass('selected-now');
                     }
                 }
-                outputArray = getSelectedHour();
+                outputArray = getAllSelectedHour();
+                selectedHours = getSelectedHour();
             }
             else {
                 $(this).addClass('selected-now');
@@ -416,7 +440,8 @@ function initSchedule(countRooms, schedules)
                         $('#mySchedule_'+ index[i] + ' #' + id).addClass('selected-now');
                     }
                 }
-                outputArray = getSelectedHour();
+                outputArray = getAllSelectedHour();
+                selectedHours = getSelectedHour();
             }
         }
     }).on('mousedown', function() {
@@ -430,7 +455,8 @@ function initSchedule(countRooms, schedules)
                 }
             }
             devarionMode = true;
-            outputArray = getSelectedHour();
+            outputArray = getAllSelectedHour();
+            selectedHours = getSelectedHour();
         }
         else {
             $(this).addClass('selected-now');
@@ -442,7 +468,8 @@ function initSchedule(countRooms, schedules)
                     $('#mySchedule_'+ index[i] + ' #' + id).addClass('selected-now');
                 }
             }
-            outputArray = getSelectedHour();
+            outputArray = getAllSelectedHour();
+            selectedHours = getSelectedHour();
         }
         $(this).removeClass('hover');
     }).on('mouseup', function() {

@@ -147,7 +147,7 @@ final class CoursePresenter extends BasePresenter
         }
     }
 
-    public function handleSelectHours(array $hours, array $roomIds)
+    public function handleSelectHours(array $hours, array $roomIds, array $newHours)
     {
         /* get max id of course */
         if ($this->id) {
@@ -157,17 +157,36 @@ final class CoursePresenter extends BasePresenter
                 ->query('SELECT * FROM course WHERE id = (SELECT MAX(id) FROM course)')->fetch()->id + 1;
         }
 
-        /* remove duplicates from array */
-        $courseHours = [];
-        for ($i = 0; $i < 5; $i++) {
-            if (isset($hours[$i])) {
-                $courseHours[] = $hours[$i];
-            }
-        }
-        $roomSchedule = [];
 
-        exit;
-        //$this->courseModel->edit($id, ['schedule' => json_encode($hours)]);
+        $courseHours = [];
+        $counter = 0;
+        $index = 0;
+        $iterator = 0;
+
+        if (count($newHours) > 0) {
+            for ($i = 0; $i < count($roomIds); $i++) {
+                for ($j = $iterator; $j < count($roomIds) * 5; $j++) {
+                    $counter++;
+
+                    if ($counter % 5 == 0 && $j > 0) {
+                        $this->roomModel->edit((int)$roomIds[$i], ['schedule' => json_encode($courseHours)]);
+                        $courseHours = [];
+                        $index = 0;
+                        $iterator = $counter;
+
+                        break;
+                    } else {
+                        if (isset($hours[$j])) {
+                            $courseHours[$index] = $hours[$j];
+                        }
+                        $index++;
+                    }
+
+                }
+            }
+
+            $this->courseModel->edit($id, ['schedule' => json_encode($newHours)]);
+        }
 
     }
 

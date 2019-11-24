@@ -57,7 +57,7 @@ final class CourseFormFactory
             $rooms = $this->roomModel->getTable()->fetchPairs('id', 'number');
             $form->addMultiSelect('room', "Miestnosť", $rooms);
 
-            $selected = $this->courseRoomModel->getTable()->where('course_id', $course_id)->fetchAll();
+            $selected = $this->courseRoomModel->getTable()->where('course_id', $course_id)->fetchPairs('id', 'room_id');
             $form->setDefaults(['room' => $selected]);
         }
 
@@ -69,6 +69,8 @@ final class CourseFormFactory
 		$form->onSuccess[] = function (Form $form, array $values) use ($onSuccess): void {
 			try {
 			    if ($values["id"]) {
+                    $this->courseRoomModel->getTable()->where('course_id', $values['id'])->delete();
+
                     foreach ($values['room'] as $room) {
                         $array = ['room_id' => $room, 'course_id' => $values['id']];
                         $this->courseRoomModel->add($array);
