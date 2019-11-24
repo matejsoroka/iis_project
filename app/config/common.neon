@@ -20,6 +20,7 @@ services:
 	- App\Model\UserModel
 	- App\Model\CourseModel
 	- App\Model\RoomModel
+	- App\Model\CourseRoomModel
 	- App\Forms\FormFactory
 	- App\Forms\SignInFormFactory
 	- App\Forms\SignUpFormFactory

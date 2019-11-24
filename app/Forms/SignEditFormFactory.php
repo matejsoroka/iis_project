@@ -11,54 +11,61 @@ use Nette\Application\UI\Form;
 
 final class SignEditFormFactory
 {
-	use Nette\SmartObject;
+    use Nette\SmartObject;
 
-	private const PASSWORD_MIN_LENGTH = 7;
+    private const PASSWORD_MIN_LENGTH = 7;
 
-	/** @var FormFactory */
-	private $factory;
+    /** @var FormFactory */
+    private $factory;
 
-	/** @var Model\UserManager */
-	private $userManager;
+    /** @var Model\UserModel */
+    private $userModel;
+
+    private $id;
+
+    public function __construct(FormFactory $factory, Model\UserModel $userModel)
+    {
+        $this->factory = $factory;
+        $this->userModel = $userModel;
+    }
 
 
-	public function __construct(FormFactory $factory, Model\UserManager $userManager)
-	{
-		$this->factory = $factory;
-		$this->userManager = $userManager;
-	}
+    public function create(callable $onSuccess, int $id): Form
+    {
+        $this->id = $id;
 
+        $form = $this->factory->create();
 
-	public function create(callable $onSuccess): Form
-	{
-		$form = $this->factory->create();
+        $form->addText('username', 'Login:')
+            ->setHtmlAttribute('disabled', 'disabled');
 
         $form->addText('email', 'Email:')
-            ->setRequired('Prosím zadajte váš email');
+            ->setRequired('Prosím, zadajte Váš email');
 
-        $form->addPassword('first_name', 'Meno:')
-            ->setRequired('Prosím zadajte vaše meno.');
+        $form->addPassword('name', 'Meno:')
+            ->setRequired('Prosím, zadajte Vaše meno.');
 
-        $form->addPassword('second_name', 'Priezvisko:')
-            ->setRequired('Prosím zadajte vaše priezvisko.');
+        $form->addPassword('surname', 'Priezvisko:')
+            ->setRequired('Prosím, zadajte Vaše priezvisko.');
 
-		$form->addPassword('password', 'Create a password:')
-			->setOption('description', sprintf('aspoň %d znakov', self::PASSWORD_MIN_LENGTH))
-			->setRequired('Prosim zadajte heslo')
-			->addRule($form::MIN_LENGTH, null, self::PASSWORD_MIN_LENGTH);
+        $form->addPassword('password', 'Create a password:')
+            ->setOption('description', sprintf('*aspoň %d znakov', self::PASSWORD_MIN_LENGTH))
+            ->addRule($form::MIN_LENGTH, null, self::PASSWORD_MIN_LENGTH);
 
-		$form->addSubmit('send', 'Sign up');
+        $form->addSubmit('send', 'Uložiť')
+            ->setHtmlAttribute('id', 'btn-submit');
 
-		$form->onSuccess[] = function (Form $form, \stdClass $values) use ($onSuccess): void {
-			try {
-				$this->userManager->add($values->username, $values->email, $values->password);
-			} catch (Model\DuplicateNameException $e) {
-				$form['email']->addError('Username is already taken.');
-				return;
-			}
-			$onSuccess();
-		};
+        $form->onSuccess[] = function (Form $form, \stdClass $values) use ($onSuccess): void {
+            try {
+                $this->userModel->edit($this->id, $values);
+            } catch (Model\DuplicateNameException $e) {
+                //$form['email']->addError('Email už existuje');
+                return;
+            }
+            $form->getPresenter()->flashMessage('Uložené.', 'alert-success');
+            $onSuccess();
+        };
 
-		return $form;
-	}
+        return $form;
+    }
 }

@@ -19,6 +19,7 @@
     {if $presenter->hasGrid}
     {include "grid_styles.latte"}
     {/if}
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
     <link rel="stylesheet" href="{$basePath}/css/style.css">
 	{block head}{/block}
@@ -57,6 +58,11 @@
                     </li>
                     {/if}
 
+                    <li>
+                        <a n:href="Sign:out" class="nav-link" title="Odhlásiť sa">
+                            <i class="fa fa-power-off" aria-hidden="true"></i>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -69,11 +75,12 @@
     </div>
 
 	{block scripts}
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" ></script>
 	<script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>
     <script src="{$basePath}/bower_components/nette.ajax.js/nette.ajax.js"></script>
     <script src="{$basePath}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="{$basePath}/bower_components/multiselect/js/jquery.multi-select.js"></script>
+    <script src="{$basePath}/js/weekly-schedule-plugin.js"></script>  <!-- schedule -->
     {if $presenter->hasGrid}
     {include "grid_scripts.latte"}
     {/if}

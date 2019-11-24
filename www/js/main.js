@@ -7,3 +7,6 @@ $(function(){
         $a.slideToggle();
     }, 3000)
 });
+
+$('#frm-courseForm-room').multiSelect();
+

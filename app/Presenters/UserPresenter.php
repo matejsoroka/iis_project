@@ -31,13 +31,13 @@ final class UserPresenter extends BasePresenter
 
         $grid->setDataSource($this->userModel->getUsers());
 
-        $grid->addColumnText("first_name", "Meno")
+        $grid->addColumnText("name", "Meno")
             ->setEditableCallback(function($id, $value): void {
                 $this->columnEdit($id, "first_name", $value); die();
             })
             ->setFilterText();
 
-        $grid->addColumnText("second_name", "Priezvisko")
+        $grid->addColumnText("surname", "Priezvisko")
             ->setEditableCallback(function($id, $value): void {
                 $this->columnEdit($id, "second_name", $value); die();
             })
@@ -66,6 +66,8 @@ final class UserPresenter extends BasePresenter
             ->addOption("lector", "Lektor")
             ->endOption()
             ->addOption("student", "Študent")
+            ->endOption()
+            ->addOption("registered", "Registrovaný")
             ->endOption()
             ->onChange[] = function($id, $value): void {
                 $this->columnEdit($id, "role", $value);

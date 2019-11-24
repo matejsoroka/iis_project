@@ -36,7 +36,7 @@ class BaseModel
         return $this->db->table($this->table)->insert($values);
     }
 
-    public function edit(int $id, array $values) : int
+    public function edit(int $id, $values) : int
     {
         return $this->db->table($this->table)->where("id", $id)->update($values);
     }

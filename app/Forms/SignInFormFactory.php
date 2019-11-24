@@ -32,14 +32,15 @@ final class SignInFormFactory
 		$form = $this->factory->create();
 
 		$form->addText('username', 'Login:')
-			->setRequired('Prosím zadajte váš login');
+			->setRequired('Prosím, zadajte váš login');
 
 		$form->addPassword('password', 'Heslo:')
-			->setRequired('Prosím zadajte vaše heslo');
+			->setRequired('Prosím, zadajte vaše heslo');
 
 		$form->addCheckbox('remember', 'Keep me signed in');
 
-		$form->addSubmit('send', 'Sign in');
+		$form->addSubmit('send', 'Prihlásit sa')
+            ->setHtmlAttribute('id', 'btn-submit');
 
 		$form->onSuccess[] = function (Form $form, \stdClass $values) use ($onSuccess): void {
 			try {
@@ -49,6 +50,7 @@ final class SignInFormFactory
 				$form->addError('The username or password you entered is incorrect.');
 				return;
 			}
+            $form->getPresenter()->flashMessage('Prilásenie prebehlo úspešne.', 'alert-success');
 			$onSuccess();
 		};
 

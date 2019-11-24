@@ -6,6 +6,8 @@ namespace App\Presenters;
 
 use App\Forms\CourseFormFactory;
 use App\Model\CourseModel;
+use App\Model\RoomModel;
+use App\Model\CourseRoomModel;
 use Nette\Application\UI\Form;
 use Ublaboo\DataGrid\DataGrid;
 
@@ -18,9 +20,20 @@ final class CoursePresenter extends BasePresenter
     /** @var CourseFormFactory */
     private $courseFormFactory;
 
-    public function __construct(CourseFormFactory $courseFormFactory)
+    /** @var RoomModel */
+    private $roomModel;
+
+    /** @var CourseRoomModel */
+    private $courseRoomModel;
+
+    /** @persistent */
+    private $id;
+
+    public function __construct(CourseFormFactory $courseFormFactory, RoomModel $roomModel, CourseRoomModel $courseRoomModel)
     {
         $this->courseFormFactory = $courseFormFactory;
+        $this->roomModel = $roomModel;
+        $this->courseRoomModel = $courseRoomModel;
     }
 
     public function actionDefault() : void
@@ -30,7 +43,26 @@ final class CoursePresenter extends BasePresenter
 
     public function renderDetail(int $id) : void
     {
-        $this->template->course = $this->courseModel->getCourse($id);
+        $this->template->course = $this->courseModel->getItem($id);
+    }
+
+    public function actionEdit(int $id = NULL)
+    {
+        $this->id = $id;
+        $this->template->courseId = $id;
+        $this->template->courseHours = [];
+
+        if ($id) {
+            $courseRoom = $this->courseRoomModel->getTable()->where('course_id', $id);
+
+            $roomSchedules = [];
+            foreach ($courseRoom->fetchAll() as $room) {
+                $roomSchedules[$room->room_id] = $this->roomModel->getTable()->where('id', $room->room_id)->fetch();
+            }
+
+            $this->template->roomSchedules = $roomSchedules;
+            $this->template->countRooms = $this->roomModel->getTable()->count();
+        }
     }
 
     /**
@@ -112,6 +144,48 @@ final class CoursePresenter extends BasePresenter
             $this["courseGrid"]->redrawItem($id);
         } else {
             $this->redirect('this');
+        }
+    }
+
+    public function handleSelectHours(array $hours, array $roomIds)
+    {
+        /* get max id of course */
+        if ($this->id) {
+            $id = $this->id;
+        } else {
+            $id = $this->courseModel->db
+                ->query('SELECT * FROM course WHERE id = (SELECT MAX(id) FROM course)')->fetch()->id + 1;
+        }
+
+        /* remove duplicates from array */
+        $courseHours = [];
+        for ($i = 0; $i < 5; $i++) {
+            if (isset($hours[$i])) {
+                $courseHours[] = $hours[$i];
+            }
+        }
+        $roomSchedule = [];
+
+        exit;
+        //$this->courseModel->edit($id, ['schedule' => json_encode($hours)]);
+
+    }
+
+    public function handleChangeRoom(array $roomIds)
+    {
+        if (count($roomIds) > 0) {
+
+            $rooms = [];
+            foreach ($roomIds as $id) {
+                $rooms[$id] = $this->roomModel->getItem($id);
+            }
+
+            $this->template->roomSchedules = $rooms;
+            $this->redrawControl('scheduleSnippet');
+
+        } else {
+            $this->template->courseHours = [];
+            $this->redrawControl('scheduleSnippet');
         }
     }
 }

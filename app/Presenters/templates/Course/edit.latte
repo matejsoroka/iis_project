@@ -1,3 +1,31 @@
 {block content}
-    {control courseForm}
+    <div class="row">
+        <div class="col-md-5">
+            {control courseForm}
+        </div>
+
+        <div class="col-md-12" id="schedule-container">
+            <div class="row">
+                {snippet scheduleSnippet}
+                    {foreach $roomSchedules as $i => $item}
+                        <div class="col-md-4">
+                            <h3>{$item->number}</h3>
+                            <div id="mySchedule_{$i}"></div>
+                            <p class="hidden" id="hours_{$i}">{$item->schedule}</p>
+                            <script>
+                                window.schedules = {$roomSchedules};
+                            </script>
+                        </div>
+                    {/foreach}
+                {/snippet}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.changeRoom = {link changeRoom! []};
+        window.selectHours = {link selectHours! []};
+        window.countRooms = {$countRooms};
+
+    </script>
 {/block}
