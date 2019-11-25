@@ -97,9 +97,7 @@ class EventFormFactory
                 }
 
                 unset($values["files"]);
-
-                $this->eventModel->checkDate($values['date'], $values['time']);
-                exit;
+                
                 if ($values['id']) {
                     $this->eventRoomModel->delete(['event_id' => $values['id']]);
 
