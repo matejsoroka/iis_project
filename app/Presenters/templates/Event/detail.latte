@@ -1,6 +1,24 @@
 {block content}
-    <h1>{$event->course->name}</h1>
-    <h2>{$event->title}</h2>
-    <p>{$event->date}</p>
-    <p>Max. bodov: {$event->points}</p>
+    <div class="row">
+        <div class="col-12">
+            <h1>{$event->course->name}</h1>
+        </div>
+        <div class="col-4">
+            <h2>{$event->title}</h2>
+            <p>{$event->date}</p>
+            <p>Max. bodov: {$event->points}</p>
+        </div>
+        {if $files}
+        <div class="col-4">
+            <h2>Súbory</h2>
+            <table class="table" n:foreach="$files as $file">
+                <tr>
+                    <td><i class="fa fa-file"></i> <a href="/{$file->file->path}">{$file->file->name}</a></td>
+                </tr>
+            </table>
+        </div>
+        {/if}
+    </div>
+
+
 {/block}

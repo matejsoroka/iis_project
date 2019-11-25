@@ -1,6 +1,17 @@
 {block content}
     <div class="row">
         <h1 class="col-12">{$course->name}</h1>
+        {if $user->isAllowed("Course:register")}
+        {snippet register}
+        <div class="col-12 register">
+            {if $registered}
+            <a class="btn btn-success" href="#">Registrovaný</a>
+            {else}
+            <a class="btn btn-primary" n:href="Register! $course->id">Registrovat sa</a>
+            {/if}
+        </div>
+        {/snippet}
+        {/if}
         <p class="col-12">{$course->description}</p>
         <h2 class="col-12">Termíny</h2>
         <div class="col-12">
@@ -9,7 +20,7 @@
                 {foreach $events as $event}
                     <tr>
                         <td><a n:href="Event:detail $event->id">{$event->title}</a></td>
-                        <td>{$event->type}</td>
+                        <td>{$presenter->eventTypes[$event->type]}</td>
                         <td>{$event->date}</td>
                     </tr>
                 {/foreach}

@@ -39,6 +39,11 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
     ];
 
     /**
+     * @var array of event types
+     */
+    public $eventTypes = ["" => "", "Prednáška", "Cvičenie", "Projekt", "Domáca úloha", "Skúška", "Ostatné"];
+
+    /**
      * @var array of course statuses
      */
     public $courseStatuses = ["" => "", "Neschválený", "Schválený"];

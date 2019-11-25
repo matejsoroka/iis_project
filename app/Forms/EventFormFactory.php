@@ -39,7 +39,7 @@ class EventFormFactory
         $this->eventRoomModel = $eventRoomModel;
     }
 
-    public function create(callable $onSuccess, int $course_id, int $event_id): Form
+    public function create(callable $onSuccess, int $course_id, int $event_id, array $eventTypes): Form
     {
         $form = $this->factory->create();
 
@@ -48,15 +48,6 @@ class EventFormFactory
 
         $form->addTextArea('description', 'Popis')
             ->setRequired('Prosím, zadajte popis');
-
-        $eventTypes = [
-            0 => "",
-            1 => "prednáška",
-            2 => "cvičenie",
-            3 => "domáca úloha",
-            4 => "skúška",
-            5 => "polsemestrálna skúška",
-        ];
 
         $form->addSelect('type', 'Typ', $eventTypes)
             ->setRequired('Prosím, zadajte typ termínu');

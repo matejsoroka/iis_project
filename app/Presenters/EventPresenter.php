@@ -3,11 +3,12 @@
 
 namespace App\Presenters;
 
-
 use App\Forms\EventFormFactory;
 use App\Model\CourseModel;
 use App\Model\CourseRoomModel;
+
 use App\Model\EventRoomModel;
+use App\Model\EventFileModel;
 use App\Model\RoomModel;
 use App\Model\EventModel;
 use Nette\Application\UI\Form;
@@ -22,6 +23,9 @@ final class EventPresenter extends BasePresenter
 
     /** @var RoomModel @inject */
     public $roomModel;
+
+    /** @var EventFileModel @inject */
+    public $eventFileModel;
 
     /** @var CourseRoomModel @inject */
     public $courseRoomModel;
@@ -47,6 +51,7 @@ final class EventPresenter extends BasePresenter
         $this->template->eventId = $eventId;
         $this->template->countRooms = $this->roomModel->getTable()->count();
         $this->template->roomSchedules = $this->schedules;
+        $this->template->files = $this->eventFileModel->getItems(["event_id" => $eventId]);
     }
 
     public function actionEdit(int $courseId, int $eventId = null)
@@ -59,6 +64,7 @@ final class EventPresenter extends BasePresenter
     public function renderDetail(int $eventId)
     {
         $this->template->event = $this->eventModel->getItem($eventId);
+        $this->template->files = $this->eventFileModel->getItems(["event_id" => $eventId]);
     }
 
     /**
@@ -70,7 +76,7 @@ final class EventPresenter extends BasePresenter
         return $this->eventFormFactory->create(function (): void {
             $this->redirect('Course:edit', $this->course_id);
         },
-        $this->course_id, $this->id ? $this->id : 0);
+        $this->course_id, $this->id ? $this->id : 0, $this->eventTypes);
     }
 
     public function handleSelectHours(array $hours, array $roomIds, array $newHours)
@@ -129,6 +135,18 @@ final class EventPresenter extends BasePresenter
         } else {
             $this->schedules  = [];
             $this->redrawControl('scheduleSnippet');
+        }
+    }
+
+    public function handleDeleteFile(int $id)
+    {
+        $f = $this->eventFileModel->getItem($id);
+        unlink(__DIR__ . "/../../www/upload/events/" . $f->event . "/" . $f->file->name);
+        $f->delete();
+        if ($this->isAjax()) {
+            $this->redrawControl("eventFiles");
+        } else {
+            $this->redirect("this");
         }
     }
 }

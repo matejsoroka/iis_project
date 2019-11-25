@@ -103,7 +103,7 @@
                         {foreach $events as $event}
                         <tr>
                             <td><a n:href="Event:detail $event->id">{$event->title}</a></td>
-                            <td>{$event->type}</td>
+                            <td>{$presenter->eventTypes[$event->type]}</td>
                             <td>{$event->date}</td>
                             <td><a class="btn-sm btn-primary btn-edit" n:href="Event:edit $courseId, $event['id']"><i class="fa fa-pencil"></i></a></td>
                         </tr>
