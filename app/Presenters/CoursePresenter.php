@@ -6,11 +6,13 @@ namespace App\Presenters;
 
 use App\Forms\CourseFormFactory;
 use App\Model\CourseModel;
+use App\Model\DuplicateNameException;
 use App\Model\EventModel;
 use App\Model\RoomModel;
 use App\Model\CourseRoomModel;
 use App\Model\StudentCourseModel;
 use Nette\Application\UI\Form;
+use Nette\Database\UniqueConstraintViolationException;
 use Ublaboo\DataGrid\DataGrid;
 
 final class CoursePresenter extends BasePresenter
@@ -123,6 +125,12 @@ final class CoursePresenter extends BasePresenter
                 ->setClass('btn btn-xs btn-primary');
         }
 
+        if ($this->user->isAllowed("Course:register")) {
+            $grid->addAction('register', 'Prihlásiť sa', 'Register!')
+                ->setIcon('check')
+                ->setClass('btn btn-xs btn-success');
+        }
+
         $grid->addFilterSelect("role", "Rola", $this->roles);
 
         return $grid;
@@ -138,8 +146,13 @@ final class CoursePresenter extends BasePresenter
         }
     }
 
-    public function handleRegister(int $courseId)
+    public function handleRegister(int $id)
     {
-        $this->studentCourseModel->add(["student_id" => $this->user->getId(), "course_id" => $courseId]);
+        try {
+            $this->studentCourseModel->add(["student_id" => $this->user->getId(), "course_id" => $id]);
+            $this->flashMessage("Úspešne ste sa registrovali", "success");
+        } catch (UniqueConstraintViolationException $e) {
+            $this->flashMessage("Už ste registrovaný", "warning");
+        }
     }
 }

@@ -1,6 +1,7 @@
 {block content}
     <div class="row">
         <h1 class="col-12">{$course->name}</h1>
+        {if $user->isAllowed("Course:register")}
         {snippet register}
         <div class="col-12 register">
             {if $registered}
@@ -10,6 +11,7 @@
             {/if}
         </div>
         {/snippet}
+        {/if}
         <p class="col-12">{$course->description}</p>
         <h2 class="col-12">Termíny</h2>
         <div class="col-12">
