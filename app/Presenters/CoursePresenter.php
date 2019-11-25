@@ -125,7 +125,10 @@ final class CoursePresenter extends BasePresenter
     {
         $grid = new DataGrid($this, "courseGrid");
 
-        $grid->setDataSource($this->courseModel->getTable());
+        if ($this->user->isAllowed("Course:edit"))
+            $grid->setDataSource($this->courseModel->getItems([]));
+        else
+            $grid->setDataSource($this->courseModel->getItems(["status" => 1]));
 
         $grid->addColumnLink("shortcut", "Skratka", 'detail', 'shortcut', ['id'])
             ->setFilterText();
