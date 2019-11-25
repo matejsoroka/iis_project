@@ -24,6 +24,7 @@ services:
 	- App\Model\EventModel
 	- App\Model\FileModel
 	- App\Model\EventFileModel
+	- App\Model\EventRoomModel
 
 	# FORMS
 	- App\Forms\FormFactory

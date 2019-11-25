@@ -317,7 +317,7 @@ $(document).ready(function () {
                 setTimeout(function(){
                     index = [];
                     initSchedule(window.countRooms, window.schedules);
-                    }, 1);
+                    }, 20);
             },
         });
 
@@ -389,7 +389,7 @@ function changeSchedule(scheduleId, schedule) {
 
 function initSchedule(countRooms, schedules)
 {
-    let value;
+    let value; console.log(schedules);
     for (let i = 1; i < countRooms + 1; i++) {
         if (typeof(schedules[i]) != "undefined" && schedules[i] !== null) {
             index.push(i);
@@ -411,84 +411,84 @@ function initSchedule(countRooms, schedules)
     let devarionMode = false;
     let id;
 
-    $('#mySchedule_' + index[0] + ' .hour').on('mouseenter', function() {
-        id = $(this).attr('id');
-        if (!mousedown) {
-            $(this).addClass('hover');
-            for (let i = 1; i < index.length; i++) {
-                $('#mySchedule_'+ index[i] + ' #' + id).addClass('hover');
-            }
-        }
-        else {
-            if (devarionMode) {
-                $(this).removeClass('selected-now');
-                for (let i = 1; i < index.length; i++) {
-                    if (!$('#mySchedule_'+ index[i] + ' #' + id).hasClass('selected')) {
-                        $('#mySchedule_'+ index[i] + ' #' + id).removeClass('selected-now');
-                    }
-                }
-                outputArray = getAllSelectedHour();
-                selectedHours = getSelectedHour();
-            }
-            else {
-                $(this).addClass('selected-now');
-                for (let i = 1; i < index.length; i++) {
-                    if ($('#mySchedule_'+ index[i] + ' #' + id).hasClass('selected')) {
-                        for (let j = 1; j < index.length + 1; j++) {
-                            $('#mySchedule_'+ index[j] + ' #' + id).removeClass('selected-now');
-                        }
-                        $(this).removeClass('selected-now');
-                        alert('Nie je možné vybrať miestnosť v tejto hodine.')
-                    } else {
-                        $('#mySchedule_'+ index[i] + ' #' + id).addClass('selected-now');
-                    }
-                }
-                outputArray = getAllSelectedHour();
-                selectedHours = getSelectedHour();
-            }
-        }
-    }).on('mousedown', function() {
-        mousedown = true;
-
-        if ($(this).hasClass('selected')) {
-            $(this).removeClass('selected-now');
-            for (let i = 1; i < index.length; i++) {
-                if (!$('#mySchedule_'+ index[i] + ' #' + id).hasClass('selected')) {
-                    $('#mySchedule_'+ index[i] + ' #' + id).removeClass('selected-now');
-                }
-            }
-            devarionMode = true;
-            outputArray = getAllSelectedHour();
-            selectedHours = getSelectedHour();
-        }
-        else {
-            $(this).addClass('selected-now');
-            for (let i = 1; i < index.length; i++) {
-                if ($('#mySchedule_'+ index[i] + ' #' + id).hasClass('selected')) {
-                    for (let j = 1; j < index.length; j++) {
-                        $('#mySchedule_'+ index[j] + ' #' + id).removeClass('selected-now');
-                    }
-                    $(this).removeClass('selected-now');
-                    alert('Nie je možné vybrať miestnosť v tejto hodine.')
-                } else {
-                    $('#mySchedule_'+ index[i] + ' #' + id).addClass('selected-now');
-                }
-            }
-            outputArray = getAllSelectedHour();
-            selectedHours = getSelectedHour();
-        }
-        $(this).removeClass('hover');
-    }).on('mouseup', function() {
-        devarionMode = false;
-        mousedown = false;
-    }).on('mouseleave', function () {
-        if (!mousedown) {
-            $(this).removeClass('hover');
-            for (let i = 1; i < index.length; i++) {
-                $('#mySchedule_'+ index[i] + ' #' + id).removeClass('hover');
-            }
-        }
-    });
+    // $('#mySchedule_' + index[0] + ' .hour').on('mouseenter', function() {
+    //     id = $(this).attr('id');
+    //     if (!mousedown) {
+    //         $(this).addClass('hover');
+    //         for (let i = 1; i < index.length; i++) {
+    //             $('#mySchedule_'+ index[i] + ' #' + id).addClass('hover');
+    //         }
+    //     }
+    //     else {
+    //         if (devarionMode) {
+    //             $(this).removeClass('selected-now');
+    //             for (let i = 1; i < index.length; i++) {
+    //                 if (!$('#mySchedule_'+ index[i] + ' #' + id).hasClass('selected')) {
+    //                     $('#mySchedule_'+ index[i] + ' #' + id).removeClass('selected-now');
+    //                 }
+    //             }
+    //             outputArray = getAllSelectedHour();
+    //             selectedHours = getSelectedHour();
+    //         }
+    //         else {
+    //             $(this).addClass('selected-now');
+    //             for (let i = 1; i < index.length; i++) {
+    //                 if ($('#mySchedule_'+ index[i] + ' #' + id).hasClass('selected')) {
+    //                     for (let j = 1; j < index.length + 1; j++) {
+    //                         $('#mySchedule_'+ index[j] + ' #' + id).removeClass('selected-now');
+    //                     }
+    //                     $(this).removeClass('selected-now');
+    //                     alert('Nie je možné vybrať miestnosť v tejto hodine.')
+    //                 } else {
+    //                     $('#mySchedule_'+ index[i] + ' #' + id).addClass('selected-now');
+    //                 }
+    //             }
+    //             outputArray = getAllSelectedHour();
+    //             selectedHours = getSelectedHour();
+    //         }
+    //     }
+    // }).on('mousedown', function() {
+    //     mousedown = true;
+    //
+    //     if ($(this).hasClass('selected')) {
+    //         $(this).removeClass('selected-now');
+    //         for (let i = 1; i < index.length; i++) {
+    //             if (!$('#mySchedule_'+ index[i] + ' #' + id).hasClass('selected')) {
+    //                 $('#mySchedule_'+ index[i] + ' #' + id).removeClass('selected-now');
+    //             }
+    //         }
+    //         devarionMode = true;
+    //         outputArray = getAllSelectedHour();
+    //         selectedHours = getSelectedHour();
+    //     }
+    //     else {
+    //         $(this).addClass('selected-now');
+    //         for (let i = 1; i < index.length; i++) {
+    //             if ($('#mySchedule_'+ index[i] + ' #' + id).hasClass('selected')) {
+    //                 for (let j = 1; j < index.length; j++) {
+    //                     $('#mySchedule_'+ index[j] + ' #' + id).removeClass('selected-now');
+    //                 }
+    //                 $(this).removeClass('selected-now');
+    //                 alert('Nie je možné vybrať miestnosť v tejto hodine.')
+    //             } else {
+    //                 $('#mySchedule_'+ index[i] + ' #' + id).addClass('selected-now');
+    //             }
+    //         }
+    //         outputArray = getAllSelectedHour();
+    //         selectedHours = getSelectedHour();
+    //     }
+    //     $(this).removeClass('hover');
+    // }).on('mouseup', function() {
+    //     devarionMode = false;
+    //     mousedown = false;
+    // }).on('mouseleave', function () {
+    //     if (!mousedown) {
+    //         $(this).removeClass('hover');
+    //         for (let i = 1; i < index.length; i++) {
+    //             $('#mySchedule_'+ index[i] + ' #' + id).removeClass('hover');
+    //         }
+    //     }
+    // });
 }
 
 

@@ -42,12 +42,12 @@ form .form-group.has-error input,
 form .form-group.has-error textarea {
   border-color: red;
 }
-form .form-group label {
+form .form-group label.form-label {
   font-size: 17px;
   margin-bottom: 10px;
   font-weight: normal;
   margin-right: 20px;
-  width: 85px;
+  width: 160px;
 }
 form .form-group label.validate {
   color: #aaa4a4;
@@ -129,7 +129,8 @@ form.search-form button {
   display: flex;
 }
 #snippet--courseForm,
-#snippet--eventFormSnippet {
+#snippet--eventFormSnippet,
+#frm-eventForm {
   width: 100%;
 }
 .room-number {
@@ -138,5 +139,12 @@ form.search-form button {
 }
 .schedule {
   padding-bottom: 70px;
+}
+.btn-collapse-schedules {
+  margin-top: 20px;
+  background-color: #888181;
+  border: 0;
+  padding: 10px;
+  margin-left: 30px;
 }
 /*# sourceMappingURL=style.css.map */

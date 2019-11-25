@@ -31,4 +31,12 @@ class CourseRoomModel extends BaseModel
         return $roomSchedules;
     }
 
+    public function getAvailableRooms(int $courseId) : array
+    {
+        return $this->db
+            ->query('SELECT * FROM room WHERE id IN (SELECT room_id FROM course_room WHERE course_id = ?)', $courseId)
+            ->fetchPairs('id', 'number');
+    }
+
+
 }

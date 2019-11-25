@@ -7,6 +7,7 @@ namespace App\Presenters;
 use App\Forms\EventFormFactory;
 use App\Model\CourseModel;
 use App\Model\CourseRoomModel;
+use App\Model\EventRoomModel;
 use App\Model\RoomModel;
 use App\Model\EventModel;
 use Nette\Application\UI\Form;
@@ -28,24 +29,31 @@ final class EventPresenter extends BasePresenter
     /** @var CourseModel @inject */
     public $courseModel;
 
+    /** @var EventRoomModel @inject */
+    public $eventRoomModel;
+
     /** @persistent */
     private $id;
 
     /** @persistent */
     private $course_id;
 
+    /** @persistent */
+    private $schedules;
+
     public function renderEdit(int $courseId, int $eventId = null)
     {
         $this->template->courseHours = [];
         $this->template->eventId = $eventId;
-        $this->template->roomSchedules = $this->courseRoomModel->getCourseSchedule($courseId);
         $this->template->countRooms = $this->roomModel->getTable()->count();
+        $this->template->roomSchedules = $this->schedules;
     }
 
     public function actionEdit(int $courseId, int $eventId = null)
     {
         $this->id = $eventId;
         $this->course_id = $courseId;
+        $this->schedules = $this->eventRoomModel->getAvailableSchedules($eventId);
     }
 
     public function renderDetail(int $eventId)
@@ -102,7 +110,7 @@ final class EventPresenter extends BasePresenter
                 }
             }
 
-            $this->eventModel->edit($id, ['schedule' => json_encode($newHours)]);
+            //$this->eventModel->edit($id, ['schedule' => json_encode($newHours)]);
         }
 
     }
@@ -110,17 +118,16 @@ final class EventPresenter extends BasePresenter
     public function handleChangeRoom(array $roomIds)
     {
         if (count($roomIds) > 0) {
-
             $rooms = [];
             foreach ($roomIds as $id) {
                 $rooms[$id] = $this->roomModel->getItem($id);
             }
 
-            $this->template->roomSchedules = $rooms;
+            $this->schedules = $rooms;
             $this->redrawControl('scheduleSnippet');
 
         } else {
-            $this->template->courseHours = [];
+            $this->schedules  = [];
             $this->redrawControl('scheduleSnippet');
         }
     }

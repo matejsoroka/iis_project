@@ -11,7 +11,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div n:class="$form['title']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
-                                                {label title/}
+                                                {label title, class => 'form-label'}
                                                 {input title, class => 'form-input'}
                                                 {if $form['title']->hasErrors()}<span class="invalid-feedback">{inputError title}</span>{/if}
                                             </div>
@@ -21,7 +21,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div n:class="$form['description']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
-                                                {label description/}
+                                                {label description, class => 'form-label'}
                                                 {input description, class => 'form-input textarea'}
                                                 {if $form['description']->hasErrors()}<span class="invalid-feedback">{inputError description}</span>{/if}
                                             </div>
@@ -31,7 +31,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div n:class="$form['date']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
-                                                {label date/}
+                                                {label date, class => 'form-label'}
                                                 {input date, class => 'form-input'}
                                                 {if $form['date']->hasErrors()}<span class="invalid-feedback">{inputError date}</span>{/if}
                                             </div>
@@ -41,7 +41,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div n:class="$form['date']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
-                                                {label points/}
+                                                {label points, class => 'form-label'}
                                                 {input points, class => 'form-input'}
                                                 {if $form['date']->hasErrors()}<span class="invalid-feedback">{inputError date}</span>{/if}
                                             </div>
@@ -51,7 +51,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div n:class="$form['type']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
-                                                {label type/}
+                                                {label type, class => 'form-label'}
                                                 {input type, class => 'form-input'}
                                                 {if $form['type']->hasErrors()}<span class="invalid-feedback">{inputError type}</span>{/if}
                                             </div>
@@ -61,7 +61,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div n:class="$form['room']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
-                                                {label room/}
+                                                {label room, class => 'form-label'}
                                                 {input room}
                                                 {if $form['room']->hasErrors()}<span class="invalid-feedback">{inputError tags}</span>{/if}
                                             </div>
@@ -71,7 +71,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div n:class="$form['date']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
-                                                {label files/}
+                                                {label files, class => 'form-label'}
                                                 <input n:name="files" class="form-control-file">
                                                 {if $form['date']->hasErrors()}<span class="invalid-feedback">{inputError date}</span>{/if}
                                             </div>
@@ -82,6 +82,9 @@
                                         <div class="col-12">
                                             <div class="form-group d-flex">
                                                 <input name="save" id="saveEvent" type="submit" class="ajax" value="Uložiť">
+                                                <a n:if="$roomSchedules" class="btn btn-primary btn-collapse-schedules" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                    Zobraziť rozvrh miestností
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -93,22 +96,12 @@
             </div>
         </div>
 
-        <div class="col-md-12" id="schedule-container" class="schedule">
-            <div class="row">
-                {snippet scheduleSnippet}
-                    {foreach $roomSchedules as $i => $item}
-                        {if $iterator->counter % 3 == 0}
-                            <div class="col-md-4">
-                                <h3 class="room-number">{$item->number}</h3>
-                                <div id="mySchedule_{$i}"></div>
-                                <p class="hidden" id="hours_{$i}">{$item->schedule}</p>
-                                <script>
-                                    window.schedules = {$roomSchedules};
-                                </script>
-                            </div>
-                            </div>
-                        {elseif $iterator->counter % 3 == 1}
-                            <div class="row">
+        {snippet scheduleSnippet}
+            <div class="col-md-12">
+                <div class="collapse" id="collapseExample">
+                    <div class="col-md-12" id="schedule-container" class="schedule">
+                        {foreach $roomSchedules as $i => $item}{dump $item}
+                            {if $iterator->counter % 3 == 0}
                                 <div class="col-md-4">
                                     <h3 class="room-number">{$item->number}</h3>
                                     <div id="mySchedule_{$i}"></div>
@@ -117,25 +110,38 @@
                                         window.schedules = {$roomSchedules};
                                     </script>
                                 </div>
-                        {elseif $iterator->counter % 3 == 2}
-                                <div class="col-md-4">
-                                    <h3 class="room-number">{$item->number}</h3>
-                                    <div id="mySchedule_{$i}"></div>
-                                    <p class="hidden" id="hours_{$i}">{$item->schedule}</p>
-                                    <script>
-                                        window.schedules = {$roomSchedules};
-                                    </script>
                                 </div>
-                        {/if}
-                    {/foreach}
-                {/snippet}
+                            {elseif $iterator->counter % 3 == 1}
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h3 class="room-number">{$item->number}</h3>
+                                        <div id="mySchedule_{$i}"></div> {dump $roomSchedules}
+                                        <p class="hidden" id="hours_{$i}">{$item->schedule}</p>
+                                        <script>
+                                            window.schedules = {$roomSchedules};
+                                        </script>
+                                    </div>
+                            {elseif $iterator->counter % 3 == 2}
+                                    <div class="col-md-4">
+                                        <h3 class="room-number">{$item->number}</h3>
+                                        <div id="mySchedule_{$i}"></div>
+                                        <p class="hidden" id="hours_{$i}">{$item->schedule}</p>
+                                        <script>
+                                            window.schedules = {$roomSchedules};
+                                        </script>
+                                    </div>
+                            {/if}
+                        {/foreach}
+                    </div>
+                </div>
             </div>
-        </div>
+        {/snippet}
     </div>
 
     <script>
         window.changeRoom = {link changeRoom! []};
         window.selectHours = {link selectHours! []};
         window.countRooms = {$countRooms};
+        window.schedules = {$roomSchedules};
     </script>
 {/block}

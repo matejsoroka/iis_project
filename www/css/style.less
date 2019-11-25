@@ -67,11 +67,13 @@ form {
     }
 
     label {
-      font-size: 17px;
-      margin-bottom: 10px;
-      font-weight: normal;
-      margin-right: 20px;
-      width: 85px;
+      &.form-label {
+        font-size: 17px;
+        margin-bottom: 10px;
+        font-weight: normal;
+        margin-right: 20px;
+        width: 160px;
+      }
 
       &.validate {
         color: #aaa4a4;
@@ -173,7 +175,7 @@ form {
   display: flex;
 }
 
-#snippet--courseForm, #snippet--eventFormSnippet {
+#snippet--courseForm, #snippet--eventFormSnippet, #frm-eventForm {
   width: 100%;
 }
 
@@ -184,4 +186,12 @@ form {
 
 .schedule {
   padding-bottom: 70px;
+}
+
+.btn-collapse-schedules {
+  margin-top: 20px;
+  background-color: #888181;
+  border: 0;
+  padding: 10px;
+  margin-left: 30px;
 }

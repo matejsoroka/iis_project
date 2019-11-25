@@ -20,15 +20,23 @@ class EventFormFactory
     /** @var Model\RoomModel */
     private $roomModel;
 
+    /** @var Model\EventRoomModel */
+    private $eventRoomModel;
+
     /** @var Model\CourseRoomModel */
     private $courseRoomModel;
 
-    public function __construct(FormFactory $factory, Model\RoomModel $roomModel, Model\EventModel $eventModel, Model\CourseRoomModel $courseRoomModel)
+    public function __construct(FormFactory $factory,
+                                Model\RoomModel $roomModel,
+                                Model\EventModel $eventModel,
+                                Model\CourseRoomModel $courseRoomModel,
+                                Model\EventRoomModel $eventRoomModel)
     {
         $this->factory = $factory;
         $this->roomModel = $roomModel;
         $this->eventModel = $eventModel;
         $this->courseRoomModel = $courseRoomModel;
+        $this->eventRoomModel = $eventRoomModel;
     }
 
     public function create(callable $onSuccess, int $course_id, int $event_id): Form
@@ -41,7 +49,16 @@ class EventFormFactory
         $form->addTextArea('description', 'Popis')
             ->setRequired('Prosím, zadajte popis');
 
-        $form->addText('type', 'Typ')
+        $eventTypes = [
+            0 => "",
+            1 => "prednáška",
+            2 => "cvičenie",
+            3 => "domáca úloha",
+            4 => "skúška",
+            5 => "polsemestrálna skúška",
+        ];
+
+        $form->addSelect('type', 'Typ', $eventTypes)
             ->setRequired('Prosím, zadajte typ termínu');
 
         $form->addText('date', 'Dátum')
@@ -50,13 +67,10 @@ class EventFormFactory
         $form->addInteger('points', 'Max. bodov')
             ->setRequired('Prosím, zadajte maximum bodov');
 
-        $form->addMultiUpload('files', 'Pridat súbory');
+        $form->addMultiUpload('files', 'Pridať súbory');
 
-        $rooms = $this->roomModel->fetchPairs([], 'id', 'number');
-        $form->addMultiSelect('room', "Miestnosť", $rooms);
-
-        $selected = $this->courseRoomModel->fetchPairs(['course_id' => $course_id], 'id', 'room_id');
-        $form->setDefaults(['room' => $selected]);
+        $availableRooms = $this->courseRoomModel->getAvailableRooms($course_id);
+        $form->addMultiSelect('room', "Miestnosť", $availableRooms);
 
         $form->addHidden("id", (string) $event_id);
 
@@ -64,6 +78,9 @@ class EventFormFactory
 
         if ($event_id) {
             $form->setDefaults($this->eventModel->getItem($event_id));
+
+            $selected = $this->eventRoomModel->fetchPairs(['event_id' => $event_id], 'id', 'room_id');
+            $form->setDefaults(['room' => $selected]);
         }
 
         $form->addSubmit('save');
@@ -75,12 +92,20 @@ class EventFormFactory
                     $this->eventModel->addFiles((int) $values["id"], $values["files"]);
                 }
 
-                unset($values['room']);
                 unset($values["files"]);
 
                 if ($values['id']) {
+                    $this->eventRoomModel->delete(['event_id' => $values['id']]);
+
+                    foreach ($values['room'] as $room) {
+                        $array = ['room_id' => $room, 'event_id' => $values['id']];
+                        $this->eventRoomModel->add($array);
+                    }
+
+                    unset($values['room']);
                     $this->eventModel->edit((int) $values["id"], $values);
                 } else {
+                    unset($values['room']);
                     $this->eventModel->add($values);
                 }
             } catch (Model\DuplicateNameException $e) {
