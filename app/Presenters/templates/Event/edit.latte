@@ -22,7 +22,7 @@
                                         <div class="col-12">
                                             <div n:class="$form['description']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
                                                 {label description/}
-                                                {input description, class => 'form-input'}
+                                                {input description, class => 'form-input textarea'}
                                                 {if $form['description']->hasErrors()}<span class="invalid-feedback">{inputError description}</span>{/if}
                                             </div>
                                         </div>
@@ -60,20 +60,28 @@
 
                                     <div class="row">
                                         <div class="col-12">
-                                            <div class="form-group d-flex">
-                                                <input name="save" id="saveEvent" type="submit" class="ajax" value="Uložiť">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="row">
-                                        <div class="col-12">
                                             <div n:class="$form['room']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
                                                 {label room/}
                                                 {input room}
                                                 {if $form['room']->hasErrors()}<span class="invalid-feedback">{inputError tags}</span>{/if}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div n:class="$form['date']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
+                                                {label files/}
+                                                <input n:name="files" class="form-control-file">
+                                                {if $form['date']->hasErrors()}<span class="invalid-feedback">{inputError date}</span>{/if}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group d-flex">
+                                                <input name="save" id="saveEvent" type="submit" class="ajax" value="Uložiť">
                                             </div>
                                         </div>
                                     </div>

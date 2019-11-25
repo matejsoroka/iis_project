@@ -51,4 +51,10 @@ class BaseModel
         return $this->db->table($this->table)->where($where)->fetchPairs($key, $value);
     }
 
+    public function getNextId()
+    {
+        $k = $this->db->table($this->table)->order('id DESC')->limit(1)->fetch();
+        return $k ? $k->id + 1 : 1;
+    }
+
 }

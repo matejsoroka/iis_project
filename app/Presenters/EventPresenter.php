@@ -59,7 +59,6 @@ final class EventPresenter extends BasePresenter
      */
     protected function createComponentEventForm(): Form
     {
-        bdump($this->course_id);
         return $this->eventFormFactory->create(function (): void {
             $this->redirect('Course:edit', $this->course_id);
         },

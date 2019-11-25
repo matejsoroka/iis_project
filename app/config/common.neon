@@ -22,6 +22,8 @@ services:
 	- App\Model\RoomModel
 	- App\Model\CourseRoomModel
 	- App\Model\EventModel
+	- App\Model\FileModel
+	- App\Model\EventFileModel
 
 	# FORMS
 	- App\Forms\FormFactory

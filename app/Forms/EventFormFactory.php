@@ -38,7 +38,7 @@ class EventFormFactory
         $form->addText('title', 'Názov')
             ->setRequired('Prosím, zadajte názov');
 
-        $form->addText('description', 'Popis')
+        $form->addTextArea('description', 'Popis')
             ->setRequired('Prosím, zadajte popis');
 
         $form->addText('type', 'Typ')
@@ -49,6 +49,8 @@ class EventFormFactory
 
         $form->addInteger('points', 'Max. bodov')
             ->setRequired('Prosím, zadajte maximum bodov');
+
+        $form->addMultiUpload('files', 'Pridat súbory');
 
         $rooms = $this->roomModel->fetchPairs([], 'id', 'number');
         $form->addMultiSelect('room', "Miestnosť", $rooms);
@@ -68,7 +70,14 @@ class EventFormFactory
 
         $form->onSuccess[] = function (Form $form, array $values) use ($onSuccess): void {
             try {
+
+                if ($values["files"]) {
+                    $this->eventModel->addFiles((int) $values["id"], $values["files"]);
+                }
+
                 unset($values['room']);
+                unset($values["files"]);
+
                 if ($values['id']) {
                     $this->eventModel->edit((int) $values["id"], $values);
                 } else {
@@ -89,7 +98,7 @@ class EventFormFactory
     /**
      * @param Form $form
      */
-    public function processError($form)
+    public function processError(Form $form)
     {
         $presenter = $form->getPresenter();
         if ($presenter->isAjax()) {
