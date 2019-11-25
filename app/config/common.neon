@@ -26,6 +26,7 @@ services:
 	- App\Model\EventFileModel
 	- App\Model\EventRoomModel
 	- App\Model\StudentCourseModel
+	- App\Model\StudentPointsModel
 
 
 	# FORMS
@@ -34,6 +35,7 @@ services:
 	- App\Forms\SignUpFormFactory
 	- App\Forms\CourseFormFactory
 	- App\Forms\RoomFormFactory
+	- App\Forms\EventPointsFormFactory
 	- App\Forms\EventFormFactory
 
 	- App\Model\AuthFactory::create

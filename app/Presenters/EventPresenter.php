@@ -4,6 +4,7 @@
 namespace App\Presenters;
 
 use App\Forms\EventFormFactory;
+use App\Forms\EventPointsFormFactory;
 use App\Model\CourseModel;
 use App\Model\CourseRoomModel;
 
@@ -11,6 +12,7 @@ use App\Model\EventRoomModel;
 use App\Model\EventFileModel;
 use App\Model\RoomModel;
 use App\Model\EventModel;
+use App\Model\StudentCourseModel;
 use Nette\Application\UI\Form;
 
 final class EventPresenter extends BasePresenter
@@ -20,6 +22,9 @@ final class EventPresenter extends BasePresenter
 
     /** @var EventFormFactory @inject */
     public $eventFormFactory;
+
+    /** @var EventPointsFormFactory @inject */
+    public $eventPointsFormFactory;
 
     /** @var RoomModel @inject */
     public $roomModel;
@@ -36,8 +41,14 @@ final class EventPresenter extends BasePresenter
     /** @var EventRoomModel @inject */
     public $eventRoomModel;
 
+    /** @var StudentCourseModel @inject */
+    public $studentCourseModel;
+
     /** @persistent */
     private $id;
+
+    /** @persistent */
+    private $course;
 
     /** @persistent */
     private $course_id;
@@ -52,13 +63,13 @@ final class EventPresenter extends BasePresenter
         $this->template->countRooms = $this->roomModel->getTable()->count();
         $this->template->roomSchedules = $this->schedules;
         $this->template->files = $this->eventFileModel->getItems(["event_id" => $eventId]);
+        $this->template->registered = $this->studentCourseModel->getItems(["course_id" => $courseId]);
     }
 
     public function actionEdit(int $courseId, int $eventId = null)
     {
         $this->id = $eventId;
         $this->course_id = $courseId;
-        $this->schedules = $this->eventRoomModel->getAvailableSchedules($eventId);
     }
 
     public function renderDetail(int $eventId)
@@ -77,6 +88,18 @@ final class EventPresenter extends BasePresenter
             $this->redirect('Course:edit', $this->course_id);
         },
         $this->course_id, $this->id ? $this->id : 0, $this->eventTypes);
+    }
+
+    /**
+     * Event form factory.
+     * @return Form
+     */
+    protected function createComponentEventPointsForm(): Form
+    {
+        return $this->eventPointsFormFactory->create(function (): void {
+            $this->redirect('Course:edit', $this->course_id);
+        },
+        $this->course_id, $this->id, $this->course->points);
     }
 
     public function handleSelectHours(array $hours, array $roomIds, array $newHours)

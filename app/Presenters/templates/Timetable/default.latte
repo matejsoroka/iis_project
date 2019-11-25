@@ -1,0 +1,17 @@
+{block content}
+    <table class="table">
+        {foreach $courses as $course}
+        <tr>
+            <td>
+                {$course->course->shortcut}
+            </td>
+            <td>
+                <a n:href="Course:detail $course->course_id">{$course->course->name}</a>
+            </td>
+            <td>
+                {$presenter->types[$course->course->type]}
+            </td>
+        </tr>
+        {/foreach}
+    </table>
+{/block}

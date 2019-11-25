@@ -46,6 +46,12 @@
                     </li>
                     {/if}
 
+                    {if $user->isAllowed("Timetable:default")}
+                    <li class="nav-item">
+                        <a class="nav-link" n:href="Timetable:">Rozvrh</a>
+                    </li>
+                    {/if}
+
                     {if $user->isAllowed("Course:default")}
                     <li class="nav-item">
                         <a class="nav-link" n:href="Course:">Kurzy</a>
