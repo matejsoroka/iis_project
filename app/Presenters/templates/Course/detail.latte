@@ -2,30 +2,38 @@
     <div class="row">
         <h1 class="col-12">{$course->name}</h1>
         {if $user->isAllowed("Course:register")}
-        {snippet register}
-        <div class="col-12 register">
-            {if $registered}
-            <a class="btn btn-success" href="#">Registrovaný</a>
-            {else}
-            <a class="btn btn-primary" n:href="Register! $course->id">Registrovat sa</a>
-            {/if}
-        </div>
-        {/snippet}
+            {snippet register}
+                <div class="register col-4">
+                    {if $registered}
+                        <a class="btn btn-success" href="#">Registrovaný</a>
+                    {else}
+                        <a class="btn btn-primary" n:href="Register! $course->id">Registrovat sa</a>
+                    {/if}
+                </div>
+            {/snippet}
         {/if}
-        <p class="col-12">{$course->description}</p>
-        <h2 class="col-12">Termíny</h2>
-        <div class="col-12">
-            <table class="table table-striped">
-                <tbody>
-                {foreach $events as $event}
-                    <tr>
-                        <td><a n:href="Event:detail $event->id">{$event->title}</a></td>
-                        <td>{$presenter->eventTypes[$event->type]}</td>
-                        <td>{$event->date}</td>
-                    </tr>
-                {/foreach}
-                </tbody>
-            </table>
+        <div class="row">
+            <div class="col-6">
+                <p class="col-12">{$course->description}</p>
+            </div>
+            <div class="col-6">
+                <table class="table table-striped">
+                    <tbody>
+                    {foreach $events as $event}
+                        <tr>
+                            <td><a n:href="Event:detail $event->id">{$event->title}</a></td>
+                            <td>{$presenter->eventTypes[$event->type]}</td>
+                            <td>{$event->date}</td>
+                            {if $registered}
+                            <td>{if isset($points[$event->id])}{$points[$event->id]}{else}-{/if}/{$event->points}</td>
+                            {else}
+                            <td>{$event->points}</td>
+                            {/if}
+                        </tr>
+                    {/foreach}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

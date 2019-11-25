@@ -37,6 +37,9 @@ class AuthFactory
         $acl->addResource('Course:register');       // Registracia kurzov
         $acl->allow('student', 'Course:register');
 
+        $acl->addResource('Timetable:default');       // Registracia kurzov
+        $acl->allow('student', 'Timetable:default');
+
         $acl->addResource('Index:default');         // Zobrazenie hodnotenia
         $acl->allow('student', 'Index:default');
 

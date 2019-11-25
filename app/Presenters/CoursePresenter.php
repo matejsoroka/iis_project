@@ -11,6 +11,7 @@ use App\Model\EventModel;
 use App\Model\RoomModel;
 use App\Model\CourseRoomModel;
 use App\Model\StudentCourseModel;
+use App\Model\StudentPointsModel;
 use Nette\Application\UI\Form;
 use Nette\Database\UniqueConstraintViolationException;
 use Ublaboo\DataGrid\DataGrid;
@@ -30,6 +31,9 @@ final class CoursePresenter extends BasePresenter
     /** @var CourseFormFactory */
     private $courseFormFactory;
 
+    /** @var StudentPointsModel @inject */
+    public $studentPointsModel;
+
     /** @persistent */
     private $id;
 
@@ -47,8 +51,15 @@ final class CoursePresenter extends BasePresenter
     public function renderDetail(int $id) : void
     {
         $this->template->course = $this->courseModel->getItem($id);
-        $this->template->events = $this->eventModel->getEvents(['course_id' => $id]);
-        $this->template->registered = $this->studentCourseModel->isRegistered($id, $this->getUser()->getId());
+
+        $courseEvents = $this->eventModel->getEvents(['course_id' => $id]);
+        $this->template->events = $courseEvents;
+
+        $registered = $this->studentCourseModel->isRegistered($id, $this->getUser()->getId());
+        $this->template->registered = $registered;
+        if ($registered) {
+            $this->template->points = $this->studentPointsModel->getStudentEventPoints($this->user->getId(), $courseEvents->fetchAll());
+        }
     }
 
     public function renderEdit(int $id = 0)
