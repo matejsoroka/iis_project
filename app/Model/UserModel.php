@@ -9,6 +9,8 @@ use Nette\Database\Table\Selection;
 class UserModel extends BaseModel
 {
 
+    public $table = "users";
+
     public function getUsers() : Selection
     {
         return $this->db->table("users")->select("id, email, username, name, surname, role");

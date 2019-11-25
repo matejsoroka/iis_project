@@ -21,7 +21,7 @@ class BaseModel
         $this->db = $db;
     }
 
-    public function getItem($id) : ActiveRow
+    public function getItem(int $id) : ActiveRow
     {
         return $this->db->table($this->table)->where("id", $id)->fetch();
     }
@@ -36,9 +36,14 @@ class BaseModel
         return $this->db->table($this->table)->insert($values);
     }
 
-    public function edit(int $id, $values) : int
+    public function edit(int $id, iterable $values) : int
     {
         return $this->db->table($this->table)->where("id", $id)->update($values);
+    }
+
+    public function multiEdit(array $ids, iterable $values) : int
+    {
+        return $this->db->table($this->table)->where(["id" => $ids])->update($values);
     }
 
     public function delete(array $where) : int

@@ -62,11 +62,16 @@ final class CoursePresenter extends BasePresenter
         }
     }
 
-    public function renderEdit(int $id = 0)
+    public function actionEdit(int $id = 0)
     {
         $this->id = $id;
-        $this->template->courseId = $id;
-        $this->template->events = $this->eventModel->getEvents(['course_id' => $id]);
+    }
+
+    public function renderEdit()
+    {
+        $this->hasGrid = true;
+        $this->template->courseId = $this->id;
+        $this->template->events = $this->eventModel->getEvents(['course_id' => $this->id]);
     }
 
     /**
@@ -77,6 +82,43 @@ final class CoursePresenter extends BasePresenter
         return $this->courseFormFactory->create(function (): void {
             $this->redirect('Course:');
         }, $this->user->id, (int) $this->presenter->getParameter("id"));
+    }
+
+    public function createComponentRegisterGrid() : DataGrid
+    {
+        $grid = new DataGrid($this, "registerGrid");
+
+        $grid->setDataSource($this->studentCourseModel->getStudents($this->id));
+
+        $grid->addColumnText("username", "Login")
+            ->setRenderer(function ($row) {
+               return $row->student->username;
+            });
+
+        $grid->addColumnText("name", "Meno")
+                ->setRenderer(function ($row) {
+                return $row->student->name;
+            });
+
+        $grid->addColumnText("surname", "Priezvisko")
+            ->setRenderer(function ($row) {
+                return $row->student->surname;
+            });
+
+        $grid->addColumnStatus("status", "Status")
+                ->addOption(0, "Neschválený")
+                ->endOption()
+                ->addOption(1, "Schválený")
+                ->endOption()
+                ->onChange[] = function($id, $value): void {
+                    $this->studentCourseModel->edit((int) $id, ["status" => $value]);
+                    $this->redirect("this");
+                };
+
+//        $grid->addGroupAction('Schváliť vybraných študentov')->onSelect[] = [$this, 'multiAccept'];
+
+        return $grid;
+
     }
 
     public function createComponentCourseGrid() : DataGrid
@@ -157,11 +199,17 @@ final class CoursePresenter extends BasePresenter
         }
     }
 
+    public function multiAccept(array $ids) : void
+    {
+        $this->studentCourseModel->multiEdit($ids, ["status" => 1]);
+        $this->redirect('this');
+    }
+
     public function handleRegister(int $id)
     {
         try {
             $this->studentCourseModel->add(["student_id" => $this->user->getId(), "course_id" => $id]);
-            $this->flashMessage("Úspešne ste sa registrovali", "success");
+            $this->flashMessage("Úspešne ste sa registrovali, čakajte na schválenie od garanta", "success");
         } catch (UniqueConstraintViolationException $e) {
             $this->flashMessage("Už ste registrovaný", "warning");
         }
