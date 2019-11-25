@@ -1,5 +1,5 @@
 {block content}
-    <h1>Miestnosti</h1>
+    <h1 n:block="title">Miestnosti</h1>
     {if $user->isAllowed("Room:edit")}
     <a class="btn btn-success" n:href="Room:edit"><i class="fa fa-plus-square"></i> Pridat miestnosť</a>
     {/if}

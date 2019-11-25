@@ -1,6 +1,6 @@
 {block content}
     <div class="row">
-        <h1 class="col-12">{$course->name}</h1>
+        <h1 n:block="title" class="col-12">{$course->name}</h1>
         {if $user->isAllowed("Course:register")}
             {snippet register}
                 <div class="register col-4">
@@ -19,18 +19,28 @@
             <div class="col-6">
                 <table class="table table-striped">
                     <tbody>
+                    {var $total}
                     {foreach $events as $event}
                         <tr>
                             <td><a n:href="Event:detail $event->id">{$event->title}</a></td>
                             <td>{$presenter->eventTypes[$event->type]}</td>
                             <td>{$event->date}</td>
                             {if $registered}
-                            <td>{if isset($points[$event->id])}{$points[$event->id]}{else}-{/if}/{$event->points}</td>
+                            <td>{if isset($points[$event->id])}
+                                {var $total += $points[$event->id]}
+                                {$points[$event->id]}{else}-
+                                {/if}/{$event->points}</td>
                             {else}
                             <td>{$event->points}</td>
                             {/if}
                         </tr>
                     {/foreach}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <th>Spolu:</th>
+                            <th>{$total}</th>
+                        </tr>
                     </tbody>
                 </table>
             </div>

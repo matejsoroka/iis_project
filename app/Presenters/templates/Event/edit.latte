@@ -1,7 +1,7 @@
 {block content}
     <div class="row">
         <div class="col-md-12">
-            <h1>{if $eventId}Upraviť termín{else}Pridať termín{/if}</h1>
+            <h1 n:block="title">{if $eventId}Upraviť termín{else}Pridať termín{/if}</h1>
             <div class="row">
                 {snippet eventFormSnippet}
                     {form eventForm}
