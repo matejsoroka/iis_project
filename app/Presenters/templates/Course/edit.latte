@@ -3,9 +3,9 @@
         <div class="col-md-12">
             <h1 n:block="title">{if $courseId}Upraviť kurz{else}Pridať kurz{/if}</h1>
                 <div class="row">
-                    {snippet courseForm}
-                        {form courseForm}
-                            <div class="col-12">
+                    <div class="col-6">
+                        {snippet courseForm}
+                            {form courseForm}
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="row">
@@ -57,8 +57,17 @@
                                                 </div>
                                             </div>
                                         </div>
-
-
+                                        {if $courseId}
+                                        <div class="row">
+                                            <p class="col-12">Miestnsoti</p>
+                                        </div>
+                                            <div class="col-xs-12">
+                                                <div n:class="$form['room']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
+                                                    {input room, class => 'form-input'}
+                                                    {if $form['room']->hasErrors()}<span class="invalid-feedback">{inputError tags}</span>{/if}
+                                                </div>
+                                            </div>
+                                        {/if}
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="form-group d-flex">
@@ -67,52 +76,35 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="col-md-6">
-                                        <div class="row">
-                                            {if $courseId} {dump $user}
-                                                <div class="col-xs-12">
-                                                    <div n:class="$form['room']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
-                                                        {label room, class => 'form-label'}
-                                                        {input room, class => 'form-input'}
-                                                        {if $form['room']->hasErrors()}<span class="invalid-feedback">{inputError tags}</span>{/if}
-                                                    </div>
-                                                </div>
-                                            {/if}
-                                        </div>
-                                    </div>
                                 </div>
-                            </div>
-                        {/form}
-                    {/snippet}
-                </div>
+                            {/form}
+                        {/snippet}
+                    </div>
 
-
-            <div class="row">
-                <div class="col-12 course-table">
-                    <a class="btn btn-success btn-create" n:href="Event:edit $courseId"><i class="fa fa-plus-square"></i> Vytvoriť termín</a>
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th scope="col">Názov</th>
-                            <th scope="col">Typ</th>
-                            <th scope="col">Dátum</th>
-                            <th scope="col">Čas</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {foreach $events as $event}
-                        <tr>
-                            <td><a n:href="Event:detail $event->id">{$event->title}</a></td>
-                            <td>{$presenter->eventTypes[$event->type]}</td>
-                            <td>{$event->date|date:'%d.%m.%Y'}</td>
-                            <td>{$event->time|date:'%H:%M'}</td>
-                            <td><a class="btn-sm btn-primary btn-edit" n:href="Event:edit $courseId, $event['id']"><i class="fa fa-pencil"></i></a></td>
-                        </tr>
-                        {/foreach}
-                        </tbody>
-                    </table>
+                    <div class="col-6 course-table">
+                        <a class="btn btn-success btn-create" n:href="Event:edit $courseId"><i class="fa fa-plus-square"></i> Vytvoriť termín</a>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">Názov</th>
+                                <th scope="col">Typ</th>
+                                <th scope="col">Dátum</th>
+                                <th scope="col">Čas</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $events as $event}
+                            <tr>
+                                <td><a n:href="Event:detail $event->id">{$event->title}</a></td>
+                                <td>{$presenter->eventTypes[$event->type]}</td>
+                                <td>{$event->date|date:'%d.%m.%Y'}</td>
+                                <td>{$event->time|date:'%H:%M'}</td>
+                                <td><a class="btn-sm btn-primary btn-edit" n:href="Event:edit $courseId, $event['id']"><i class="fa fa-pencil"></i></a></td>
+                            </tr>
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
         </div>
 {/block}
