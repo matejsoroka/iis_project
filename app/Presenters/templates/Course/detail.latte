@@ -1,6 +1,6 @@
 {block content}
     <div class="row">
-        <h1 class="col-12">{$course->name}</h1>
+        <h1 n:block="title" class="col-12">{$course->name}</h1>
         {if $user->isAllowed("Course:register")}
             {snippet register}
                 <div class="register col-4">
