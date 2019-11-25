@@ -73,8 +73,9 @@ final class CourseFormFactory
             $form->addMultiSelect('room', "Miestnosť", $rooms);
             $selected = $this->courseRoomModel->fetchPairs(['course_id' => $course_id], 'id', 'room_id');
 
-            $form->addMultiSelect('lectors', "Lektori", $this->userModel->fetchPairs(["role" => "lector"], "id", "username"));
+            $form->setDefaults($this->courseModel->getItem($course_id));
 
+            $form->addMultiSelect('lectors', "Lektori", $this->userModel->fetchPairs(["role" => "lector"], "id", "username"));
             $form->setDefaults(['room' => $selected]);
 
             $lectors = ($this->courseLectorModel->fetchPairs(["course_id" => $course_id], "lector_id", "lector_id"));
