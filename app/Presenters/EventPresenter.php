@@ -132,7 +132,9 @@ final class EventPresenter extends BasePresenter
 
     public function handleDeleteFile(int $id)
     {
-        $this->eventFileModel->delete(["id" => $id]);
+        $f = $this->eventFileModel->getItem($id);
+        unlink(__DIR__ . "/../../www/upload/events/" . $f->event . "/" . $f->file->name);
+        $f->delete();
         if ($this->isAjax()) {
             $this->redrawControl("eventFiles");
         } else {
