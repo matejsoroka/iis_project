@@ -65,11 +65,13 @@
                     </li>
                     {/if}
 
+                    {if $user->isLoggedIn()}
                     <li>
                         <a n:href="Sign:out" class="nav-link" title="Odhlásiť sa">
                             <i class="fa fa-power-off" aria-hidden="true"></i>
                         </a>
                     </li>
+                    {/if}
                 </ul>
             </div>
         </div>
