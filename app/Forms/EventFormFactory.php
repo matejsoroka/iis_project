@@ -4,6 +4,7 @@
 namespace App\Forms;
 
 use App\Model;
+use Exception;
 use Nette;
 use Nette\Application\UI\Form;
 
@@ -76,6 +77,9 @@ class EventFormFactory
 
         $form->addHidden("course_id", (string) $course_id);
 
+        $form->addHidden("change", 0)
+            ->setHtmlAttribute('id', 'changeFlag');
+
         if ($event_id) {
             $form->setDefaults($this->eventModel->getItem($event_id));
 
@@ -96,8 +100,20 @@ class EventFormFactory
                     $this->eventModel->addFiles((int) $values["id"], $values["files"]);
                 }
 
+                /* check if date was changed */
+                if ((int)$values['change']) {
+                    /* check date */
+                    $result = $this->eventModel->checkDate($values['date'], $values['time'], $values['id']);
+                    if ($result) {
+                        $form['date']->addError('Udalosť v tomto dátume už existuje, vyberte, prosím, iný dátum.');
+                        return;
+                    } 
+                }
+
+
                 unset($values["files"]);
-                
+                unset($values["change"]);
+
                 if ($values['id']) {
                     $this->eventRoomModel->delete(['event_id' => $values['id']]);
 

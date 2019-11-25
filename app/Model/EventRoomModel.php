@@ -20,13 +20,16 @@ class EventRoomModel extends BaseModel
         $this->roomModel = $roomModel;
     }
 
-    public function getAvailableSchedules(int $eventId) : array
+    public function getAvailableSchedules(int $eventId = NULL) : array
     {
         $eventRoom = $this->db->table($this->table)->where('event_id', $eventId);
 
         $roomSchedules = [];
-        foreach ($eventRoom as $room) {
-            $roomSchedules[$room->room_id] = $this->roomModel->getTable()->where('id', $room->room_id)->fetch();
+
+        if ($eventId) {
+            foreach ($eventRoom as $room) {
+                $roomSchedules[$room->room_id] = $this->roomModel->getTable()->where('id', $room->room_id)->fetch();
+            }
         }
 
         return $roomSchedules;

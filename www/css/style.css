@@ -98,11 +98,6 @@ form .form-group input[type="submit"] {
   height: 45px;
   border: 0px;
 }
-form .form-group .invalid-feedback {
-  margin-top: 10px;
-  font-size: 14px;
-  color: red;
-}
 form .form-group span.red-star {
   font-size: 14px;
 }
@@ -110,6 +105,13 @@ form.search-form button {
   margin: 15px 0;
   display: block;
   width: 100%;
+}
+.invalid-feedback {
+  margin-top: -10px;
+  font-size: 14px;
+  color: red;
+  display: block !important;
+  text-align: center;
 }
 .course-table {
   margin-top: 70px;

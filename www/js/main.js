@@ -11,4 +11,13 @@ $(function(){
 $(document).ready(function () {
     $('#frm-courseForm-room').multiSelect();
     $('#frm-eventForm-room').multiSelect();
+
+    $('#frm-eventForm-date').on('change', function () {
+        $('#changeFlag').val('1');
+    });
+
+    $('#frm-eventForm-time').on('change', function () {
+        $('#changeFlag').val('1');
+    });
+
 });
