@@ -9,6 +9,9 @@
                 <a n:href="Course:detail $course->course_id">{$course->course->name}</a>
             </td>
             <td>
+                {$points[$course->course->id]}
+            </td>
+            <td>
                 {$presenter->types[$course->course->type]}
             </td>
         </tr>
