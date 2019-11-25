@@ -8,5 +8,7 @@ $(function(){
     }, 3000)
 });
 
-$('#frm-courseForm-room').multiSelect();
-$('#frm-eventForm-room').multiSelect();
+$(document).ready(function () {
+    $('#frm-courseForm-room').multiSelect();
+    $('#frm-eventForm-room').multiSelect();
+});

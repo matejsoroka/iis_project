@@ -53,12 +53,21 @@ class EventFormFactory
             ->setRequired('Prosím, zadajte typ termínu');
 
         $form->addText('date', 'Dátum')
-            ->setRequired('Prosím, zadajte dátum');
+            ->setRequired('Prosím, zadajte dátum')
+            ->setHtmlAttribute('placeholder', 'DD/MM/YYYY')
+            ->setType('date');;
+
+        $form->addText('time', 'Čas')
+            ->setRequired('Prosím, zadajte čas')
+            ->setHtmlAttribute('placeholder', '00:00')
+            ->setType('time');;
 
         $form->addInteger('points', 'Max. bodov')
             ->setRequired('Prosím, zadajte maximum bodov');
 
         $form->addMultiUpload('files', 'Pridať súbory');
+
+        $form->addCheckbox('repeat', 'Opakovať týždenne');
 
         $availableRooms = $this->courseRoomModel->getAvailableRooms($course_id);
         $form->addMultiSelect('room', "Miestnosť", $availableRooms);
@@ -69,6 +78,10 @@ class EventFormFactory
 
         if ($event_id) {
             $form->setDefaults($this->eventModel->getItem($event_id));
+
+            /* change format of date */
+            $date = date("Y-m-d", strtotime($this->eventModel->getItem($event_id)->date));
+            $form->setDefaults(['date' => $date]);
 
             $selected = $this->eventRoomModel->fetchPairs(['event_id' => $event_id], 'id', 'room_id');
             $form->setDefaults(['room' => $selected]);
@@ -85,6 +98,8 @@ class EventFormFactory
 
                 unset($values["files"]);
 
+                $this->eventModel->checkDate($values['date'], $values['time']);
+                exit;
                 if ($values['id']) {
                     $this->eventRoomModel->delete(['event_id' => $values['id']]);
 

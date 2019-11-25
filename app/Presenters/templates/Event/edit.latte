@@ -40,10 +40,20 @@
 
                                     <div class="row">
                                         <div class="col-12">
-                                            <div n:class="$form['date']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
+                                            <div n:class="$form['time']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
+                                                {label time, class => 'form-label'}
+                                                {input time, class => 'form-input'}
+                                                {if $form['time']->hasErrors()}<span class="invalid-feedback">{inputError time}</span>{/if}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div n:class="$form['points']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
                                                 {label points, class => 'form-label'}
                                                 {input points, class => 'form-input'}
-                                                {if $form['date']->hasErrors()}<span class="invalid-feedback">{inputError date}</span>{/if}
+                                                {if $form['points']->hasErrors()}<span class="invalid-feedback">{inputError points}</span>{/if}
                                             </div>
                                         </div>
                                     </div>
@@ -70,10 +80,20 @@
 
                                     <div class="row">
                                         <div class="col-12">
-                                            <div n:class="$form['date']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
+                                            <div n:class="$form['files']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
                                                 {label files, class => 'form-label'}
                                                 <input n:name="files" class="form-control-file">
-                                                {if $form['date']->hasErrors()}<span class="invalid-feedback">{inputError date}</span>{/if}
+                                                {if $form['files']->hasErrors()}<span class="invalid-feedback">{inputError files}</span>{/if}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div n:class="$form['repeat']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
+                                                {label repeat, class => 'form-label'}
+                                                {input repeat}
+                                                {if $form['repeat']->hasErrors()}<span class="invalid-feedback">{inputError repeat}</span>{/if}
                                             </div>
                                         </div>
                                     </div>
@@ -112,7 +132,7 @@
             <div class="col-md-12">
                 <div class="collapse" id="collapseExample">
                     <div class="col-md-12" id="schedule-container" class="schedule">
-                        {foreach $roomSchedules as $i => $item}{dump $item}
+                        {foreach $roomSchedules as $i => $item}
                             {if $iterator->counter % 3 == 0}
                                 <div class="col-md-4">
                                     <h3 class="room-number">{$item->number}</h3>
@@ -127,7 +147,7 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <h3 class="room-number">{$item->number}</h3>
-                                        <div id="mySchedule_{$i}"></div> {dump $roomSchedules}
+                                        <div id="mySchedule_{$i}"></div>
                                         <p class="hidden" id="hours_{$i}">{$item->schedule}</p>
                                         <script>
                                             window.schedules = {$roomSchedules};
@@ -152,7 +172,6 @@
 
     <script>
         window.changeRoom = {link changeRoom! []};
-        window.selectHours = {link selectHours! []};
         window.countRooms = {$countRooms};
         window.schedules = {$roomSchedules};
     </script>

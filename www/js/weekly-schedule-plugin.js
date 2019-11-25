@@ -322,19 +322,6 @@ $(document).ready(function () {
         });
 
     });
-
-    $('#saveEvent').click(function() {
-        console.log(index);
-        $.nette.ajax({
-            type: 'POST',
-            url: window.selectHours,
-            data: {
-                'hours': outputArray,
-                'roomIds' : index,
-                'newHours' : selectedHours,
-            },
-        });
-    });
 });
 
 function changeSchedule(scheduleId, schedule) {
@@ -389,7 +376,7 @@ function changeSchedule(scheduleId, schedule) {
 
 function initSchedule(countRooms, schedules)
 {
-    let value; console.log(schedules);
+    let value;
     for (let i = 1; i < countRooms + 1; i++) {
         if (typeof(schedules[i]) != "undefined" && schedules[i] !== null) {
             index.push(i);
@@ -407,10 +394,10 @@ function initSchedule(countRooms, schedules)
         }
     }
 
-    let mousedown = false;
-    let devarionMode = false;
-    let id;
-
+    // let mousedown = false;
+    // let devarionMode = false;
+    // let id;
+    //
     // $('#mySchedule_' + index[0] + ' .hour').on('mouseenter', function() {
     //     id = $(this).attr('id');
     //     if (!mousedown) {

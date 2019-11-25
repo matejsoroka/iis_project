@@ -12,6 +12,7 @@ use App\Model\EventFileModel;
 use App\Model\RoomModel;
 use App\Model\EventModel;
 use Nette\Application\UI\Form;
+use Nette\Utils\DateTime;
 
 final class EventPresenter extends BasePresenter
 {
@@ -77,48 +78,6 @@ final class EventPresenter extends BasePresenter
             $this->redirect('Course:edit', $this->course_id);
         },
         $this->course_id, $this->id ? $this->id : 0, $this->eventTypes);
-    }
-
-    public function handleSelectHours(array $hours, array $roomIds, array $newHours)
-    {
-        /* get max id of course */
-        if ($this->id) {
-            $id = $this->id;
-        } else {
-            $id = $this->eventModel->getNextId();
-        }
-
-
-        $courseHours = [];
-        $counter = 0;
-        $index = 0;
-        $iterator = 0;
-
-        if (count($newHours) > 0) {
-            for ($i = 0; $i < count($roomIds); $i++) {
-                for ($j = $iterator; $j < count($roomIds) * 5; $j++) {
-                    $counter++;
-
-                    if ($counter % 5 == 0 && $j > 0) {
-                        //$this->roomModel->edit((int)$roomIds[$i], ['schedule' => json_encode($courseHours)]);
-                        $courseHours = [];
-                        $index = 0;
-                        $iterator = $counter;
-
-                        break;
-                    } else {
-                        if (isset($hours[$j])) {
-                            $courseHours[$index] = $hours[$j];
-                        }
-                        $index++;
-                    }
-
-                }
-            }
-
-            //$this->eventModel->edit($id, ['schedule' => json_encode($newHours)]);
-        }
-
     }
 
     public function handleChangeRoom(array $roomIds)

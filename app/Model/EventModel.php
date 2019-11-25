@@ -44,5 +44,31 @@ class EventModel extends BaseModel
         }
     }
 
+    public function checkDate(string $date, string $time)
+    {
+        $weekDay = date('w', strtotime($date));
+
+        $items = $this->db->table($this->table)->fetchAll();
+
+        foreach ($items as $item) {
+            /* if event repeats weekly */
+            if ($item->repeat) {
+                /* check if it is not in same day of week */
+                if ($weekDay == date('w', strtotime($item->date))) {
+                    /* check time */
+                    if (strtotime($time) == strtotime($item->time)) {
+                        return 1;
+                    }
+                }
+            } else {
+                if (strtotime($date.' '.$time) == strtotime($item->date.' '.$item->time)) {
+                    return 1;
+                }
+            }
+        }
+
+        return 0;
+    }
+
 
 }
