@@ -40,6 +40,16 @@
 
                                     <div class="row">
                                         <div class="col-12">
+                                            <div n:class="$form['date']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
+                                                {label points/}
+                                                {input points, class => 'form-input'}
+                                                {if $form['date']->hasErrors()}<span class="invalid-feedback">{inputError date}</span>{/if}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12">
                                             <div n:class="$form['type']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
                                                 {label type/}
                                                 {input type, class => 'form-input'}

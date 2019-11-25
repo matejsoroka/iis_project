@@ -94,24 +94,17 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th scope="col">#</th>
                             <th scope="col">Názov</th>
-                            <th scope="col">Popis</th>
                             <th scope="col">Typ</th>
                             <th scope="col">Dátum</th>
-                            <th scope="col">Miestnosť</th>
-                            <th scope="col"></th>
                         </tr>
                         </thead>
                         <tbody>
                         {foreach $events as $event}
                         <tr>
-                            <th scope="row">{$iterator->counter}</th>
                             <td>{$event->title}</td>
-                            <td>{$event->description}</td>
                             <td>{$event->type}</td>
                             <td>{$event->date}</td>
-                            <td>-</td>
                             <td><a class="btn btn-primary btn-edit" n:href="Event:edit $courseId, $event['id']"><i class="fa fa-pencil"></i></a></td>
                         </tr>
                         {/foreach}

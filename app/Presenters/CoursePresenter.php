@@ -41,9 +41,10 @@ final class CoursePresenter extends BasePresenter
     public function renderDetail(int $id) : void
     {
         $this->template->course = $this->courseModel->getItem($id);
+        $this->template->events = $this->eventModel->getEvents(['course_id' => $id]);
     }
 
-    public function actionEdit(int $id = NULL)
+    public function renderEdit(int $id = 0)
     {
         $this->id = $id;
         $this->template->courseId = $id;

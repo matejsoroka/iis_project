@@ -1,4 +1,21 @@
 {block content}
-    <h1>{$course->name}</h1>
-    <p>{$course->description}</p>
+    <div class="row">
+        <h1 class="col-12">{$course->name}</h1>
+        <p class="col-12">{$course->description}</p>
+        <h2 class="col-12">Termíny</h2>
+        <div class="col-12">
+            <table class="table table-striped">
+                <tbody>
+                {foreach $events as $event}
+                    <tr>
+                        <td><a n:href="Event:detail $event->id">{$event->title}</a></td>
+                        <td>{$event->type}</td>
+                        <td>{$event->date}</td>
+                    </tr>
+                {/foreach}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 {/block}

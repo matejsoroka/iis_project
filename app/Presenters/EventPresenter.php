@@ -13,19 +13,19 @@ use Nette\Application\UI\Form;
 
 final class EventPresenter extends BasePresenter
 {
-    /** @var EventModel */
-    private $eventModel;
+    /** @var EventModel @inject */
+    public $eventModel;
 
-    /** @var EventFormFactory */
-    private $eventFormFactory;
+    /** @var EventFormFactory @inject */
+    public $eventFormFactory;
 
-    /** @var RoomModel */
-    private $roomModel;
+    /** @var RoomModel @inject */
+    public $roomModel;
 
-    /** @var CourseRoomModel */
-    private $courseRoomModel;
+    /** @var CourseRoomModel @inject */
+    public $courseRoomModel;
 
-    /** @var CourseModel */
+    /** @var CourseModel @inject */
     public $courseModel;
 
     /** @persistent */
@@ -34,47 +34,36 @@ final class EventPresenter extends BasePresenter
     /** @persistent */
     private $course_id;
 
-    public function __construct(EventModel $eventModel, EventFormFactory $eventFormFactory, RoomModel $roomModel, CourseRoomModel $courseRoomModel)
+    public function renderEdit(int $courseId, int $eventId = null)
     {
-        $this->eventModel = $eventModel;
-        $this->eventFormFactory = $eventFormFactory;
-        $this->roomModel = $roomModel;
-        $this->courseRoomModel = $courseRoomModel;
+        $this->template->courseHours = [];
+        $this->template->eventId = $eventId;
+        $this->template->roomSchedules = $this->courseRoomModel->getCourseSchedule($courseId);
+        $this->template->countRooms = $this->roomModel->getTable()->count();
     }
 
-    public function actionEdit(int $courseId, int $eventId = NULL)
+    public function actionEdit(int $courseId, int $eventId = null)
     {
         $this->id = $eventId;
-        $this->template->eventId = $eventId;
-        $this->template->courseHours = [];
         $this->course_id = $courseId;
+    }
 
-        $courseRoom = $this->courseRoomModel->getTable()->where('course_id', $courseId);
-
-        $roomSchedules = [];
-        foreach ($courseRoom->fetchAll() as $room) {
-            $roomSchedules[$room->room_id] = $this->roomModel->getTable()->where('id', $room->room_id)->fetch();
-        }
-
-        $this->template->roomSchedules = $roomSchedules;
-        $this->template->countRooms = $this->roomModel->getTable()->count();
-        $this->template->countRooms = $this->roomModel->getTable()->count();
-
-        if ($eventId) {
-            $this['eventForm']->setDefaults($this->eventModel->getEvents(['id' => $eventId])->fetchAll());
-        }
+    public function renderDetail(int $eventId)
+    {
+        $this->template->event = $this->eventModel->getItem($eventId);
     }
 
     /**
      * Event form factory.
-     * @param int $courseId
      * @return Form
      */
     protected function createComponentEventForm(): Form
     {
+        bdump($this->course_id);
         return $this->eventFormFactory->create(function (): void {
             $this->redirect('Course:edit', $this->course_id);
-        },  $this->course_id, $this->id);
+        },
+        $this->course_id, $this->id ? $this->id : 0);
     }
 
     public function handleSelectHours(array $hours, array $roomIds, array $newHours)

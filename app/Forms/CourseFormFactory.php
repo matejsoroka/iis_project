@@ -56,9 +56,10 @@ final class CourseFormFactory
         if ($course_id) {
             $rooms = $this->roomModel->getTable()->fetchPairs('id', 'number');
             $form->addMultiSelect('room', "Miestnosť", $rooms);
-
             $selected = $this->courseRoomModel->fetchPairs(['course_id' => $course_id], 'id', 'room_id');
+
             $form->setDefaults(['room' => $selected]);
+            $form->setDefaults($this->courseModel->getItem($course_id));
         }
 
         $form->addHidden("id", (string) $course_id);

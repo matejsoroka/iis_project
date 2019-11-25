@@ -19,16 +19,16 @@ class AuthFactory
         $acl->addRole('admin', 'leader');
 
         /* Guest */
+        $acl->addResource('Homepage:default');      // Zobrazenie hlavnej stránky
         $acl->addResource('Course:default');        // Zobrazenie kurzov
         $acl->addResource('Course:detail');         // Zobrazenie kurzov
-        $acl->addResource('Homepage:default');      // Zobrazenie hlavnej stránky
-        $acl->addResource('Sign:in');               // Zobrazenie hlavnej stránky
-        $acl->addResource('Sign:out');              // Zobrazenie hlavnej stránky
-        $acl->addResource('Sign:up');               // Zobrazenie hlavnej stránky
+        $acl->addResource('Sign:in');               // Prihlasenie
+        $acl->addResource('Sign:out');              // Odhlasenie
+        $acl->addResource('Sign:up');               // Registracia
 
+        $acl->allow('guest', 'Homepage:default');
         $acl->allow('guest', 'Course:detail');
         $acl->allow('guest', 'Course:default');
-        $acl->allow('guest', 'Homepage:default');
         $acl->allow('guest', 'Sign:in');
         $acl->allow('guest', 'Sign:out');
         $acl->allow('guest', 'Sign:up');
@@ -45,6 +45,9 @@ class AuthFactory
 
         $acl->addResource('Index:timetable');       // Zobrazenie hodnotenia
         $acl->allow('student', 'Index:timetable');
+
+        $acl->addResource('Event:detail');          // Zobrazenie terminu
+        $acl->allow('guest', 'Event:detail');
 
         /* Lektor */
         $acl->addResource('Course:edit');           // Uprava kurzu, pozor na restricted inputka

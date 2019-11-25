@@ -47,15 +47,22 @@ class EventFormFactory
         $form->addText('date', 'Dátum')
             ->setRequired('Prosím, zadajte dátum');
 
-        $rooms = $this->roomModel->getTable()->fetchPairs('id', 'number');
+        $form->addInteger('points', 'Max. bodov')
+            ->setRequired('Prosím, zadajte maximum bodov');
+
+        $rooms = $this->roomModel->fetchPairs([], 'id', 'number');
         $form->addMultiSelect('room', "Miestnosť", $rooms);
 
         $selected = $this->courseRoomModel->fetchPairs(['course_id' => $course_id], 'id', 'room_id');
         $form->setDefaults(['room' => $selected]);
 
-        $form->addHidden("id", (string)$event_id);
+        $form->addHidden("id", (string) $event_id);
 
-        $form->addHidden("course_id", (string)$course_id);
+        $form->addHidden("course_id", (string) $course_id);
+
+        if ($event_id) {
+            $form->setDefaults($this->eventModel->getItem($event_id));
+        }
 
         $form->addSubmit('save');
 
@@ -63,11 +70,9 @@ class EventFormFactory
             try {
                 unset($values['room']);
                 if ($values['id']) {
-                    $this->eventModel->edit((int)$values["id"], $values);
-
+                    $this->eventModel->edit((int) $values["id"], $values);
                 } else {
                     $this->eventModel->add($values);
-
                 }
             } catch (Model\DuplicateNameException $e) {
                 $form['title']->addError('Názov je už použitý, vytvorte nový, prosím.');
@@ -82,7 +87,7 @@ class EventFormFactory
     }
 
     /**
-     * @param \Nette\Application\UI\Form $form
+     * @param Form $form
      */
     public function processError($form)
     {
