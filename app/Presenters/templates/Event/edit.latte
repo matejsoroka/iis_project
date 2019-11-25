@@ -105,6 +105,30 @@
                         </div>
                     {/form}
                 {/snippet}
+                <div class="col-12">
+                    <h2>Hodnotenie študentov</h2>
+                    <form n:name="eventPointsForm">
+                        <input n:name="save" value="Uložiť hodnotenie" class="btn btn-success">
+                        <table class="table">
+                            {foreach $registered as $student}
+                                <tr>
+                                    <td>
+                                        {$student->student->name}
+                                    </td>
+                                    <td>
+                                        {$student->student->surname}
+                                    </td>
+                                    <td>
+                                        {$student->student->username}
+                                    </td>
+                                    <td>
+                                        <input n:name="{$student->student->id}">
+                                    </td>
+                                </tr>
+                            {/foreach}
+                        </table>
+                    </form>
+                </div>
             </div>
         </div>
 
@@ -149,55 +173,6 @@
             </div>
         {/snippet}
         </div>
-        <div class="col-12">
-            <form n:name="eventPointsForm">
-                <input n:name="save" value="Uložiť hodnotenie" class="btn btn-success">
-                <table class="table">
-                    {foreach $registered as $student}
-                        <tr>
-                            <td>
-                                {$student->student->name}
-                            </td>
-                            <td>
-                                {$student->student->surname}
-                            </td>
-                            <td>
-                                {$student->student->username}
-                            </td>
-                            <td>
-                                <input n:name="{$student->student->id}">
-                            </td>
-                        </tr>
-                    {/foreach}
-                </table>
-
-            </form>
-        </div>
-        <div class="col-12">
-            <form n:name="eventPointsForm">
-                <input n:name="save" value="Uložiť hodnotenie" class="btn btn-success">
-                <table class="table">
-                    {foreach $registered as $student}
-                        <tr>
-                            <td>
-                                {$student->student->name}
-                            </td>
-                            <td>
-                                {$student->student->surname}
-                            </td>
-                            <td>
-                                {$student->student->username}
-                            </td>
-                            <td>
-                                <input n:name="{$student->student->id}">
-                            </td>
-                        </tr>
-                    {/foreach}
-                </table>
-
-            </form>
-        </div>
-    </div>
 
     <script>
         window.changeRoom = {link changeRoom! []};
