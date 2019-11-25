@@ -41,4 +41,14 @@ class BaseModel
         return $this->db->table($this->table)->where("id", $id)->update($values);
     }
 
+    public function delete(array $where) : int
+    {
+        return $this->db->table($this->table)->where($where)->delete();
+    }
+
+    public function fetchPairs(array $where, string $key, string $value) : array
+    {
+        return $this->db->table($this->table)->where($where)->fetchPairs($key, $value);
+    }
+
 }

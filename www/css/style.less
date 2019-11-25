@@ -1,3 +1,9 @@
+/* COLORS */
+@blue-color: #00A9E4;
+@red-color: #FF0015;
+@black-color: black;
+@light-gray: #e7e7e7;
+
 h1 {
   padding: 1em 0;
 }
@@ -38,5 +44,142 @@ h1 {
 
 #snippet--scheduleSnippet {
   width: 100%;
+}
+
+form {
+  padding: 0 15px;
+
+  .form-group {
+    position: relative;
+    margin-bottom: 10px !important;
+
+    &.has-error {
+      label {
+        color: red;
+      }
+
+      input,
+      textarea {
+        border-color: red;
+      }
+    }
+
+    label {
+      font-size: 17px;
+      margin-bottom: 10px;
+      font-weight: normal;
+      margin-right: 20px;
+      width: 85px;
+
+      &.validate {
+        color: #aaa4a4;
+
+        &.active {
+          color: @black-color;
+        }
+      }
+    }
+
+    .form-control {
+      border-radius: 5px;
+      padding: 11px 19px;
+      outline: 0;
+      height: auto;
+      border-color: @light-gray !important;
+      box-shadow: 0 0 3px #6e6e6e;
+    }
+
+    .form-input {
+      height: 30px !important;
+      border-top: 0;
+      border-left: 0;
+      border-right: 0;
+      border-bottom: 1px solid rgba(125, 138, 156, 0.8) !important;
+      border-radius: 0;
+      width: 250px;
+      padding: 0 10px;
+
+      &.draft {
+        height: 20px !important;
+      }
+
+      &:focus {
+        outline: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        border-color: @light-gray;
+      }
+    }
+
+    input[type="checkbox"], input[type="radio"] {
+      margin-right: 10px !important;
+    }
+
+    input[type="submit"] {
+      width: 160px !important;
+      border-radius: 5px !important;
+      background-color: @blue-color !important;
+      color: white !important;
+      margin-top: 20px;
+      text-transform: uppercase;
+      font-size: 17px;
+      font-weight: 500;
+      height: 45px;
+      border: 0px;
+    }
+
+    .invalid-feedback {
+      margin-top: 10px;
+      font-size: 14px;
+      color: red;
+    }
+
+    span{
+      &.red-star{
+        font-size: 14px;
+      }
+    }
+  }
+
+  &.search-form {
+    button {
+      margin: 15px 0;
+      display: block;
+      width: 100%;
+    }
+  }
+}
+
+.course-table {
+  margin-top: 70px;
+  width: 100%;
+  padding-bottom: 50px;
+}
+
+.btn-create {
+  margin-bottom: 20px;
+}
+
+.btn-edit {
+  float: right;
+  i {
+    font-size: 15px;
+  }
+}
+
+.d-flex {
   display: flex;
+}
+
+#snippet--courseForm, #snippet--eventFormSnippet {
+  width: 100%;
+}
+
+.room-number {
+  margin-top: 25px;
+  text-align: center;
+}
+
+.schedule {
+  padding-bottom: 70px;
 }

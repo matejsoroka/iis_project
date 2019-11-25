@@ -42,12 +42,12 @@ final class CourseFormFactory
         $form->addText('shortcut', 'Skratka')
             ->setRequired('Prosím, zadajte skratku');
 
-        $form->addText('name', 'Nazov')
+        $form->addText('name', 'Názov')
             ->setRequired('Prosím, zadajte názov');
 
         $form->addText('price', 'Cena');
 
-        $form->addSelect('type', "Typ", [0 => "-- Typ --", 1 => "Povinný", 2 => "Volitelný"]);
+        $form->addSelect('type', "Typ", [0 => "-- Typ --", 1 => "Povinný", 2 => "Voliteľný"]);
 
         $form->addText('tags', 'Tagy');
 
@@ -57,19 +57,18 @@ final class CourseFormFactory
             $rooms = $this->roomModel->getTable()->fetchPairs('id', 'number');
             $form->addMultiSelect('room', "Miestnosť", $rooms);
 
-            $selected = $this->courseRoomModel->getTable()->where('course_id', $course_id)->fetchPairs('id', 'room_id');
+            $selected = $this->courseRoomModel->fetchPairs(['course_id' => $course_id], 'id', 'room_id');
             $form->setDefaults(['room' => $selected]);
         }
 
         $form->addHidden("id", (string) $course_id);
 
-		$form->addSubmit('send')
-            ->setHtmlAttribute('id', 'saveCourse');
+		$form->addSubmit('send');
 
 		$form->onSuccess[] = function (Form $form, array $values) use ($onSuccess): void {
 			try {
 			    if ($values["id"]) {
-                    $this->courseRoomModel->getTable()->where('course_id', $values['id'])->delete();
+                    $this->courseRoomModel->delete(['course_id' => $values['id']]);
 
                     foreach ($values['room'] as $room) {
                         $array = ['room_id' => $room, 'course_id' => $values['id']];
@@ -89,10 +88,6 @@ final class CourseFormFactory
 			}
 			$onSuccess();
 		};
-
-		if ($course_id) {
-		    $form->setDefaults($this->courseModel->getItem($course_id));
-        }
 
 		return $form;
 	}

@@ -216,7 +216,8 @@
                 + settings.selectionColor +
                 " !important; } .disabled { pointer-events: none !important; opacity: 0.3 !important; box-shadow: none !important; } " +
                 ".selected-now { background: #9dff7c !important;} " +
-                ".selected-mine {background: #FF0015 !important;}</style>")
+                ".selected-mine {background: #FF0015 !important;}" +
+                "</style>")
                 .appendTo(schedule);
 
             // Prevent Right Click
@@ -300,10 +301,9 @@ $(document).ready(function () {
 
     initSchedule(window.countRooms, window.schedules);
 
-
-    $('#frm-courseForm-room').on('change', function () {
+    $('#frm-eventForm-room').on('change', function () {
         let values = [];
-        $('#frm-courseForm-room option:selected').each(function(i, sel){
+        $('#frm-eventForm-room option:selected').each(function(i, sel){
             values.push($(sel).val());
         });
 
@@ -323,7 +323,7 @@ $(document).ready(function () {
 
     });
 
-    $('#saveCourse').click(function() {
+    $('#saveEvent').click(function() {
         console.log(index);
         $.nette.ajax({
             type: 'POST',
@@ -434,6 +434,9 @@ function initSchedule(countRooms, schedules)
                 $(this).addClass('selected-now');
                 for (let i = 1; i < index.length; i++) {
                     if ($('#mySchedule_'+ index[i] + ' #' + id).hasClass('selected')) {
+                        for (let j = 1; j < index.length + 1; j++) {
+                            $('#mySchedule_'+ index[j] + ' #' + id).removeClass('selected-now');
+                        }
                         $(this).removeClass('selected-now');
                         alert('Nie je možné vybrať miestnosť v tejto hodine.')
                     } else {
@@ -462,6 +465,9 @@ function initSchedule(countRooms, schedules)
             $(this).addClass('selected-now');
             for (let i = 1; i < index.length; i++) {
                 if ($('#mySchedule_'+ index[i] + ' #' + id).hasClass('selected')) {
+                    for (let j = 1; j < index.length; j++) {
+                        $('#mySchedule_'+ index[j] + ' #' + id).removeClass('selected-now');
+                    }
                     $(this).removeClass('selected-now');
                     alert('Nie je možné vybrať miestnosť v tejto hodine.')
                 } else {

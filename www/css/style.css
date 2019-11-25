@@ -1,3 +1,4 @@
+/* COLORS */
 h1 {
   padding: 1em 0;
 }
@@ -26,6 +27,116 @@ h1 {
 }
 #snippet--scheduleSnippet {
   width: 100%;
+}
+form {
+  padding: 0 15px;
+}
+form .form-group {
+  position: relative;
+  margin-bottom: 10px !important;
+}
+form .form-group.has-error label {
+  color: red;
+}
+form .form-group.has-error input,
+form .form-group.has-error textarea {
+  border-color: red;
+}
+form .form-group label {
+  font-size: 17px;
+  margin-bottom: 10px;
+  font-weight: normal;
+  margin-right: 20px;
+  width: 85px;
+}
+form .form-group label.validate {
+  color: #aaa4a4;
+}
+form .form-group label.validate.active {
+  color: black;
+}
+form .form-group .form-control {
+  border-radius: 5px;
+  padding: 11px 19px;
+  outline: 0;
+  height: auto;
+  border-color: #e7e7e7 !important;
+  box-shadow: 0 0 3px #6e6e6e;
+}
+form .form-group .form-input {
+  height: 30px !important;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 1px solid rgba(125, 138, 156, 0.8) !important;
+  border-radius: 0;
+  width: 250px;
+  padding: 0 10px;
+}
+form .form-group .form-input.draft {
+  height: 20px !important;
+}
+form .form-group .form-input:focus {
+  outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-color: #e7e7e7;
+}
+form .form-group input[type="checkbox"],
+form .form-group input[type="radio"] {
+  margin-right: 10px !important;
+}
+form .form-group input[type="submit"] {
+  width: 160px !important;
+  border-radius: 5px !important;
+  background-color: #00A9E4 !important;
+  color: white !important;
+  margin-top: 20px;
+  text-transform: uppercase;
+  font-size: 17px;
+  font-weight: 500;
+  height: 45px;
+  border: 0px;
+}
+form .form-group .invalid-feedback {
+  margin-top: 10px;
+  font-size: 14px;
+  color: red;
+}
+form .form-group span.red-star {
+  font-size: 14px;
+}
+form.search-form button {
+  margin: 15px 0;
+  display: block;
+  width: 100%;
+}
+.course-table {
+  margin-top: 70px;
+  width: 100%;
+  padding-bottom: 50px;
+}
+.btn-create {
+  margin-bottom: 20px;
+}
+.btn-edit {
+  float: right;
+}
+.btn-edit i {
+  font-size: 15px;
+}
+.d-flex {
   display: flex;
+}
+#snippet--courseForm,
+#snippet--eventFormSnippet {
+  width: 100%;
+}
+.room-number {
+  margin-top: 25px;
+  text-align: center;
+}
+.schedule {
+  padding-bottom: 70px;
 }
 /*# sourceMappingURL=style.css.map */

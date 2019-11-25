@@ -9,4 +9,4 @@ $(function(){
 });
 
 $('#frm-courseForm-room').multiSelect();
-
+$('#frm-eventForm-room').multiSelect();
