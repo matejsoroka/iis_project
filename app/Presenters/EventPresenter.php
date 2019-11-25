@@ -12,6 +12,7 @@ use App\Model\EventFileModel;
 use App\Model\RoomModel;
 use App\Model\EventModel;
 use App\Model\StudentCourseModel;
+use App\Model\StudentPointsModel;
 use Nette\Application\UI\Form;
 use Nette\Utils\DateTime;
 
@@ -43,6 +44,9 @@ final class EventPresenter extends BasePresenter
 
     /** @var StudentCourseModel @inject */
     public $studentCourseModel;
+
+    /** @var StudentPointsModel @inject */
+    public $studentPointsModel;
 
     /** @persistent */
     private $id;
@@ -77,6 +81,8 @@ final class EventPresenter extends BasePresenter
     {
         $this->template->event = $this->eventModel->getItem($eventId);
         $this->template->files = $this->eventFileModel->getItems(["event_id" => $eventId]);
+        $points = $this->studentPointsModel->findItem(["student_id" => $this->user->getId(), "event_id" => $eventId]);
+        $this->template->studentPoints = $points ? $points->points : "-";
     }
 
     /**
