@@ -88,6 +88,8 @@ final class CoursePresenter extends BasePresenter
     {
         $grid = new DataGrid($this, "registerGrid");
 
+        $grid->setRefreshUrl(FALSE);
+
         $grid->setDataSource($this->studentCourseModel->getStudents($this->id));
 
         $grid->addColumnText("username", "Login")
