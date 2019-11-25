@@ -28,9 +28,6 @@ h1 {
 #snippet--scheduleSnippet {
   width: 100%;
 }
-form {
-  padding: 0 15px;
-}
 form .form-group {
   position: relative;
   margin-bottom: 10px !important;
