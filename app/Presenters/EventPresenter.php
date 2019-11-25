@@ -67,7 +67,7 @@ final class EventPresenter extends BasePresenter
         return $this->eventFormFactory->create(function (): void {
             $this->redirect('Course:edit', $this->course_id);
         },
-        $this->course_id, $this->id ? $this->id : 0);
+        $this->course_id, $this->id ? $this->id : 0, $this->eventTypes);
     }
 
     public function handleSelectHours(array $hours, array $roomIds, array $newHours)

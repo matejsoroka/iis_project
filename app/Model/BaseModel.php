@@ -62,4 +62,8 @@ class BaseModel
         return $this->db->table($this->table)->where($where);
     }
 
+    public function findItem(array $where) {
+        return $this->db->table($this->table)->where($where)->fetch();
+    }
+
 }

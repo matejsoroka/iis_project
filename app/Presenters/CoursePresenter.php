@@ -9,6 +9,7 @@ use App\Model\CourseModel;
 use App\Model\EventModel;
 use App\Model\RoomModel;
 use App\Model\CourseRoomModel;
+use App\Model\StudentCourseModel;
 use Nette\Application\UI\Form;
 use Ublaboo\DataGrid\DataGrid;
 
@@ -20,6 +21,9 @@ final class CoursePresenter extends BasePresenter
 
     /** @var EventModel */
     public $eventModel;
+
+    /** @var StudentCourseModel @inject */
+    public $studentCourseModel;
 
     /** @var CourseFormFactory */
     private $courseFormFactory;
@@ -42,6 +46,7 @@ final class CoursePresenter extends BasePresenter
     {
         $this->template->course = $this->courseModel->getItem($id);
         $this->template->events = $this->eventModel->getEvents(['course_id' => $id]);
+        $this->template->registered = $this->studentCourseModel->isRegistered($id, $this->getUser()->getId());
     }
 
     public function renderEdit(int $id = 0)
@@ -131,5 +136,10 @@ final class CoursePresenter extends BasePresenter
         } else {
             $this->redirect('this');
         }
+    }
+
+    public function handleRegister(int $courseId)
+    {
+        $this->studentCourseModel->add(["student_id" => $this->user->getId(), "course_id" => $courseId]);
     }
 }
