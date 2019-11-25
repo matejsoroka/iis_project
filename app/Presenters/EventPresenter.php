@@ -61,7 +61,7 @@ final class EventPresenter extends BasePresenter
         $this->template->courseHours = [];
         $this->template->eventId = $eventId;
         $this->template->countRooms = $this->roomModel->getTable()->count();
-        $this->template->roomSchedules = $this->schedules;
+        $this->template->roomSchedules = $this->schedules ? $this->schedules : [];
         $this->template->files = $this->eventFileModel->getItems(["event_id" => $eventId]);
         $this->template->registered = $this->studentCourseModel->getItems(["course_id" => $courseId]);
     }
