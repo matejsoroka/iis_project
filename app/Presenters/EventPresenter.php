@@ -3,10 +3,10 @@
 
 namespace App\Presenters;
 
-
 use App\Forms\EventFormFactory;
 use App\Model\CourseModel;
 use App\Model\CourseRoomModel;
+use App\Model\EventFileModel;
 use App\Model\RoomModel;
 use App\Model\EventModel;
 use Nette\Application\UI\Form;
@@ -21,6 +21,9 @@ final class EventPresenter extends BasePresenter
 
     /** @var RoomModel @inject */
     public $roomModel;
+
+    /** @var EventFileModel @inject */
+    public $eventFileModel;
 
     /** @var CourseRoomModel @inject */
     public $courseRoomModel;
@@ -40,6 +43,7 @@ final class EventPresenter extends BasePresenter
         $this->template->eventId = $eventId;
         $this->template->roomSchedules = $this->courseRoomModel->getCourseSchedule($courseId);
         $this->template->countRooms = $this->roomModel->getTable()->count();
+        $this->template->files = $this->eventFileModel->getItems(["event_id" => $eventId]);
     }
 
     public function actionEdit(int $courseId, int $eventId = null)
@@ -51,6 +55,7 @@ final class EventPresenter extends BasePresenter
     public function renderDetail(int $eventId)
     {
         $this->template->event = $this->eventModel->getItem($eventId);
+        $this->template->files = $this->eventFileModel->getItems(["event_id" => $eventId]);
     }
 
     /**
@@ -122,6 +127,16 @@ final class EventPresenter extends BasePresenter
         } else {
             $this->template->courseHours = [];
             $this->redrawControl('scheduleSnippet');
+        }
+    }
+
+    public function handleDeleteFile(int $id)
+    {
+        $this->eventFileModel->delete(["id" => $id]);
+        if ($this->isAjax()) {
+            $this->redrawControl("eventFiles");
+        } else {
+            $this->redirect("this");
         }
     }
 }

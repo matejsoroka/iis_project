@@ -35,7 +35,8 @@ class EventModel extends BaseModel
         foreach ($files as $file) {
             $row = [
                 "path" => $path.$file->getName(),
-                "type" => $file->getContentType()
+                "type" => $file->getContentType(),
+                "name" => $file->getName()
             ];
             $file->move(__DIR__ . "/../../www/" . $path . $file->name);
             $insert = $this->fileModel->add($row);

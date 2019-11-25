@@ -57,4 +57,9 @@ class BaseModel
         return $k ? $k->id + 1 : 1;
     }
 
+    public function getItems(array $where) : Selection
+    {
+        return $this->db->table($this->table)->where($where);
+    }
+
 }

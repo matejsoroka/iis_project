@@ -50,7 +50,7 @@ class EventFormFactory
         $form->addInteger('points', 'Max. bodov')
             ->setRequired('Prosím, zadajte maximum bodov');
 
-        $form->addMultiUpload('files', 'Pridat súbory');
+        $form->addMultiUpload('files', 'Pridať súbory');
 
         $rooms = $this->roomModel->fetchPairs([], 'id', 'number');
         $form->addMultiSelect('room', "Miestnosť", $rooms);
