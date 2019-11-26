@@ -83,9 +83,11 @@ final class CoursePresenter extends BasePresenter
     public function renderEdit(int $id = 0)
     {
         $this->hasGrid = true;
-        $this->template->courseId = $this->id;
-        $this->template->course = $this->courseModel->getItem($id);
-        $this->template->events = $this->eventModel->getEvents(['course_id' => $this->id]);
+        $this->template->courseId = $id;
+        if ($id) {
+            $this->template->course = $this->courseModel->getItem($id);
+            $this->template->events = $this->eventModel->getEvents(['course_id' => $this->id]);
+        }
     }
 
     /**

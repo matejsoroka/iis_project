@@ -70,14 +70,16 @@ final class CourseFormFactory
 
         $form->addHidden("garant", (string) $creator);
 
+        $form->addMultiSelect('lectors', "Lektori", $this->userModel->fetchPairs(["role" => ["lector", "garant", "leader", "admin"]], "id", "username"));
+
+        $rooms = $this->roomModel->getTable()->fetchPairs('id', 'number');
+        $form->addMultiSelect('room', "Miestnosť", $rooms);
+
         if ($course_id) {
-            $rooms = $this->roomModel->getTable()->fetchPairs('id', 'number');
-            $form->addMultiSelect('room', "Miestnosť", $rooms);
+
             $selected = $this->courseRoomModel->fetchPairs(['course_id' => $course_id], 'id', 'room_id');
 
             $form->setDefaults($this->courseModel->getItem($course_id));
-
-            $form->addMultiSelect('lectors', "Lektori", $this->userModel->fetchPairs(["role" => "lector"], "id", "username"));
             $form->setDefaults(['room' => $selected]);
 
             $lectors = ($this->courseLectorModel->fetchPairs(["course_id" => $course_id], "lector_id", "lector_id"));
