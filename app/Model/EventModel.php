@@ -64,27 +64,30 @@ class EventModel extends BaseModel
         foreach ($rooms as  $room) {
             $events[] = $this->getEvent($room->event_id);
         }
-        \Tracy\Debugger::barDump($events);
 
+        $isSame = false;
         foreach ($events as $event) {
             if (!$eventId || $event->id != $eventId) {
                 /* if event repeats weekly */
                 if ((int)$event->repeat) {
                     /* check if it is not in same day of week */
                     if ($weekDay == date('w', strtotime($event->date))) {
-                        /* check time */\Tracy\Debugger::barDump('tu');
-                        if (strtotime($time_from) >= strtotime($event->time_from)
-                            && strtotime($time_to) <= strtotime($event->time_to)) {
-                            return 1;
-                        }
+                        /* check time */
+                        $isSame = true;
                     }
                 } else {
                     if (strtotime($date) == $event->date->getTimestamp()) {
-                        if (strtotime($time_from) == strtotime($event->time_from)
-                            && strtotime($time_to) <= strtotime($event->time_to)) {
-                            return 1;
-                        }
+                        $isSame = true;
                     }
+                }
+            }
+
+            if ($isSame) {
+                if (strtotime($time_from) >= strtotime($event->time_from) && strtotime($time_to) <= strtotime($event->time_to)
+                    || (strtotime($time_from) < strtotime($event->time_from) && strtotime($time_to) >= strtotime($event->time_from) && strtotime($time_to) <= strtotime($event->time_to))
+                    || (strtotime($time_from) >= strtotime($event->time_from) && strtotime($time_from) <= strtotime($event->time_to) && strtotime($time_to) > strtotime($event->time_to))
+                    || (strtotime($time_from) < strtotime($event->time_from) && strtotime($time_to) > strtotime($event->time_to))) {
+                    return 1;
                 }
             }
         }

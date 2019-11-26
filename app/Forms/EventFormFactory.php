@@ -108,15 +108,15 @@ class EventFormFactory
                 /* check if date was changed */
                 if ((int)$values['change']) {
                     foreach ($values['room'] as $roomId) {
-                        /* check date */ \Tracy\Debugger::barDump('for');
+                        /* check date */
                         $result = $this->eventModel->checkDate($values['date'], $values['time_from'], $values['time_to'], $roomId, $values['id']);
                         if ($result) {
-                            $form['date']->addError('Udalosť v tomto dátume už existuje, vyberte, prosím, iný dátum.');
+                            $form['date']->addError('Udalosť v tomto dátume a čase už existuje.');
                             return;
                         }
                     }
                 }
-
+                
                 unset($values["files"]);
                 unset($values["change"]);
 

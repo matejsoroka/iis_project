@@ -12,7 +12,9 @@ $(function(){
 $(document).ready(function () {
     $('#frm-courseForm-room').multiSelect();
     $('#frm-courseForm-lectors').multiSelect();
-    $('#frm-eventForm-room').multiSelect();
+
+    let roomSelect = $('#frm-eventForm-room');
+    roomSelect.multiSelect();
 
     $('#frm-eventForm-date').on('change', function () {
         $('#changeFlag').val('1');
@@ -20,9 +22,13 @@ $(document).ready(function () {
 
     $('#frm-eventForm-time_from').on('change', function () {
         $('#changeFlag').val('1');
-    })
+    });
 
     $('#frm-eventForm-time_to').on('change', function () {
+        $('#changeFlag').val('1');
+    });
+
+    roomSelect.on('change', function () {
         $('#changeFlag').val('1');
     });
 

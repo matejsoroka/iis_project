@@ -1,90 +1,120 @@
 {block content}
     <div class="row">
         <div class="col-md-12">
+            <div class="row">
+                <div class="col-12">
+                    <h1 n:block="title">{if $courseId}Správa kurzu{else}Vytvoriť kurz{/if}</h1>
+                </div>
+            </div>
                 <div class="row">
-                    <div class="col-6">
-                        <h1 n:block="title">{if $courseId}Správa kurzu{else}Vytvoriť kurz{/if}</h1>
+                    <div class="col-5 pt-15">
                         {snippet courseForm}
                             {form courseForm}
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div n:class="$form['shortcut']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
+                                    <div class="col-12">
+                                        <div n:class="$form['shortcut']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                                            <div class="row">
+                                                <div class="col-md-4">
                                                     {label shortcut, class => 'form-label'}
+                                                </div>
+                                                <div class="col-md-6">
                                                     {input shortcut, class => 'form-input'}
-                                                    {if $form['shortcut']->hasErrors()}<span class="invalid-feedback">{inputError shortcut}</span>{/if}
                                                 </div>
                                             </div>
+                                            {if $form['shortcut']->hasErrors()}<span class="invalid-feedback">{inputError shortcut}</span>{/if}
                                         </div>
+                                    </div>
+                                </div>
 
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div n:class="$form['name']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div n:class="$form['name']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                                            <div class="row">
+                                                <div class="col-md-4">
                                                     {label name, class => 'form-label'}
+                                                </div>
+                                                <div class="col-md-6">
                                                     {input name, class => 'form-input'}
-                                                    {if $form['name']->hasErrors()}<span class="invalid-feedback">{inputError name}</span>{/if}
                                                 </div>
                                             </div>
+                                            {if $form['name']->hasErrors()}<span class="invalid-feedback">{inputError name}</span>{/if}
                                         </div>
+                                    </div>
+                                </div>
 
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div n:class="$form['price']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div n:class="$form['price']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                                            <div class="row">
+                                                <div class="col-md-4">
                                                     {label price, class => 'form-label'}
+                                                </div>
+                                                <div class="col-md-6">
                                                     {input price, class => 'form-input'}
-                                                    {if $form['price']->hasErrors()}<span class="invalid-feedback">{inputError price}</span>{/if}
                                                 </div>
                                             </div>
+                                            {if $form['price']->hasErrors()}<span class="invalid-feedback">{inputError price}</span>{/if}
                                         </div>
+                                    </div>
+                                </div>
 
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div n:class="$form['type']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div n:class="$form['type']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                                            <div class="row">
+                                                <div class="col-md-4">
                                                     {label type, class => 'form-label'}
+                                                </div>
+                                                <div class="col-md-6">
                                                     {input type, class => 'form-input'}
-                                                    {if $form['type']->hasErrors()}<span class="invalid-feedback">{inputError type}</span>{/if}
                                                 </div>
                                             </div>
+                                            {if $form['type']->hasErrors()}<span class="invalid-feedback">{inputError type}</span>{/if}
                                         </div>
+                                    </div>
+                                </div>
 
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div n:class="$form['tags']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div n:class="$form['tags']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                                            <div class="row">
+                                                <div class="col-md-4">
                                                     {label tags, class => 'form-label'}
+                                                </div>
+                                                <div class="col-md-6">
                                                     {input tags, class => 'form-input'}
-                                                    {if $form['tags']->hasErrors()}<span class="invalid-feedback">{inputError tags}</span>{/if}
                                                 </div>
                                             </div>
+                                            {if $form['tags']->hasErrors()}<span class="invalid-feedback">{inputError tags}</span>{/if}
                                         </div>
-                                        {if $courseId}
-                                        <div class="row">
-                                            <p class="col-12">Miestnsoti</p>
+                                    </div>
+                                </div>
+                                {if $courseId}
+                                    <div class="row">
+                                        <p class="col-12">Miestnosti</p>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div n:class="$form['room']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                                            {input room, class => 'form-input'}
+                                            {if $form['room']->hasErrors()}<span class="invalid-feedback">{inputError tags}</span>{/if}
                                         </div>
-                                            <div class="col-xs-12">
-                                                <div n:class="$form['room']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
-                                                    {input room, class => 'form-input'}
-                                                    {if $form['room']->hasErrors()}<span class="invalid-feedback">{inputError tags}</span>{/if}
-                                                </div>
-                                            </div>
-                                        {/if}
-                                        {if $courseId}
-                                        <div class="row">
-                                            <p class="col-12">Lektori</p>
+                                    </div>
+                                {/if}
+                                {if $courseId}
+                                    <div class="row">
+                                        <p class="col-12">Lektori</p>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div n:class="$form['lectors']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                                            {input lectors, class => 'form-input'}
+                                            {if $form['lectors']->hasErrors()}<span class="invalid-feedback">{inputError tags}</span>{/if}
                                         </div>
-                                            <div class="col-xs-12">
-                                                <div n:class="$form['lectors']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
-                                                    {input lectors, class => 'form-input'}
-                                                    {if $form['lectors']->hasErrors()}<span class="invalid-feedback">{inputError tags}</span>{/if}
-                                                </div>
-                                            </div>
-                                        {/if}
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="form-group d-flex">
-                                                    <input name="send" type="submit" class="ajax" value="Uložiť">
-                                                </div>
-                                            </div>
+                                    </div>
+                                {/if}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <input name="send" type="submit" class="ajax" value="Uložiť">
                                         </div>
                                     </div>
                                 </div>
@@ -92,10 +122,10 @@
                         {/snippet}
                     </div>
                     {if $courseId}
-                    <div class="col-6 course-table">
+                    <div class="col-7 course-table">
                         <div class="row">
                             <div class="col-12">
-                                <h2>Termíny</h2>
+                                <h2 class="p-0">Termíny</h2>
                                 <a class="btn btn-success btn-create" n:href="Event:edit $courseId"><i class="fa fa-plus-square"></i> Vytvoriť termín</a>
                                 <table class="table table-striped">
                                     <thead>
@@ -109,7 +139,7 @@
                                     </thead>
                                     <tbody>
                                     {foreach $events as $event}
-                                    <tr>t
+                                    <tr>
                                         <td><a n:href="Event:detail $event->id">{$event->title}</a></td>
                                         <td>{$presenter->eventTypes[$event->type]}</td>
                                         <td>{$event->date|date:'%d.%m.%Y'}</td>
@@ -123,7 +153,7 @@
                             </div>
 
                             <div class="col-12">
-                                <h2>Zapísaný študenti</h2>
+                                <h2>Zapísaní študenti</h2>
                                 {control registerGrid}
                             </div>
                         </div>

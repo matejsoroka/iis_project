@@ -111,7 +111,7 @@ form.search-form button {
   font-size: 14px;
   color: red;
   display: block !important;
-  text-align: center;
+  text-align: left;
 }
 .btn-create {
   margin-bottom: 20px;
@@ -143,5 +143,8 @@ form.search-form button {
   border: 0;
   padding: 10px;
   margin-left: 30px;
+}
+.pt-15 {
+  padding-top: 15px;
 }
 /*# sourceMappingURL=style.css.map */
