@@ -1,5 +1,6 @@
 let $a = $(".alert");
 $a.hide();
+
 $(function(){
     $.nette.init();
     $a.slideToggle();
@@ -10,6 +11,7 @@ $(function(){
 
 $(document).ready(function () {
     $('#frm-courseForm-room').multiSelect();
+    $('#frm-courseForm-lectors').multiSelect();
     $('#frm-eventForm-room').multiSelect();
 
     $('#frm-eventForm-date').on('change', function () {

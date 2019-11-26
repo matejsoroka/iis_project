@@ -74,7 +74,7 @@ final class EventPresenter extends BasePresenter
     {
         $this->id = $eventId;
         $this->course_id = $courseId;
-        $this->course = $this->template->event = $this->eventModel->getItem($courseId);
+        $this->course = $this->courseModel->getItem($courseId);
         $this->schedules =$this->eventRoomModel->getAvailableSchedules($eventId);
     }
 

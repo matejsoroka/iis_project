@@ -22,16 +22,31 @@ final class CourseFormFactory
     /** @var Model\RoomModel */
     private $roomModel;
 
+    /** @var Model\UserModel */
+    private $userModel;
+
     /** @var Model\CourseRoomModel */
     private $courseRoomModel;
 
+    /** @var Model\CourseLectorModel */
+    private $courseLectorModel;
 
-	public function __construct(FormFactory $factory, Model\CourseModel $courseModel, Model\RoomModel $roomModel, Model\CourseRoomModel $courseRoomModel)
+
+	public function __construct(
+	    FormFactory $factory,
+        Model\CourseModel $courseModel,
+        Model\RoomModel $roomModel,
+        Model\CourseRoomModel $courseRoomModel,
+        Model\UserModel $userModel,
+        Model\CourseLectorModel $courseLectorModel
+    )
 	{
 		$this->factory = $factory;
 		$this->courseModel = $courseModel;
 		$this->roomModel = $roomModel;
 		$this->courseRoomModel = $courseRoomModel;
+		$this->userModel = $userModel;
+		$this->courseLectorModel = $courseLectorModel;
 	}
 
 
@@ -58,8 +73,13 @@ final class CourseFormFactory
             $form->addMultiSelect('room', "Miestnosť", $rooms);
             $selected = $this->courseRoomModel->fetchPairs(['course_id' => $course_id], 'id', 'room_id');
 
-            $form->setDefaults(['room' => $selected]);
             $form->setDefaults($this->courseModel->getItem($course_id));
+
+            $form->addMultiSelect('lectors', "Lektori", $this->userModel->fetchPairs(["role" => "lector"], "id", "username"));
+            $form->setDefaults(['room' => $selected]);
+
+            $lectors = ($this->courseLectorModel->fetchPairs(["course_id" => $course_id], "lector_id", "lector_id"));
+            $form->setDefaults(['lectors' => $lectors]);
         }
 
         $form->addHidden("id", (string) $course_id);
@@ -70,18 +90,29 @@ final class CourseFormFactory
 			try {
 			    if ($values["id"]) {
                     $this->courseRoomModel->delete(['course_id' => $values['id']]);
-
                     foreach ($values['room'] as $room) {
                         $array = ['room_id' => $room, 'course_id' => $values['id']];
                         $this->courseRoomModel->add($array);
                     }
-
                     unset($values['room']);
+                    foreach ($values['lectors'] as $lector) {
+                        $array = ['lector_id' => $lector, 'course_id' => $values["id"]];
+                        $this->courseLectorModel->add($array);
+                    }
+                    unset($values['lectors']);
                     $this->courseModel->edit((int) $values["id"], $values);
                 } else {
                     $values["status"] = 0; // needs to by approved by leader
-                    $this->courseModel->add($values);
-
+                    $insert = $this->courseModel->add($values);
+                    $course_id = $insert->id;
+                    foreach ($values['room'] as $room) {
+                        $array = ['room_id' => $room, 'course_id' => $course_id];
+                        $this->courseRoomModel->add($array);
+                    }
+                    foreach ($values['lectors'] as $lector) {
+                        $array = ['lector_id' => $lector, 'course_id' => $course_id];
+                        $this->courseLectorModel->add($array);
+                    }
                 }
 			} catch (Model\DuplicateNameException $e) {
 				$form['shortcut']->addError('Skratka je už zabraná, použite prosím inú');

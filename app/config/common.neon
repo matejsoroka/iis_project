@@ -27,6 +27,7 @@ services:
 	- App\Model\EventRoomModel
 	- App\Model\StudentCourseModel
 	- App\Model\StudentPointsModel
+	- App\Model\CourseLectorModel
 
 
 	# FORMS

@@ -1,14 +1,29 @@
 {block content}
     <h1 n:block="title">Rozvrh</h1>
+    {if $courses->count()}
     <table class="table">
+        <tr>
+            <td>Stav</td>
+            <td>Skratka</td>
+            <td>Názov</td>
+            <td>Body</td>
+            <td>Typ</td>
+        </tr>
         {foreach $courses as $course}
         <tr>
             <td>
+                {if $course->status}
+                    <i class="text-success fa fa-check"></i>
+                {else}
+                    <span class="text-danger">Neschválený</span>
+                {/if}
+            </td>
+            <th>
                 {$course->course->shortcut}
-            </td>
-            <td>
+            </th>
+            <th>
                 <a n:href="Course:detail $course->course_id">{$course->course->name}</a>
-            </td>
+            </th>
             <td>
                 {$points[$course->course->id]}
             </td>
@@ -18,4 +33,8 @@
         </tr>
         {/foreach}
     </table>
+    {else}
+        <h2>Nemáte žiadne registrované kurzy</h2>
+        <p>prihláste sa na kurzy <a n:href="Course:">sem</a></p>
+    {/if}
 {/block}

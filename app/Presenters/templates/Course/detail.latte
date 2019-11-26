@@ -19,7 +19,7 @@
             <div class="col-6">
                 <table class="table table-striped">
                     <tbody>
-                    {var $total}
+                    {var $total = 0}
                     {foreach $events as $event}
                         <tr>
                             <td><a n:href="Event:detail $event->id">{$event->title}</a></td>
@@ -29,18 +29,20 @@
                             <td>{if isset($points[$event->id])}
                                 {var $total += $points[$event->id]}
                                 {$points[$event->id]}{else}-
-                                {/if}/{$event->points}</td>
+                                {/if}/{$event->points}b</td>
                             {else}
-                            <td>{$event->points}</td>
+                            <td>{$event->points}b</td>
                             {/if}
                         </tr>
                     {/foreach}
+                        {if $user->isAllowed("Timetable:default")}
                         <tr>
                             <td></td>
                             <td></td>
                             <th>Spolu:</th>
-                            <th>{$total}</th>
+                            <th>{$total}b</th>
                         </tr>
+                        {/if}
                     </tbody>
                 </table>
             </div>

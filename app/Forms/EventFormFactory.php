@@ -119,7 +119,7 @@ class EventFormFactory
 
                 unset($values["files"]);
                 unset($values["change"]);
-                exit;
+
                 if ($values['id']) {
                     $this->eventRoomModel->delete(['event_id' => $values['id']]);
 

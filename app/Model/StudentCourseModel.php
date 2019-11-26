@@ -34,4 +34,9 @@ class StudentCourseModel extends BaseModel
         return $points;
     }
 
+    public function getStudents(int $courseId)
+    {
+        return $this->getItems(["course_id" => $courseId]);
+    }
+
 }

@@ -15,6 +15,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="{$basePath}/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{$basePath}/bower_components/multiselect/css/multi-select.css">
 
     {if $presenter->hasGrid}
     {include "grid_styles.latte"}
@@ -64,11 +65,13 @@
                     </li>
                     {/if}
 
+                    {if $user->isLoggedIn()}
                     <li>
                         <a n:href="Sign:out" class="nav-link" title="Odhlásiť sa">
                             <i class="fa fa-power-off" aria-hidden="true"></i>
                         </a>
                     </li>
+                    {/if}
                 </ul>
             </div>
         </div>
@@ -87,6 +90,7 @@
     <script src="{$basePath}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="{$basePath}/bower_components/multiselect/js/jquery.multi-select.js"></script>
     <script src="{$basePath}/js/weekly-schedule-plugin.js"></script>  <!-- schedule -->
+        <script src="{$basePath}/bower_components/multiselect/js/jquery.multi-select.js" type="text/javascript"></script>
     {if $presenter->hasGrid}
     {include "grid_scripts.latte"}
     {/if}

@@ -37,7 +37,7 @@ class AuthFactory
         $acl->addResource('Course:register');       // Registracia kurzov
         $acl->allow('student', 'Course:register');
 
-        $acl->addResource('Timetable:default');       // Registracia kurzov
+        $acl->addResource('Timetable:default');     // Registracia kurzov
         $acl->allow('student', 'Timetable:default');
 
         $acl->addResource('Index:default');         // Zobrazenie hodnotenia
@@ -54,10 +54,10 @@ class AuthFactory
 
         /* Lektor */
         $acl->addResource('Course:edit');           // Uprava kurzu, pozor na restricted inputka
-        $acl->allow('leader', 'Course:edit');
+        $acl->allow('lector', 'Course:edit');
 
         $acl->addResource('Event:edit');             // Uprava terminov, leader moze len upravovat
-        $acl->allow('leader', 'Event:edit');
+        $acl->allow('lector', 'Event:edit');
 
         /* Garant */
         $acl->addResource("ShowCourseStatus");
