@@ -59,7 +59,10 @@ final class CoursePresenter extends BasePresenter
         $courseEvents = $this->eventModel->getEvents(['course_id' => $id]);
         $this->template->events = $courseEvents;
 
-        $registered = $this->studentCourseModel->isRegistered($id, $this->getUser()->getId());
+        $registered = false;
+        if ($this->user->isLoggedIn()) {
+            $registered = $this->studentCourseModel->isRegistered($id, $this->getUser()->getId());
+        }
         $this->template->registered = $registered;
         if ($registered) {
             $this->template->points = $this->studentPointsModel->getStudentEventPoints($this->user->getId(), $courseEvents->fetchAll());
