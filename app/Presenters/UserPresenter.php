@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 
+use App\Forms\SignUpFormFactory;
 use App\Model\UserModel;
+use Nette\ComponentModel\IComponent;
 use Ublaboo\DataGrid\DataGrid;
 
 final class UserPresenter extends BasePresenter
@@ -13,6 +15,12 @@ final class UserPresenter extends BasePresenter
 
     /** @var UserModel @inject */
     public $userModel;
+
+    /** @var SignUpFormFactory @inject */
+    public $signUpFormFactory;
+
+    /** @persistent */
+    private $id = 0;
 
     public function actionDefault() : void
     {
@@ -84,6 +92,12 @@ final class UserPresenter extends BasePresenter
 
         $grid->addFilterSelect("role", "Rola", $roles);
 
+        if ($this->user->isAllowed("User:edit")) {
+            $grid->addAction('edit', '', 'edit')
+                ->setIcon('pencil')
+                ->setClass('btn btn-xs btn-primary');
+        }
+
         return $grid;
     }
 
@@ -95,6 +109,23 @@ final class UserPresenter extends BasePresenter
         } else {
             $this->redirect('this');
         }
+    }
+
+    public function actionEdit(int $id)
+    {
+        if ($id != $this->user->id) {
+            $this->flashMessage("Nemáte oprávnenie upravovať iného používateľa", "warning");
+            $this->redirect('User:default');
+        } else {
+            $this->id = $id;
+        }
+    }
+
+    public function createComponentUserForm()
+    {
+        return $this->signUpFormFactory->create(function (): void {
+            $this->redirect('User:');
+        }, $this->id);
     }
 
 }

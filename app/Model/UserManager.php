@@ -95,6 +95,35 @@ final class UserManager implements Nette\Security\IAuthenticator
             throw new DuplicateNameException;
         }
     }
+
+    /**
+     * @param int $userId
+     * @param string $name
+     * @param string $surname
+     * @param string $email
+     * @param string $password
+     * @throws DuplicateNameException
+     * @throws Nette\Utils\AssertionException
+     */
+    public function edit(int $userId, string $name, string $surname, string $email, string $password): void
+    {
+        Nette\Utils\Validators::assert($email, 'email');
+        try {
+            $word = $password
+                ? $this->passwords->hash($password)
+                : $this->database->table(self::TABLE_NAME)->where('id', $userId)->fetch()->password;
+
+            $this->database->table(self::TABLE_NAME)->where('id', $userId)
+                ->update([
+                self::COLUMN_NAME => $name,
+                self::COLUMN_SURNAME => $surname,
+                self::COLUMN_PASSWORD_HASH => $word,
+                self::COLUMN_EMAIL => $email,
+            ]);
+        } catch (Nette\Database\UniqueConstraintViolationException $e) {
+            throw new DuplicateNameException;
+        }
+    }
 }
 
 
