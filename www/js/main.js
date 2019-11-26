@@ -16,7 +16,11 @@ $(document).ready(function () {
         $('#changeFlag').val('1');
     });
 
-    $('#frm-eventForm-time').on('change', function () {
+    $('#frm-eventForm-time_from').on('change', function () {
+        $('#changeFlag').val('1');
+    })
+
+    $('#frm-eventForm-time_to').on('change', function () {
         $('#changeFlag').val('1');
     });
 

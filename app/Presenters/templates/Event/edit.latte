@@ -10,9 +10,15 @@
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="col-12">
-                                            <div n:class="$form['title']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
-                                                {label title, class => 'form-label'}
-                                                {input title, class => 'form-input'}
+                                            <div n:class="$form['title']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        {label title, class => 'form-label'}
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        {input title, class => 'form-input'}
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div n:if="$form['title']->hasErrors()">
                                                 <span class="invalid-feedback">{inputError title}</span>
@@ -22,9 +28,15 @@
 
                                     <div class="row">
                                         <div class="col-12">
-                                            <div n:class="$form['description']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
-                                                {label description, class => 'form-label'}
-                                                {input description, class => 'form-input textarea'}
+                                            <div n:class="$form['description']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        {label description, class => 'form-label'}
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        {input description, class => 'form-input textarea'}
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div n:if="$form['description']->hasErrors()">
                                                 <span class="invalid-feedback">{inputError description}</span>
@@ -34,9 +46,15 @@
 
                                     <div class="row">
                                         <div class="col-12">
-                                            <div n:class="$form['date']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
-                                                {label date, class => 'form-label'}
-                                                {input date, class => 'form-input'}
+                                            <div n:class="$form['date']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        {label date, class => 'form-label'}
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        {input date, class => 'form-input'}
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div n:if="$form['date']->hasErrors()">
                                                 <span class="invalid-feedback">{inputError date}</span>
@@ -46,21 +64,40 @@
 
                                     <div class="row">
                                         <div class="col-12">
-                                            <div n:class="$form['time']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
-                                                {label time, class => 'form-label'}
-                                                {input time, class => 'form-input'}
+                                            <div n:class="$form['time_to']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label class="form-label">Čas</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                {input time_from, class => 'form-input time-input'}
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                {input time_to, class => 'form-input time-input'}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div n:if="$form['time']->hasErrors()">
-                                                <span class="invalid-feedback">{inputError time}</span>
+                                            <div n:if="$form['time_to']->hasErrors()">
+                                                <span class="invalid-feedback">{inputError time_to}</span>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-12">
-                                            <div n:class="$form['points']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
-                                                {label points, class => 'form-label'}
-                                                {input points, class => 'form-input'}
+                                            <div n:class="$form['points']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        {label points, class => 'form-label'}
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        {input points, class => 'form-input'}
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div n:if="$form['points']->hasErrors()">
                                                 <span class="invalid-feedback">{inputError points}</span>
@@ -70,9 +107,15 @@
 
                                     <div class="row">
                                         <div class="col-12">
-                                            <div n:class="$form['type']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
-                                                {label type, class => 'form-label'}
-                                                {input type, class => 'form-input'}
+                                            <div n:class="$form['type']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        {label type, class => 'form-label'}
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        {input type, class => 'form-input'}
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div n:if="$form['type']->hasErrors()">
                                                 <span class="invalid-feedback">{inputError type}</span>
@@ -82,9 +125,15 @@
 
                                     <div class="row">
                                         <div class="col-12">
-                                            <div n:class="$form['room']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
-                                                {label room, class => 'form-label'}
-                                                {input room}
+                                            <div n:class="$form['room']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        {label room, class => 'form-label'}
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        {input room}
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div n:if="$form['room']->hasErrors()">
                                                 <span class="invalid-feedback">{inputError room}</span>
@@ -94,9 +143,15 @@
 
                                     <div class="row">
                                         <div class="col-12">
-                                            <div n:class="$form['files']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
-                                                {label files, class => 'form-label'}
-                                                <input n:name="files" class="form-control-file">
+                                            <div n:class="$form['files']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        {label files, class => 'form-label'}
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <input n:name="files" class="form-control-file">
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div n:if="$form['files']->hasErrors()">
                                                 <span class="invalid-feedback">{inputError files}</span>
@@ -106,7 +161,7 @@
 
                                     <div class="row">
                                         <div class="col-12">
-                                            <div n:class="$form['repeat']->hasErrors() ? 'form-group d-flex has-error' : 'form-group d-flex'">
+                                            <div n:class="$form['repeat']->hasErrors() ? 'form-group has-error' : 'form-group'">
                                                 {label repeat, class => 'form-label'}
                                                 {input repeat}
                                             </div>
@@ -118,7 +173,7 @@
 
                                     <div class="row">
                                         <div class="col-12">
-                                            <div class="form-group d-flex">
+                                            <div class="form-group">
                                                 <input name="save" id="saveEvent" type="submit" class="ajax" value="Uložiť">
                                                 <a n:if="$roomSchedules" class="btn btn-primary btn-collapse-schedules" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                                                     Zobraziť rozvrh miestností
@@ -127,6 +182,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 {if $files}
                                 <div class="col-6">
                                     {snippet eventFiles}

@@ -34,4 +34,9 @@ class EventRoomModel extends BaseModel
 
         return $roomSchedules;
     }
+
+    public function getEventsInRoom(int $roomId) : Selection
+    {
+        return $this->db->table($this->table)->where('room_id', $roomId);
+    }
 }

@@ -58,10 +58,15 @@ class EventFormFactory
             ->setHtmlAttribute('placeholder', 'DD/MM/YYYY')
             ->setType('date');;
 
-        $form->addText('time', 'Čas')
-            ->setRequired('Prosím, zadajte čas')
+        $form->addText('time_from', 'Čas od')
+            ->setRequired('Prosím, zadajte čas od')
             ->setHtmlAttribute('placeholder', '00:00')
-            ->setType('time');;
+            ->setType('time');
+
+        $form->addText('time_to', 'Čas do')
+            ->setRequired('Prosím, zadajte čas do')
+            ->setHtmlAttribute('placeholder', '00:00')
+            ->setType('time');
 
         $form->addInteger('points', 'Max. bodov')
             ->setRequired('Prosím, zadajte maximum bodov');
@@ -102,18 +107,19 @@ class EventFormFactory
 
                 /* check if date was changed */
                 if ((int)$values['change']) {
-                    /* check date */
-                    $result = $this->eventModel->checkDate($values['date'], $values['time'], $values['id']);
-                    if ($result) {
-                        $form['date']->addError('Udalosť v tomto dátume už existuje, vyberte, prosím, iný dátum.');
-                        return;
-                    } 
+                    foreach ($values['room'] as $roomId) {
+                        /* check date */ \Tracy\Debugger::barDump('for');
+                        $result = $this->eventModel->checkDate($values['date'], $values['time_from'], $values['time_to'], $roomId, $values['id']);
+                        if ($result) {
+                            $form['date']->addError('Udalosť v tomto dátume už existuje, vyberte, prosím, iný dátum.');
+                            return;
+                        }
+                    }
                 }
-
 
                 unset($values["files"]);
                 unset($values["change"]);
-
+                exit;
                 if ($values['id']) {
                     $this->eventRoomModel->delete(['event_id' => $values['id']]);
 

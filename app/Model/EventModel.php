@@ -4,6 +4,7 @@
 namespace App\Model;
 
 
+use Nette\Database\Table\ActiveRow;
 use Nette\Database\Table\Selection;
 use Nette\Database\Context;
 
@@ -17,16 +18,25 @@ class EventModel extends BaseModel
     /** @var FileModel */
     public $fileModel;
 
-    public function __construct(Context $db, EventFileModel $eventFileModel, FileModel $fileModel)
+    /** @var EventRoomModel */
+    public $eventRoomModel;
+
+    public function __construct(Context $db, EventFileModel $eventFileModel, FileModel $fileModel, EventRoomModel $eventRoomModel)
     {
         parent::__construct($db);
         $this->eventFileModel = $eventFileModel;
         $this->fileModel = $fileModel;
+        $this->eventRoomModel = $eventRoomModel;
     }
 
     public function getEvents(array $where) : Selection
     {
         return $this->db->table($this->table)->where($where);
+    }
+
+    public function getEvent(int $id) : ActiveRow
+    {
+        return $this->db->table($this->table)->where('id', $id)->fetch();
     }
 
     public function addFiles(int $event_id, array $files) : void
@@ -44,26 +54,34 @@ class EventModel extends BaseModel
         }
     }
 
-    public function checkDate(string $date, string $time, int $eventId)
+    public function checkDate(string $date, string $time_from, string $time_to, int $roomId, int $eventId)
     {
         $weekDay = date('w', strtotime($date));
 
-        $items = $this->db->table($this->table)->fetchAll();
+        $rooms = $this->eventRoomModel->getEventsInRoom($roomId);
 
-        foreach ($items as $item) {
-            if (!$eventId || $item->id != $eventId) {
+        $events = [];
+        foreach ($rooms as  $room) {
+            $events[] = $this->getEvent($room->event_id);
+        }
+        \Tracy\Debugger::barDump($events);
+
+        foreach ($events as $event) {
+            if (!$eventId || $event->id != $eventId) {
                 /* if event repeats weekly */
-                if ((int)$item->repeat) {
+                if ((int)$event->repeat) {
                     /* check if it is not in same day of week */
-                    if ($weekDay == date('w', strtotime($item->date))) {
-                        /* check time */
-                        if (strtotime($time) == strtotime($item->time)) {
+                    if ($weekDay == date('w', strtotime($event->date))) {
+                        /* check time */\Tracy\Debugger::barDump('tu');
+                        if (strtotime($time_from) >= strtotime($event->time_from)
+                            && strtotime($time_to) <= strtotime($event->time_to)) {
                             return 1;
                         }
                     }
                 } else {
-                    if (strtotime($date) == $item->date->getTimestamp()) {
-                        if (strtotime($time) == strtotime($item->time)) {
+                    if (strtotime($date) == $event->date->getTimestamp()) {
+                        if (strtotime($time_from) == strtotime($event->time_from)
+                            && strtotime($time_to) <= strtotime($event->time_to)) {
                             return 1;
                         }
                     }

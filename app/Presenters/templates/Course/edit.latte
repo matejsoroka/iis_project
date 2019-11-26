@@ -97,7 +97,8 @@
                             <th scope="col">Názov</th>
                             <th scope="col">Typ</th>
                             <th scope="col">Dátum</th>
-                            <th scope="col">Čas</th>
+                            <th scope="col">Čas od</th>
+                            <th scope="col">Čas do</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -106,7 +107,8 @@
                             <td><a n:href="Event:detail $event->id">{$event->title}</a></td>
                             <td>{$presenter->eventTypes[$event->type]}</td>
                             <td>{$event->date|date:'%d.%m.%Y'}</td>
-                            <td>{$event->time|date:'%H:%M'}</td>
+                            <td>{$event->time_from|date:'%H:%M'}</td>
+                            <td>{$event->time_to|date:'%H:%M'}</td>
                             <td><a class="btn-sm btn-primary btn-edit" n:href="Event:edit $courseId, $event['id']"><i class="fa fa-pencil"></i></a></td>
                         </tr>
                         {/foreach}
