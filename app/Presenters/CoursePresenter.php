@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use App\Forms\CourseFormFactory;
+use App\Model\CourseLectorModel;
 use App\Model\CourseModel;
 use App\Model\DuplicateNameException;
 use App\Model\EventModel;
@@ -27,6 +28,9 @@ final class CoursePresenter extends BasePresenter
 
     /** @var StudentCourseModel @inject */
     public $studentCourseModel;
+
+    /** @var CourseLectorModel @inject */
+    public $courseLectorModel;
 
     /** @var CourseFormFactory */
     private $courseFormFactory;
@@ -65,12 +69,19 @@ final class CoursePresenter extends BasePresenter
     public function actionEdit(int $id = 0)
     {
         $this->id = $id;
+        if (!$this->user->isAllowed("EditCourseStatus")) {
+            if (!$this->courseLectorModel->isLector($this->user->getId(), $id)) {
+                $this->flashMessage("Nemáte oprávnenie pre správu kurzu", "warning");
+                $this->redirect("Course:");
+            }
+        }
     }
 
-    public function renderEdit()
+    public function renderEdit(int $id = 0)
     {
         $this->hasGrid = true;
         $this->template->courseId = $this->id;
+        $this->template->course = $this->courseModel->getItem($id);
         $this->template->events = $this->eventModel->getEvents(['course_id' => $this->id]);
     }
 

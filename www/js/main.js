@@ -10,6 +10,7 @@ $(function(){
 });
 
 $(document).ready(function () {
+
     $('#frm-courseForm-room').multiSelect();
     $('#frm-courseForm-lectors').multiSelect();
 

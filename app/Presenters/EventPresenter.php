@@ -4,6 +4,7 @@ namespace App\Presenters;
 
 use App\Forms\EventFormFactory;
 use App\Forms\EventPointsFormFactory;
+use App\Model\CourseLectorModel;
 use App\Model\CourseModel;
 use App\Model\CourseRoomModel;
 
@@ -46,6 +47,9 @@ final class EventPresenter extends BasePresenter
     /** @var StudentCourseModel @inject */
     public $studentCourseModel;
 
+    /** @var CourseLectorModel @inject */
+    public $courseLectorModel;
+
     /** @var StudentPointsModel @inject */
     public $studentPointsModel;
 
@@ -76,11 +80,23 @@ final class EventPresenter extends BasePresenter
 
     public function actionEdit(int $courseId, int $eventId = null)
     {
+
+        if (!$this->user->isAllowed("EditCourseStatus")) {
+            if (!$this->courseLectorModel->isLector($this->user->getId(), $courseId)) {
+                $this->flashMessage("Nemáte oprávnenie pre správu kurzu", "warning");
+                $this->redirect("Course:");
+            }
+        }
+
         $this->id = $eventId;
         $this->course_id = $courseId;
         $this->course = $this->courseModel->getItem($courseId);
-        $this->event = $this->eventModel->getItem($eventId);
-        $this->schedules =$this->eventRoomModel->getAvailableSchedules($eventId);
+        if ($eventId) {
+            $this->event = $this->eventModel->getItem($eventId);
+            $this->schedules = $this->eventRoomModel->getAvailableSchedules($eventId);
+        } else {
+            $this->schedules = [];
+        }
     }
 
     public function renderDetail(int $eventId)

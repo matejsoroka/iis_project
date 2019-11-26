@@ -63,6 +63,12 @@ class AuthFactory
         $acl->addResource("ShowCourseStatus");
         $acl->allow("garant", "ShowCourseStatus");
 
+        $acl->addResource("Course:create");
+        $acl->allow("garant", "Course:create");
+
+        $acl->addResource("Course:editData");
+        $acl->allow("garant", "Course:editData");
+
         /* Leader */
         $acl->addResource("Room:default");
         $acl->allow("leader", "Room:default");

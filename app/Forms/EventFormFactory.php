@@ -116,7 +116,7 @@ class EventFormFactory
                         }
                     }
                 }
-                
+
                 unset($values["files"]);
                 unset($values["change"]);
 
