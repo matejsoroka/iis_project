@@ -14,6 +14,7 @@ use App\Model\EventModel;
 use App\Model\StudentCourseModel;
 use App\Model\StudentPointsModel;
 use Nette\Application\UI\Form;
+use Nette\Database\Table\ActiveRow;
 use Nette\Utils\DateTime;
 
 final class EventPresenter extends BasePresenter
@@ -51,8 +52,11 @@ final class EventPresenter extends BasePresenter
     /** @persistent */
     private $id;
 
-    /** @persistent */
+    /** @var ActiveRow */
     private $course;
+
+    /** @var ActiveRow */
+    private $event;
 
     /** @persistent */
     private $course_id;
@@ -75,6 +79,7 @@ final class EventPresenter extends BasePresenter
         $this->id = $eventId;
         $this->course_id = $courseId;
         $this->course = $this->courseModel->getItem($courseId);
+        $this->event = $this->eventModel->getItem($eventId);
         $this->schedules =$this->eventRoomModel->getAvailableSchedules($eventId);
     }
 
@@ -107,7 +112,7 @@ final class EventPresenter extends BasePresenter
         return $this->eventPointsFormFactory->create(function (): void {
             $this->redirect('Course:edit', $this->course_id);
         },
-        $this->course_id, $this->id, $this->course->points);
+        $this->course_id, $this->id, $this->event->points);
     }
 
     public function handleChangeRoom(array $roomIds)
