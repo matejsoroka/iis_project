@@ -1,6 +1,6 @@
 {block content}
     <h1 n:block="title">Kurzy</h1>
-    {if $user->isAllowed("Course:edit")}
+    {if $user->isAllowed("Course:create")}
     <a class="btn btn-success btn-create" n:href="Course:edit"><i class="fa fa-plus-square"></i> Vytvoriť kurz</a>
     {/if}
     {control courseGrid}

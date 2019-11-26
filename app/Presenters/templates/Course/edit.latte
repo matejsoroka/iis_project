@@ -2,6 +2,7 @@
     <div class="row">
         <div class="col-md-12">
                 <div class="row">
+                    {if $user->isAllowed("Course:editData")}
                     <div class="col-6">
                         <h1 n:block="title">{if $courseId}Správa kurzu{else}Vytvoriť kurz{/if}</h1>
                         {snippet courseForm}
@@ -91,11 +92,12 @@
                             {/form}
                         {/snippet}
                     </div>
+                    {/if}
                     {if $courseId}
                     <div class="col-6 course-table">
                         <div class="row">
                             <div class="col-12">
-                                <h2>Termíny</h2>
+                                <h2>Termíny {$course->shortcut}</h2>
                                 <a class="btn btn-success btn-create" n:href="Event:edit $courseId"><i class="fa fa-plus-square"></i> Vytvoriť termín</a>
                                 <table class="table table-striped">
                                     <thead>
@@ -121,11 +123,12 @@
                                     </tbody>
                                 </table>
                             </div>
-
+                            {if $user->isAllowed("Course:editData")}
                             <div class="col-12">
                                 <h2>Zapísaný študenti</h2>
                                 {control registerGrid}
                             </div>
+                            {/if}
                         </div>
                     </div>
                     {/if}
