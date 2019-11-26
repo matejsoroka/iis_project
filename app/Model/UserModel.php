@@ -38,8 +38,8 @@ class UserModel extends BaseModel
         $users = $this->getUsers()->fetchAll();
 
         if ($surnameLength < 5) {
-            $remainder = substr($name, 0, $surnameLength - strlen($name));
-            $username = 'x'.lcfirst($surname).$remainder;
+            $remainder = substr($name, 0, 5 - $surnameLength);
+            $username = 'x'.lcfirst($surname).lcfirst($remainder);
         } else {
             $username = 'x'.substr(lcfirst($surname), 0, 5);
         }

@@ -147,4 +147,8 @@ form.search-form button {
 .pt-15 {
   padding-top: 15px;
 }
+.btn-register {
+  margin-bottom: 10px;
+  min-width: 180px;
+}
 /*# sourceMappingURL=style.css.map */

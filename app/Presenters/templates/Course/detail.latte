@@ -5,9 +5,9 @@
             {snippet register}
                 <div class="register col-4">
                     {if $registered}
-                        <a class="btn btn-success" href="#">Registrovaný</a>
+                        <a class="btn btn-success btn-register" href="#">Registrovaný</a>
                     {else}
-                        <a class="btn btn-primary" n:href="Register! $course->id">Registrovat sa</a>
+                        <a class="btn btn-primary btn-register" n:href="Register! $course->id">Registrovat sa</a>
                     {/if}
                 </div>
             {/snippet}
