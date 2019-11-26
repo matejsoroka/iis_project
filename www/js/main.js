@@ -14,6 +14,8 @@ $(document).ready(function () {
     $('#frm-courseForm-room').multiSelect();
     $('#frm-courseForm-lectors').multiSelect();
 
+    CKEDITOR.replace("frm-eventForm-description");
+
     let roomSelect = $('#frm-eventForm-room');
     roomSelect.multiSelect();
 

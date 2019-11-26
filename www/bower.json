@@ -19,6 +19,7 @@
     "font-awesome": "^5.11.2",
     "popper.js": "^1.16.0",
     "ublaboo-datagrid": "^6.2.4",
-    "multiselect": "^0.9.12"
+    "multiselect": "^0.9.12",
+    "ckeditor": "#basic/4.13.0"
   }
 }

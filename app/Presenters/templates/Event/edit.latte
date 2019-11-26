@@ -28,24 +28,6 @@
 
                                     <div class="row">
                                         <div class="col-12">
-                                            <div n:class="$form['description']->hasErrors() ? 'form-group has-error' : 'form-group'">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        {label description, class => 'form-label'}
-                                                    </div>
-                                                    <div class="col-md-7">
-                                                        {input description, class => 'form-input textarea'}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div n:if="$form['description']->hasErrors()">
-                                                <span class="invalid-feedback">{inputError description}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-12">
                                             <div n:class="$form['date']->hasErrors() ? 'form-group has-error' : 'form-group'">
                                                 <div class="row">
                                                     <div class="col-md-4">
@@ -178,6 +160,25 @@
                                                 <a n:if="$roomSchedules" class="btn btn-primary btn-collapse-schedules" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                                                     Zobraziť rozvrh miestností
                                                 </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div n:class="$form['description']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        {label description, class => 'form-label'}
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <textarea n:name="description" class="form-input textarea"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div n:if="$form['description']->hasErrors()">
+                                                <span class="invalid-feedback">{inputError description}</span>
                                             </div>
                                         </div>
                                     </div>
