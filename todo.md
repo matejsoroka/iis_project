@@ -1,0 +1,1 @@
+- garant nemoze upravovat kurzy kde neni garant a vsetky variacie toho domysliet
