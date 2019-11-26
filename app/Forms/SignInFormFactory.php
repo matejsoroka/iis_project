@@ -37,7 +37,7 @@ final class SignInFormFactory
 		$form->addPassword('password', 'Heslo:')
 			->setRequired('Prosím, zadajte vaše heslo');
 
-		$form->addCheckbox('remember', 'Keep me signed in');
+		$form->addCheckbox('remember', 'Zapamätať si');
 
 		$form->addSubmit('send', 'Prihlásit sa')
             ->setHtmlAttribute('id', 'btn-submit');
