@@ -60,6 +60,8 @@ final class CourseFormFactory
         $form->addText('name', 'Názov')
             ->setRequired('Prosím, zadajte názov');
 
+        $form->addTextArea('description', 'Popis');
+
         $form->addText('price', 'Cena');
 
         $form->addSelect('type', "Typ", [0 => "-- Typ --", 1 => "Povinný", 2 => "Voliteľný"]);
