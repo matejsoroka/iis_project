@@ -14,30 +14,35 @@ application:
 session:
 	expiration: 14 days
 
+mail:
+    smtp: true
+    host: smtp.matejsoroka.com
+    username: iis@matejsoroka.com
+    password: 'Vz6Nc&DC[b'
 
 services:
-	- App\Model\UserManager
-	- App\Model\UserModel
-	- App\Model\CourseModel
-	- App\Model\RoomModel
-	- App\Model\CourseRoomModel
-	- App\Model\EventModel
-	- App\Model\FileModel
-	- App\Model\EventFileModel
-	- App\Model\EventRoomModel
-	- App\Model\StudentCourseModel
-	- App\Model\StudentPointsModel
-	- App\Model\CourseLectorModel
+    - App\Control\MailSender
 
+    - App\Model\UserManager
+    - App\Model\UserModel
+    - App\Model\CourseModel
+    - App\Model\RoomModel
+    - App\Model\CourseRoomModel
+    - App\Model\EventModel
+    - App\Model\FileModel
+    - App\Model\EventFileModel
+    - App\Model\EventRoomModel
+    - App\Model\StudentCourseModel
+    - App\Model\StudentPointsModel
+    - App\Model\CourseLectorModel
 
-	# FORMS
-	- App\Forms\FormFactory
-	- App\Forms\SignInFormFactory
-	- App\Forms\SignUpFormFactory
-	- App\Forms\CourseFormFactory
-	- App\Forms\RoomFormFactory
-	- App\Forms\EventPointsFormFactory
-	- App\Forms\EventFormFactory
+    - App\Forms\FormFactory
+    - App\Forms\SignInFormFactory
+    - App\Forms\SignUpFormFactory
+    - App\Forms\CourseFormFactory
+    - App\Forms\RoomFormFactory
+    - App\Forms\EventPointsFormFactory
+    - App\Forms\EventFormFactory
 
-	- App\Model\AuthFactory::create
-	router: App\Router\RouterFactory::createRouter
+    - App\Model\AuthFactory::create
+    router: App\Router\RouterFactory::createRouter

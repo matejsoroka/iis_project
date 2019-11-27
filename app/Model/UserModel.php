@@ -28,6 +28,19 @@ class UserModel extends BaseModel
         return $this->edit($id, $data);
     }
 
+    public function getUsernames(string $substring) : array
+    {
+        $users = $this->db->table('users')->select("username")
+            ->where('username LIKE ?', "%".$substring."%")->fetchAll();
+
+        $names = [];
+        foreach ($users as $user) {
+            $names[] = $user->username;
+        }
+
+        return $names;
+    }
+
     public function createLogin(string $name, string $surname)
     {
         $number = 0;
@@ -35,7 +48,6 @@ class UserModel extends BaseModel
         $letter = 'a';
 
         $surnameLength = strlen($surname);
-        $users = $this->getUsers()->fetchAll();
 
         if ($surnameLength < 5) {
             $remainder = substr($name, 0, 5 - $surnameLength);
@@ -44,9 +56,14 @@ class UserModel extends BaseModel
             $username = 'x'.substr(lcfirst($surname), 0, 5);
         }
 
+        $users = $this->getUsernames($username);
+
         $login = $username . '0' . ($number);
-        foreach ($users as $user) {
-            if (strcmp($user['username'], $login) == 0) {
+
+        for ($i = 0; $i < count($users); $i++) {
+            $key = array_search($login, $users);
+
+            if ($key || ($key == 0 && !is_bool($key))) {
                 if (!$isLetter) $number++;
 
                 if ($number > 99) {
@@ -64,7 +81,7 @@ class UserModel extends BaseModel
             }
 
             if (!$isLetter) {
-                if ($number < 9) {
+                if ($number < 10) {
                     $login = $username . '0' . ($number);
                 } else {
                     $login = $username . ($number);

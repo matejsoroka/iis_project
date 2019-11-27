@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Forms;
 
 use App\Model;
+use App\Control\MailSender;
 use Nette;
 use Nette\Application\UI\Form;
 
@@ -24,13 +25,17 @@ final class SignUpFormFactory
     /** @var Model\UserModel */
     private $userModel;
 
+    /** @var MailSender */
+    private $mailSender;
+
     private $id;
 
-    public function __construct(FormFactory $factory, Model\UserManager $userManager, Model\UserModel $userModel)
+    public function __construct(FormFactory $factory, Model\UserManager $userManager, Model\UserModel $userModel, MailSender $mailSender)
     {
         $this->factory = $factory;
         $this->userManager = $userManager;
         $this->userModel = $userModel;
+        $this->mailSender = $mailSender;
     }
 
 
@@ -61,8 +66,8 @@ final class SignUpFormFactory
         }
 
         $form->addPassword('checkPassword', 'Zadajte znovu heslo:')
-            ->addConditionOn($form['password'], Form::EQUAL, true)
-            ->setRequired('Prosim, zadajte znovu heslo');
+            ->addConditionOn($form['password'], FORM::FILLED, FALSE)
+            ->addRule(Form::EQUAL, 'Zadané heslá sa nezhodujú!', $form['password']);;
 
         $form->addSubmit('send', 'Zaregistrovať sa')
             ->setHtmlAttribute('id', 'btn-submit');
@@ -70,6 +75,8 @@ final class SignUpFormFactory
         if ($this->id) {
             $form->setDefaults($this->userModel->getUser($this->id));
         }
+
+        $form->onError[] = [$this, 'handleError'];
 
         $form->onSuccess[] = function (Form $form, array $values) use ($onSuccess): void {
             unset($values['checkPassword']);
@@ -81,13 +88,12 @@ final class SignUpFormFactory
                 $login = $this->userModel->createLogin($values['name'], $values['surname']);
                 $this->userManager->add($login, $values['name'], $values['surname'], $values['email'], $values['password']);
 
-                $form->getPresenter()->flashMessage('Registrácia prebehla úspešne.', 'alert-success');
+                $this->mailSender->sendEmail($login, $values['email']);
+                $form->getPresenter()->flashMessage('Registrácia prebehla úspešne.', 'success');
             }
 
             $onSuccess();
         };
-
-        $form->onError[] = [$this, 'handleError'];
 
         return $form;
     }
@@ -96,7 +102,7 @@ final class SignUpFormFactory
     {
         $presenter = $form->getPresenter();
         if ($presenter->isAjax()) {
-            $presenter->redrawControl('eventFormSnippet');
+            $presenter->redrawControl('userFormSnippet');
         }
     }
 }
