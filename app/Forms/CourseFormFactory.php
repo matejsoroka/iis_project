@@ -122,6 +122,7 @@ final class CourseFormFactory
 				$form['shortcut']->addError('Skratka je už zabraná, použite prosím inú');
 				return;
 			}
+            $form->getPresenter()->flashMessage('Uložené.', 'success');
 			$onSuccess();
 		};
 

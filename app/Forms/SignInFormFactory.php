@@ -50,7 +50,7 @@ final class SignInFormFactory
 				$form->addError('The username or password you entered is incorrect.');
 				return;
 			}
-            $form->getPresenter()->flashMessage('Prilásenie prebehlo úspešne.', 'alert-success');
+            $form->getPresenter()->flashMessage('Prilásenie prebehlo úspešne.', 'success');
 			$onSuccess();
 		};
 

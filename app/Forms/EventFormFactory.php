@@ -107,6 +107,12 @@ class EventFormFactory
 
                 /* check if date was changed */
                 if ((int)$values['change']) {
+                    /* time from cannot be smaller than time from */
+                    if (strtotime($values['time_from']) >= strtotime($values['time_to'])) {
+                        $form['time_to']->addError('Čas do nemôže byť rovnaký alebo menší ako čas od');
+                        return;
+                    }
+
                     foreach ($values['room'] as $roomId) {
                         /* check date */
                         $result = $this->eventModel->checkDate($values['date'], $values['time_from'], $values['time_to'], $roomId, $values['id']);
@@ -132,13 +138,26 @@ class EventFormFactory
                     unset($values['room']);
                     $this->eventModel->edit((int) $values["id"], $values);
                 } else {
+                    $nextId = $this->eventModel->getNextId();
+
+                    $rooms = $values['room'];
+
                     unset($values['room']);
                     $this->eventModel->add($values);
+
+                    if ($rooms) {
+                        foreach ($rooms as $room) {
+                            $array = ['room_id' => $room, 'event_id' => $nextId];
+                            $this->eventRoomModel->add($array);
+                        }
+                    }
+
                 }
             } catch (Model\DuplicateNameException $e) {
                 $form['title']->addError('Názov je už použitý, vytvorte nový, prosím.');
                 return;
             }
+            $form->getPresenter()->flashMessage('Uložené.', 'success');
             $onSuccess();
         };
 
