@@ -30,16 +30,16 @@ final class RoomFormFactory
 	{
 		$form = $this->factory->create();
 
-        $form->addText('address', 'Adresa')
+        $form->addText('address', 'Adresa*')
             ->setRequired('Prosím, zadajte adresu, kde sa miestnosť nachádza');
 
-        $form->addText('number', 'Číslo miestnosti')
+        $form->addText('number', 'Číslo miestnosti*')
             ->setRequired('Prosím, zadajte číslo miestnosti');
 
-        $form->addText('type', "Typ")
+        $form->addText('type', "Typ*")
             ->setRequired('Prosím, vyberte typ miestnosti');
 
-        $form->addInteger('capacity', 'Kapacita')
+        $form->addInteger('capacity', 'Kapacita*')
             ->setRequired('Prosím, zadajte kapacitu miestnosti');
 
         $form->addHidden("id", (string) $room_id);

@@ -1,3 +1,90 @@
 {block content}
-    {control courseForm}
+    <div class="row">
+        <div class="col-md-12">
+            <h1>{if $roomId}Upraviť miestnosť{else}Vytvoriť miestnosť{/if}</h1>
+            {form courseForm}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div n:class="$form['address']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    {label address, class => 'form-label'}
+                                </div>
+                                <div class="col-md-6">
+                                    {input address, class => 'form-input'}
+                                </div>
+                            </div>
+                        </div>
+                        <div n:if="$form['address']->hasErrors()">
+                            <span class="invalid-feedback">{inputError address}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div n:class="$form['number']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    {label number, class => 'form-label'}
+                                </div>
+                                <div class="col-md-6">
+                                    {input number, class => 'form-input'}
+                                </div>
+                            </div>
+                        </div>
+                        <div n:if="$form['number']->hasErrors()">
+                            <span class="invalid-feedback">{inputError number}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div n:class="$form['type']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    {label type, class => 'form-label'}
+                                </div>
+                                <div class="col-md-6">
+                                    {input type, class => 'form-input'}
+                                </div>
+                            </div>
+                        </div>
+                        <div n:if="$form['type']->hasErrors()">
+                            <span class="invalid-feedback">{inputError type}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div n:class="$form['capacity']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    {label capacity, class => 'form-label'}
+                                </div>
+                                <div class="col-md-6">
+                                    {input capacity, class => 'form-input'}
+                                </div>
+                            </div>
+                        </div>
+                        <div n:if="$form['capacity']->hasErrors()">
+                            <span class="invalid-feedback">{inputError capacity}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <p class="duty">*povinné údaje</p>
+                            <input name="send" type="submit" class="ajax btn-primary" value="Uložiť">
+                        </div>
+                    </div>
+                </div>
+            {/form}
+        </div>
+    </div>
+
 {/block}

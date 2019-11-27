@@ -39,10 +39,10 @@ final class SignEditFormFactory
         $form->addText('username', 'Login:')
             ->setHtmlAttribute('disabled', 'disabled');
 
-        $form->addText('email', 'Email:')
+        $form->addText('email', 'Email:*')
             ->setRequired('Prosím, zadajte Váš email');
 
-        $form->addPassword('name', 'Meno:')
+        $form->addPassword('name', 'Meno:*')
             ->setRequired('Prosím, zadajte Vaše meno.');
 
         $form->addPassword('surname', 'Priezvisko:')

@@ -29,6 +29,22 @@
 
                                 <div class="row">
                                     <div class="col-12">
+                                        <div n:class="$form['name']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    {label name, class => 'form-label'}
+                                                </div>
+                                                <div class="col-md-6">
+                                                    {input name, class => 'form-input'}
+                                                </div>
+                                            </div>
+                                            {if $form['name']->hasErrors()}<span class="invalid-feedback">{inputError name}</span>{/if}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
                                         <div n:class="$form['description']->hasErrors() ? 'form-group has-error' : 'form-group'">
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -41,22 +57,6 @@
                                         </div>
                                         <div n:if="$form['description']->hasErrors()">
                                             <span class="invalid-feedback">{inputError description}</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div n:class="$form['name']->hasErrors() ? 'form-group has-error' : 'form-group'">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    {label name, class => 'form-label'}
-                                                </div>
-                                                <div class="col-md-6">
-                                                    {input name, class => 'form-input'}
-                                                </div>
-                                            </div>
-                                            {if $form['name']->hasErrors()}<span class="invalid-feedback">{inputError name}</span>{/if}
                                         </div>
                                     </div>
                                 </div>
@@ -131,6 +131,7 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group">
+                                            <p class="duty">*povinné údaje</p>
                                             <input name="send" type="submit" class="ajax" value="Uložiť">
                                         </div>
                                     </div>

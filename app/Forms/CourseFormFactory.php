@@ -54,10 +54,10 @@ final class CourseFormFactory
 	{
 		$form = $this->factory->create();
 
-        $form->addText('shortcut', 'Skratka')
+        $form->addText('shortcut', 'Skratka*')
             ->setRequired('Prosím, zadajte skratku');
 
-        $form->addText('name', 'Názov')
+        $form->addText('name', 'Názov*')
             ->setRequired('Prosím, zadajte názov');
 
         $form->addTextArea('description', 'Popis');

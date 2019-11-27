@@ -83,7 +83,7 @@ final class SignUpFormFactory
 
             if ($this->id) {
                 $this->userManager->edit($this->id, $values['name'], $values['surname'], $values['email'], $values['password']);
-                $form->getPresenter()->flashMessage('Úpravy sú uložené', 'alert-success');
+                $form->getPresenter()->flashMessage('Úpravy sú uložené.', 'success');
             } else {
                 $login = $this->userModel->createLogin($values['name'], $values['surname']);
                 $this->userManager->add($login, $values['name'], $values['surname'], $values['email'], $values['password']);
@@ -100,7 +100,7 @@ final class SignUpFormFactory
 
     public function handleError(Form $form)
     {
-        $presenter = $form->getPresenter();
+        $presenter = $form->getPresenter(); \Tracy\Debugger::barDump('tu');
         if ($presenter->isAjax()) {
             $presenter->redrawControl('userFormSnippet');
         }

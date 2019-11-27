@@ -72,6 +72,7 @@ final class CoursePresenter extends BasePresenter
     public function actionEdit(int $id = 0)
     {
         $this->id = $id;
+
         if (!$this->user->isAllowed("EditCourseStatus")) {
             if (!$this->courseLectorModel->isLector($this->user->getId(), $id)) {
                 $this->flashMessage("Nemáte oprávnenie pre správu kurzu", "warning");

@@ -44,31 +44,31 @@ class EventFormFactory
     {
         $form = $this->factory->create();
 
-        $form->addText('title', 'Názov')
+        $form->addText('title', 'Názov*')
             ->setRequired('Prosím, zadajte názov');
 
-        $form->addTextArea('description', 'Popis')
+        $form->addTextArea('description', 'Popis*')
             ->setRequired('Prosím, zadajte popis');
 
-        $form->addSelect('type', 'Typ', $eventTypes)
+        $form->addSelect('type', 'Typ*', $eventTypes)
             ->setRequired('Prosím, zadajte typ termínu');
 
-        $form->addText('date', 'Dátum')
+        $form->addText('date', 'Dátum*')
             ->setRequired('Prosím, zadajte dátum')
             ->setHtmlAttribute('placeholder', 'DD/MM/YYYY')
             ->setType('date');;
 
-        $form->addText('time_from', 'Čas od')
+        $form->addText('time_from', 'Čas od*')
             ->setRequired('Prosím, zadajte čas od')
             ->setHtmlAttribute('placeholder', '00:00')
             ->setType('time');
 
-        $form->addText('time_to', 'Čas do')
+        $form->addText('time_to', 'Čas do*')
             ->setRequired('Prosím, zadajte čas do')
             ->setHtmlAttribute('placeholder', '00:00')
             ->setType('time');
 
-        $form->addInteger('points', 'Max. bodov')
+        $form->addInteger('points', 'Max. bodov*')
             ->setRequired('Prosím, zadajte maximum bodov');
 
         $form->addMultiUpload('files', 'Pridať súbory');

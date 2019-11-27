@@ -82,12 +82,20 @@ form .form-group .form-input:focus {
   box-shadow: none;
   border-color: #e7e7e7;
 }
-form .form-group input[type="checkbox"],
-form .form-group input[type="radio"] {
+form .form-group span.red-star {
+  font-size: 14px;
+}
+form.search-form button {
+  margin: 15px 0;
+  display: block;
+  width: 100%;
+}
+input[type="checkbox"],
+input[type="radio"] {
   margin-right: 10px !important;
 }
-form .form-group input[type="submit"] {
-  width: 160px !important;
+input[type="submit"] {
+  min-width: 160px !important;
   border-radius: 5px !important;
   background-color: #00A9E4 !important;
   color: white !important;
@@ -97,14 +105,6 @@ form .form-group input[type="submit"] {
   font-weight: 500;
   height: 45px;
   border: 0px;
-}
-form .form-group span.red-star {
-  font-size: 14px;
-}
-form.search-form button {
-  margin: 15px 0;
-  display: block;
-  width: 100%;
 }
 .invalid-feedback {
   margin-top: -10px;
@@ -127,7 +127,8 @@ form.search-form button {
 }
 #snippet--courseForm,
 #snippet--eventFormSnippet,
-#frm-eventForm {
+#frm-eventForm,
+#frm-signInForm {
   width: 100%;
 }
 .room-number {
@@ -153,5 +154,18 @@ form.search-form button {
 }
 .duty {
   font-size: 13px;
+}
+.info {
+  padding-top: 20px;
+}
+.info a {
+  color: black;
+}
+.signin {
+  padding: 10px;
+  text-align: center !important;
+  text-transform: uppercase;
+  border-radius: 10px;
+  font-weight: bold;
 }
 /*# sourceMappingURL=style.css.map */

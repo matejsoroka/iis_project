@@ -1,7 +1,7 @@
 {block content}
     <h1 n:block="title">Miestnosti</h1>
     {if $user->isAllowed("Room:edit")}
-    <a class="btn btn-success" n:href="Room:edit"><i class="fa fa-plus-square"></i> Pridat miestnosť</a>
+    <a class="btn btn-success btn-create" n:href="Room:edit"><i class="fa fa-plus-square"></i> Pridat miestnosť</a>
     {/if}
     {control roomGrid}
 {/block}

@@ -119,23 +119,6 @@ form {
       }
     }
 
-    input[type="checkbox"], input[type="radio"] {
-      margin-right: 10px !important;
-    }
-
-    input[type="submit"] {
-      width: 160px !important;
-      border-radius: 5px !important;
-      background-color: @blue-color !important;
-      color: white !important;
-      margin-top: 20px;
-      text-transform: uppercase;
-      font-size: 17px;
-      font-weight: 500;
-      height: 45px;
-      border: 0px;
-    }
-
     span{
       &.red-star{
         font-size: 14px;
@@ -150,6 +133,23 @@ form {
       width: 100%;
     }
   }
+}
+
+input[type="checkbox"], input[type="radio"] {
+  margin-right: 10px !important;
+}
+
+input[type="submit"] {
+  min-width: 160px !important;
+  border-radius: 5px !important;
+  background-color: @blue-color !important;
+  color: white !important;
+  margin-top: 20px;
+  text-transform: uppercase;
+  font-size: 17px;
+  font-weight: 500;
+  height: 45px;
+  border: 0px;
 }
 
 .invalid-feedback {
@@ -175,7 +175,7 @@ form {
   display: flex;
 }
 
-#snippet--courseForm, #snippet--eventFormSnippet, #frm-eventForm {
+#snippet--courseForm, #snippet--eventFormSnippet, #frm-eventForm, #frm-signInForm {
   width: 100%;
 }
 
@@ -207,4 +207,20 @@ form {
 
 .duty {
   font-size: 13px;
+}
+
+.info {
+  padding-top: 20px;
+
+  a {
+    color: black;
+  }
+}
+
+.signin {
+  padding: 10px;
+  text-align: center !important;
+  text-transform: uppercase;
+  border-radius: 10px;
+  font-weight: bold;
 }

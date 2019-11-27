@@ -156,6 +156,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group">
+                                                <p class="duty">*povinné údaje</p>
                                                 <input name="save" id="saveEvent" type="submit" class="ajax" value="Uložiť">
                                                 <a n:if="$roomSchedules" class="btn btn-primary btn-collapse-schedules" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                                                     Zobraziť rozvrh miestností
@@ -207,7 +208,7 @@
                     <h2>Hodnotenie študentov</h2>
                     <form n:name="eventPointsForm">
                         <input n:name="save" value="Uložiť hodnotenie" class="btn btn-success">
-                        <table class="table">
+                        <table class="table mt-3">
                             {foreach $registered as $student}
                                 <tr>
                                     <td>
