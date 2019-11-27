@@ -157,10 +157,14 @@
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <p class="duty">*povinné údaje</p>
-                                                <input name="save" id="saveEvent" type="submit" class="ajax" value="Uložiť">
-                                                <a n:if="$roomSchedules" class="btn btn-primary btn-collapse-schedules" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                                    Zobraziť rozvrh miestností
-                                                </a>
+                                                <div class="d-flex">
+                                                    <input name="save" type="submit" class="ajax save-event" value="Uložiť">
+                                                    {snippet scheduleButton}
+                                                        <a n:if="$roomSchedules" class="btn btn-primary btn-collapse-schedules" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                            Zobraziť rozvrh miestností
+                                                        </a>
+                                                    {/snippet}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -202,6 +206,46 @@
                     {/form}
                 {/snippet}
 
+                {snippet scheduleSnippet}
+                    <div class="col-md-12">
+                        <div class="collapse" id="collapseExample">
+                            <div class="col-md-12" id="schedule-container" class="schedule">
+                                {foreach $roomSchedules as $i => $item} {dump $roomSchedules}
+                                {if $iterator->counter % 3 == 0}
+                                <div class="col-md-4">
+                                    <h3 class="room-number">{$item->number}</h3>
+                                    <div id="mySchedule_{$i}"></div>
+                                    <p class="hidden" id="hours_{$i}">{$item->schedule}</p>
+                                    <script>
+                                        window.schedules = {$roomSchedules};
+                                    </script>
+                                </div>
+                            </div>
+                            {elseif $iterator->counter % 3 == 1}
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h3 class="room-number">{$item->number}</h3>
+                                    <div id="mySchedule_{$i}"></div>
+                                    <p class="hidden" id="hours_{$i}">{$item->schedule}</p>
+                                    <script>
+                                        window.schedules = {$roomSchedules};
+                                    </script>
+                                </div>
+                                {elseif $iterator->counter % 3 == 2}
+                                <div class="col-md-4">
+                                    <h3 class="room-number">{$item->number}</h3>
+                                    <div id="mySchedule_{$i}"></div>
+                                    <p class="hidden" id="hours_{$i}">{$item->schedule}</p>
+                                    <script>
+                                        window.schedules = {$roomSchedules};
+                                    </script>
+                                </div>
+                                {/if}
+                                {/foreach}
+                            </div>
+                        </div>
+                    </div>
+                {/snippet}
 
                 {if $eventId}
                 <div class="col-12">
@@ -231,47 +275,6 @@
                 {/if}
             </div>
         </div>
-
-        {snippet scheduleSnippet}
-            <div class="col-md-12">
-                <div class="collapse" id="collapseExample">
-                    <div class="col-md-12" id="schedule-container" class="schedule">
-                        {foreach $roomSchedules as $i => $item}
-                            {if $iterator->counter % 3 == 0}
-                                <div class="col-md-4">
-                                    <h3 class="room-number">{$item->number}</h3>
-                                    <div id="mySchedule_{$i}"></div>
-                                    <p class="hidden" id="hours_{$i}">{$item->schedule}</p>
-                                    <script>
-                                        window.schedules = {$roomSchedules};
-                                    </script>
-                                </div>
-                                </div>
-                            {elseif $iterator->counter % 3 == 1}
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <h3 class="room-number">{$item->number}</h3>
-                                        <div id="mySchedule_{$i}"></div>
-                                        <p class="hidden" id="hours_{$i}">{$item->schedule}</p>
-                                        <script>
-                                            window.schedules = {$roomSchedules};
-                                        </script>
-                                    </div>
-                            {elseif $iterator->counter % 3 == 2}
-                                    <div class="col-md-4">
-                                        <h3 class="room-number">{$item->number}</h3>
-                                        <div id="mySchedule_{$i}"></div>
-                                        <p class="hidden" id="hours_{$i}">{$item->schedule}</p>
-                                        <script>
-                                            window.schedules = {$roomSchedules};
-                                        </script>
-                                    </div>
-                            {/if}
-                        {/foreach}
-                    </div>
-                </div>
-            </div>
-        {/snippet}
         </div>
 
     <script>

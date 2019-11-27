@@ -21,12 +21,20 @@ class EventModel extends BaseModel
     /** @var EventRoomModel */
     public $eventRoomModel;
 
-    public function __construct(Context $db, EventFileModel $eventFileModel, FileModel $fileModel, EventRoomModel $eventRoomModel)
+    /** @var RoomModel */
+    public $roomModel;
+
+    public function __construct(Context $db,
+                                EventFileModel $eventFileModel,
+                                FileModel $fileModel,
+                                EventRoomModel $eventRoomModel,
+                                RoomModel $roomModel)
     {
         parent::__construct($db);
         $this->eventFileModel = $eventFileModel;
         $this->fileModel = $fileModel;
         $this->eventRoomModel = $eventRoomModel;
+        $this->roomModel = $roomModel;
     }
 
     public function getEvents(array $where) : Selection
@@ -93,6 +101,48 @@ class EventModel extends BaseModel
         }
 
         return 0;
+    }
+
+    public function updateSchedule(int $roomId, string $timeFrom, string $timeTo, string $date)
+    {
+        $from = (int)substr($timeFrom, 0, 2);
+        $to = (int)substr($timeTo, 0, 2) + 2;
+        $weekDay = date('w', strtotime($date));
+
+        $room = $this->roomModel->getItem($roomId);
+        $inArray = false;
+        $schedule = [];
+        if (!$room->schedule || $room->schedule == '[]') {
+            while ($from != $to) {
+                $schedule[$weekDay][] = (string)$from . ':00';
+                $from++;
+            }
+        } else {
+            $roomSchedule = json_decode($room->schedule, true);
+            foreach ($roomSchedule as $key => $item) {
+                if ($weekDay == $key) {
+                    while ($from != $to) {
+                        array_push($item, (string)$from . ':00');
+                        $from++;
+                    }
+                    sort($item);
+                    $inArray = true;
+                    $schedule[$key] = $item;
+                }
+            }
+
+            if (!$inArray) {
+                $schedule = $roomSchedule;
+                while ($from != $to) {
+                    $schedule[$weekDay][] = (string)$from . ':00';
+                    $from++;
+                }
+            }
+
+        }
+
+        $this->roomModel->edit($roomId, ['schedule' => json_encode($schedule)]);
+
     }
 
 

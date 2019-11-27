@@ -201,7 +201,7 @@ final class CoursePresenter extends BasePresenter
         }
 
         if ($this->user->isAllowed("Course:register")) {
-            $grid->addAction('register', 'Prihlásiť sa', 'Register!')
+            $grid->addAction('register', 'Registrovať sa', 'Register!')
                 ->setIcon('check')
                 ->setClass('btn btn-xs btn-success');
         }

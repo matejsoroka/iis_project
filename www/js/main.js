@@ -14,9 +14,6 @@ $(document).ready(function () {
     $('#frm-courseForm-room').multiSelect();
     $('#frm-courseForm-lectors').multiSelect();
 
-    CKEDITOR.replace("frm-eventForm-description");
-    CKEDITOR.replace("frm-courseForm-description");
-
     let roomSelect = $('#frm-eventForm-room');
     roomSelect.multiSelect();
 
@@ -35,5 +32,8 @@ $(document).ready(function () {
     roomSelect.on('change', function () {
         $('#changeFlag').val('1');
     });
+
+    CKEDITOR.replace("frm-courseForm-description");
+    CKEDITOR.replace("frm-eventForm-description");
 
 });

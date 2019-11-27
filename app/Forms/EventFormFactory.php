@@ -114,6 +114,7 @@ class EventFormFactory
                             $form['date']->addError('Udalosť v tomto dátume a čase už existuje.');
                             return;
                         }
+                        $this->eventModel->updateSchedule($roomId,  $values['time_from'], $values['time_to'], $values['date']);
                     }
                 }
 

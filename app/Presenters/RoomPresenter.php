@@ -34,7 +34,7 @@ final class RoomPresenter extends BasePresenter
         $this->template->room = $this->roomModel->getItem($id);
     }
 
-    public function renderEdit(int $id)
+    public function renderEdit(int $id = 0)
     {
         $this->template->roomId = $id;
     }
