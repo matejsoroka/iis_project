@@ -113,7 +113,7 @@ final class EventPresenter extends BasePresenter
             foreach ($rooms as $room) {
                 $this->schedules[$room->room_id] = $this->roomModel->getItem($room->room_id)->toArray();
                 $this->schedules[$room->room_id]['schedule'] = $this->eventModel->getSchedule($room->room_id, $this->event->date);
-            }
+            } 
         } else {
             $this->schedules = [];
         }

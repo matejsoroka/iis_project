@@ -319,6 +319,10 @@ $(document).ready(function () {
 
                 valuesArray = [];
 
+                $('#frm-eventForm-room option:selected').each(function() {
+                    $(this).val("");
+                });
+
                 alert("Vyberte, prosím, dátum a čas.");
 
             } else if (time_from === '' || time_to === ''){
@@ -331,6 +335,10 @@ $(document).ready(function () {
                 });
 
                 valuesArray = [];
+
+                $('#frm-eventForm-room option:selected').each(function() {
+                    $(this).val("");
+                });
 
                 alert("Vyberte, prosím, čas.");
 

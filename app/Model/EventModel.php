@@ -111,13 +111,24 @@ class EventModel extends BaseModel
         $dateTo = date('Y-m-d', strtotime("this friday", strtotime($date)));
 
         $events = [];
-        /* get events in selected room */
+        $allEvents = [];
+
+        /* get all events in selected room */
         foreach ($rooms as $room) {
+            $allEvents[] = $this->getItem($room->event_id);
             $event = $this->db->table($this->table)->where('`id` = ? AND `date` BETWEEN ? AND ?', $room->event_id, $dateFrom.' 00:00:00', $dateTo.' 23:59:59')->fetch();
             if ($event) {
                 $events[] = $event;
             }
         }
+
+        foreach ($allEvents as $event) {
+            /* if event repeats every week it should be in schedule too */
+            if ($event->repeat) {
+                $events[] = $event;
+            }
+        }
+
 
         $schedule = [];
         $inArray = false;

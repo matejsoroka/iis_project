@@ -160,6 +160,8 @@ class EventFormFactory
             $onSuccess();
         };
 
+        $form->onError[] = [$this, 'processError'];
+
         return $form;
     }
 
