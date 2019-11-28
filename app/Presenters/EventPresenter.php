@@ -17,6 +17,8 @@ use App\Model\StudentPointsModel;
 use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
 use Nette\Utils\DateTime;
+use Nette\Utils\Html;
+use Ublaboo\DataGrid\DataGrid;
 
 final class EventPresenter extends BasePresenter
 {
@@ -80,13 +82,17 @@ final class EventPresenter extends BasePresenter
 
     public function actionEdit(int $courseId, int $eventId = null)
     {
+        $this->hasGrid = true;
         $date = $this->eventModel->getItem($eventId)->date;
         $this->eventModel->getSchedule(6, $date);
 
         if (!$this->user->isAllowed("EditCourseStatus")) {
-            if (!$this->courseLectorModel->isLector($this->user->getId(), $courseId)) {
-                $this->flashMessage("Nemáte oprávnenie pre správu kurzu", "warning");
-                $this->redirect("Course:");
+            if ($courseId) {
+                $this->course = $this->courseModel->getItem($courseId);
+                if (!($this->courseLectorModel->isLector($this->user->getId(), $courseId) || $this->course->garant == $this->user->getId())) { // De Morgan
+                    $this->flashMessage("Nemáte oprávnenie pre správu kurzu", "warning");
+                    $this->redirect("Course:");
+                }
             }
         }
 
@@ -155,6 +161,40 @@ final class EventPresenter extends BasePresenter
             $this->redrawControl('scheduleSnippet');
             $this->redrawControl('scheduleButton');
         }
+    }
+
+    public function createComponentFileGrid() : DataGrid
+    {
+        $grid = new DataGrid($this, "fileGrid");
+
+        $grid->setRefreshUrl(FALSE);
+
+        $grid->setDataSource($this->eventFileModel->getItems([]));
+
+        $grid->addColumnText("name", "Názov")
+            ->setRenderer(function ($row) {
+                return Html::el('a')->href($row->file->path)->setText($row->file->name);
+            });
+
+        $grid->addColumnText("type", "Typ")
+            ->setRenderer(function ($row) {
+                return $row->file->type;
+            });
+
+        $grid->addColumnStatus("permission", "Zdieľanie")
+            ->addOption('', "Verejný")
+            ->endOption()
+            ->addOption('registered', "Registrovaný")
+            ->endOption()
+            ->addOption('student', "Zapísaný")
+            ->endOption()
+            ->onChange[] = function($id, $value): void {
+            $this->studentCourseModel->edit((int) $id, ["status" => $value]);
+            $this->redirect("this");
+        };
+
+
+        return $grid;
     }
 
     public function handleDeleteFile(int $id)

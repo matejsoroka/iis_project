@@ -189,14 +189,15 @@
                                         <div class="col-12">
                                             {if $files}
                                                 <h2>Súbory</h2>
-                                                {snippet eventFiles}
-                                                    <table class="table" n:foreach="$files as $file">
-                                                        <tr>
-                                                            <td><i class="fa fa-file"></i> <a href="/{$file->file->path}">{$file->file->name}</a></td>
-                                                            <td><a class="btn btn-danger ajax" n:href="DeleteFile! $file->id"><i class="fa fa-trash-o"></i></a></td>
-                                                        </tr>
-                                                    </table>
-                                                {/snippet}
+{*                                                {snippet eventFiles}*}
+{*                                                    <table class="table" n:foreach="$files as $file">*}
+{*                                                        <tr>*}
+{*                                                            <td><i class="fa fa-file"></i> <a href="/{$file->file->path}">{$file->file->name}</a></td>*}
+{*                                                            <td><a class="btn btn-danger ajax" n:href="DeleteFile! $file->id"><i class="fa fa-trash-o"></i></a></td>*}
+{*                                                        </tr>*}
+{*                                                    </table>*}
+{*                                                {/snippet}*}
+                                                {control fileGrid}
                                             {/if}
                                         </div>
                                     </div>
