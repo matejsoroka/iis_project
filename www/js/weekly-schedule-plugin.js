@@ -298,31 +298,62 @@ let outputArray = [];
 let selectedHours = [];
 let index = [];
 $(document).ready(function () {
+    let valuesArray = [];
+    let roomSelect = $('#frm-eventForm-room');
+
+    roomSelect.multiSelect({
+        'afterSelect' : function(values){
+            valuesArray.push(values);
+            let date = $('#frm-eventForm-date').val();
+            let time_from = $('#frm-eventForm-time_from').val();
+            let time_to = $('#frm-eventForm-time_to').val();
+
+            if (date === '') {
+                $('#ms-frm-eventForm-room .ms-selectable ul li').each(function() {
+                    $(this).css('display', 'block');
+                });
+
+                $('#ms-frm-eventForm-room .ms-selection ul li').each(function() {
+                    $(this).css('display', 'none');
+                });
+
+                valuesArray = [];
+
+                alert("Vyberte, prosím, dátum a čas.");
+
+            } else if (time_from === '' || time_to === ''){
+                $('#ms-frm-eventForm-room .ms-selectable ul li').each(function() {
+                    $(this).css('display', 'block');
+                });
+
+                $('#ms-frm-eventForm-room .ms-selection ul li').each(function() {
+                    $(this).css('display', 'none');
+                });
+
+                valuesArray = [];
+
+                alert("Vyberte, prosím, čas.");
+
+            } else {
+                $.nette.ajax({
+                    type: 'GET',
+                    url: window.changeRoom,
+                    data: {
+                        'roomIds': valuesArray,
+                        'date' :date
+                    },
+                    success: function () {
+                        setTimeout(function(){
+                            index = [];
+                            initSchedule(window.countRooms, window.schedules);
+                        }, 20);
+                    },
+                });
+            }
+        },
+    });
 
     initSchedule(window.countRooms, window.schedules);
-
-    $('#frm-eventForm-room').on('change', function () {
-        let values = [];
-        $('#frm-eventForm-room option:selected').each(function(i, sel){
-            values.push($(sel).val());
-        });
-
-        $.nette.ajax({
-            type: 'GET',
-            url: window.changeRoom,
-            data: {
-                'roomIds': values,
-                'date' : $('#frm-eventForm-date').attr('value')
-            },
-            success: function () {
-                setTimeout(function(){
-                    index = [];
-                    initSchedule(window.countRooms, window.schedules);
-                    }, 20);
-            },
-        });
-
-    });
 });
 
 function changeSchedule(scheduleId, schedule) {

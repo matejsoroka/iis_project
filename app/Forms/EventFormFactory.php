@@ -100,7 +100,6 @@ class EventFormFactory
 
         $form->onSuccess[] = function (Form $form, array $values) use ($onSuccess): void {
             try {
-
                 if ($values["files"]) {
                     $this->eventModel->addFiles((int) $values["id"], $values["files"]);
                 }
@@ -121,7 +120,7 @@ class EventFormFactory
                             return;
                         }
                     }
-                }
+               }
 
                 unset($values["files"]);
                 unset($values["change"]);
@@ -159,8 +158,6 @@ class EventFormFactory
             $form->getPresenter()->flashMessage('Uložené.', 'success');
             $onSuccess();
         };
-
-        $form->onError[] = [$this, 'processError'];
 
         return $form;
     }

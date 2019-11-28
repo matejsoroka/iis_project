@@ -79,7 +79,6 @@ final class CoursePresenter extends BasePresenter
 
         if (!$this->user->isAllowed("EditCourseStatus")) {
             if ($id) {
-                $this->course = $this->courseModel->getItem($id);
                 if (!($this->courseLectorModel->isLector($this->user->getId(), $id) || $this->course->garant == $this->user->getId())) { // De Morgan
                     $this->flashMessage("Nemáte oprávnenie pre správu kurzu", "warning");
                     $this->redirect("Course:");
@@ -93,7 +92,7 @@ final class CoursePresenter extends BasePresenter
         $this->hasGrid = true;
         $this->template->courseId = $id;
         if ($id) {
-            $this->template->course = $this->course;
+            $this->template->course = $this->courseModel->getItem($id);
             $this->template->events = $this->eventModel->getEvents(['course_id' => $this->id]);
         }
     }

@@ -124,9 +124,15 @@ class EventModel extends BaseModel
 
         foreach ($events as $event) {
             /* weekday of event */
-            $weekDay = date('w', strtotime($event->date));
+            $weekDay = (int)date('w', strtotime($event->date)) - 1;
             $from = (int)substr($event->time_from, 0, 2);
-            $to = (int)substr($event->time_to, 0, 2) + 2;
+
+            if (substr($event->time_to, 3, 5) > '00') {
+                $to = (int)substr($event->time_to, 0, 2) + 2;
+            } else {
+                $to = (int)substr($event->time_to, 0, 2) + 1;
+            }
+
 
             if (!sizeof($schedule)) {
                 while ($from != $to) {

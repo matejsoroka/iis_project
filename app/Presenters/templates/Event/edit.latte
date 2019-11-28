@@ -158,7 +158,7 @@
                                             <div class="form-group">
                                                 <p class="duty">*povinné údaje</p>
                                                 <div class="d-flex">
-                                                    <input name="save" type="submit" class="ajax save-event" value="Uložiť">
+                                                    <input name="save" type="submit" class="save-event" value="Uložiť">
                                                     {snippet scheduleButton}
                                                         <a n:if="$roomSchedules" class="btn btn-primary btn-collapse-schedules" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                                                             Zobraziť rozvrh miestností
@@ -189,14 +189,14 @@
                                         <div class="col-12">
                                             {if $files}
                                                 <h2>Súbory</h2>
-{*                                                {snippet eventFiles}*}
-{*                                                    <table class="table" n:foreach="$files as $file">*}
-{*                                                        <tr>*}
-{*                                                            <td><i class="fa fa-file"></i> <a href="/{$file->file->path}">{$file->file->name}</a></td>*}
-{*                                                            <td><a class="btn btn-danger ajax" n:href="DeleteFile! $file->id"><i class="fa fa-trash-o"></i></a></td>*}
-{*                                                        </tr>*}
-{*                                                    </table>*}
-{*                                                {/snippet}*}
+                                                {snippet eventFiles}
+                                                    <table class="table" n:foreach="$files as $file">
+                                                        <tr>
+                                                            <td><i class="fa fa-file"></i> <a href="/{$file->file->path}">{$file->file->name}</a></td>
+                                                            <td><a class="btn btn-danger ajax" n:href="DeleteFile! $file->id"><i class="fa fa-trash-o"></i></a></td>
+                                                        </tr>
+                                                    </table>
+                                                {/snippet}
                                                 {control fileGrid}
                                             {/if}
                                         </div>
@@ -206,6 +206,7 @@
                         </div>
                     {/form}
                 {/snippet}
+
 
                 {snippet scheduleSnippet}
                     <div class="col-md-12">
@@ -221,7 +222,7 @@
                                         window.schedules = {$roomSchedules};
                                     </script>
                                 </div>
-                            </div>
+                                </div>
                             {elseif $iterator->counter % 3 == 1}
                             <div class="row">
                                 <div class="col-md-4">

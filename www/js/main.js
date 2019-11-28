@@ -12,9 +12,6 @@ $(document).ready(function () {
     $('#frm-courseForm-room').multiSelect();
     $('#frm-courseForm-lectors').multiSelect();
 
-    let roomSelect = $('#frm-eventForm-room');
-    roomSelect.multiSelect();
-
     $('#frm-eventForm-date').on('change', function () {
         $('#changeFlag').val('1');
     });
@@ -27,7 +24,7 @@ $(document).ready(function () {
         $('#changeFlag').val('1');
     });
 
-    roomSelect.on('change', function () {
+    $('#frm-eventForm-room').on('change', function () {
         $('#changeFlag').val('1');
     });
 

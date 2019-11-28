@@ -154,9 +154,11 @@ final class EventPresenter extends BasePresenter
     public function handleChangeRoom(array $roomIds, string $date)
     {
         if (count($roomIds) > 0) {
-            foreach ($roomIds as $id) {
-                $this->schedules[$id] = $this->roomModel->getItem($id)->toArray();
-                $this->schedules[$id]['schedule'] = $this->eventModel->getSchedule($id, $date);
+            foreach ($roomIds as $rooms) {
+                foreach ($rooms as $id) {
+                    $this->schedules[$id] = $this->roomModel->getItem($id)->toArray();
+                    $this->schedules[$id]['schedule'] = $this->eventModel->getSchedule($id, $date);
+                }
             }
 
             $this->redrawControl('scheduleButton');
