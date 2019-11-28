@@ -1,10 +1,55 @@
 {block content}
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Rozvrhy</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {snippet scheduleSnippet}
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12" id="schedule-container" class="schedule">
+                                    <div class="row">
+                                    {foreach $roomSchedules as $i => $item}
+                                        <div class="col-md-4">
+                                            <h3 class="room-number">{$item['number']}</h3>
+                                            <div id="mySchedule_{$i}"></div>
+                                            <p class="hidden" id="hours_{$i}">{$item['schedule']}</p>
+                                            <script>
+                                                window.schedules = {$roomSchedules};
+                                            </script>
+                                        </div>
+                                    {/foreach}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {/snippet}
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-12">
-            <h1 n:block="title">{if $eventId}Spravovať termín{else}Pridať termín{/if}</h1>
-            <div class="row">
-                {snippet eventFormSnippet}
-                    {form eventForm}
+            {snippet eventFormSnippet}
+                {form eventForm}
+                    <div class="row">
+                        <div class="col-6"><h1 n:block="title">
+                                {if $eventId}Spravovať termín{else}Pridať termín{/if}
+                            </h1></div>
+                        <div class="col-6">
+                            <input name="save" type="submit" class="ajax save-event pull-right" value="Uložiť">
+                            {snippet scheduleButton}
+                                <a n:if="$roomSchedules" href="#" class="btn btn-primary save-event btn-collapse-schedules" data-toggle="modal" data-target="#exampleModal" role="button">
+                                    Zobraziť rozvrh miestností
+                                </a>
+                            {/snippet}
+                        </div>
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-md-6">
@@ -125,24 +170,6 @@
 
                                     <div class="row">
                                         <div class="col-12">
-                                            <div n:class="$form['files']->hasErrors() ? 'form-group has-error' : 'form-group'">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        {label files, class => 'form-label'}
-                                                    </div>
-                                                    <div class="col-md-7">
-                                                        <input n:name="files" class="form-control-file">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div n:if="$form['files']->hasErrors()">
-                                                <span class="invalid-feedback">{inputError files}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-12">
                                             <div n:class="$form['repeat']->hasErrors() ? 'form-group has-error' : 'form-group'">
                                                 {label repeat, class => 'form-label'}
                                                 {input repeat}
@@ -158,12 +185,7 @@
                                             <div class="form-group">
                                                 <p class="duty">*povinné údaje</p>
                                                 <div class="d-flex">
-                                                    <input name="save" type="submit" class="save-event" value="Uložiť">
-                                                    {snippet scheduleButton}
-                                                        <a n:if="$roomSchedules" class="btn btn-primary btn-collapse-schedules" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                                            Zobraziť rozvrh miestností
-                                                        </a>
-                                                    {/snippet}
+
                                                 </div>
                                             </div>
                                         </div>
@@ -187,16 +209,23 @@
                                             </div>
                                         </div>
                                         <div class="col-12">
+                                            <div n:class="$form['files']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        {label files, class => 'form-label'}
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <input n:name="files" class="form-control-file">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div n:if="$form['files']->hasErrors()">
+                                                <span class="invalid-feedback">{inputError files}</span>
+                                            </div>
+                                            {/form}
                                             {if $files}
                                                 <h2>Súbory</h2>
-                                                {snippet eventFiles}
-                                                    <table class="table" n:foreach="$files as $file">
-                                                        <tr>
-                                                            <td><i class="fa fa-file"></i> <a href="/{$file->file->path}">{$file->file->name}</a></td>
-                                                            <td><a class="btn btn-danger ajax" n:href="DeleteFile! $file->id"><i class="fa fa-trash-o"></i></a></td>
                                                         </tr>
-                                                    </table>
-                                                {/snippet}
                                                 {control fileGrid}
                                             {/if}
                                         </div>
@@ -204,51 +233,10 @@
                                 </div>
                             </div>
                         </div>
-                    {/form}
-                {/snippet}
-
-
-                {snippet scheduleSnippet}
-                    <div class="col-md-12">
-                        <div class="collapse" id="collapseExample">
-                            <div class="col-md-12" id="schedule-container" class="schedule">
-                                {foreach $roomSchedules as $i => $item}
-                                {if $iterator->counter % 3 == 0}
-                                <div class="col-md-4">
-                                    <h3 class="room-number">{$item['number']}</h3>
-                                    <div id="mySchedule_{$i}"></div>
-                                    <p class="hidden" id="hours_{$i}">{$item['schedule']}</p>
-                                    <script>
-                                        window.schedules = {$roomSchedules};
-                                    </script>
-                                </div>
-                                </div>
-                            {elseif $iterator->counter % 3 == 1}
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h3 class="room-number">{$item['number']}</h3>
-                                    <div id="mySchedule_{$i}"></div>
-                                    <p class="hidden" id="hours_{$i}">{$item['schedule']}</p>
-                                    <script>
-                                        window.schedules = {$roomSchedules};
-                                    </script>
-                                </div>
-                                {elseif $iterator->counter % 3 == 2}
-                                <div class="col-md-4">
-                                    <h3 class="room-number">{$item['number']}</h3>
-                                    <div id="mySchedule_{$i}"></div>
-                                    <p class="hidden" id="hours_{$i}">{$item['schedule']}</p>
-                                    <script>
-                                        window.schedules = {$roomSchedules};
-                                    </script>
-                                </div>
-                                {/if}
-                                {/foreach}
-                            </div>
-                        </div>
                     </div>
-                {/snippet}
-            </div>
+            {/snippet}
+
+
         </div>
     </div>
 

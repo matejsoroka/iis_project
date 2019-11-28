@@ -169,6 +169,10 @@ input[type="submit"] {
   font-weight: bold;
 }
 .save-event {
-  margin-top: -4px !important;
+  margin: 2.5em 0 0 0 !important;
+}
+.modal-schedule {
+  width: 700px;
+  margin: auto;
 }
 /*# sourceMappingURL=style.css.map */

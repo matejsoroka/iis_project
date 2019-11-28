@@ -189,16 +189,20 @@ final class EventPresenter extends BasePresenter
                 return $row->file->type;
             });
 
+        $grid->addAction('delete', '', 'DeleteFile!')
+            ->setIcon('trash')
+            ->setClass('btn btn-xs btn-danger');
+
         $grid->addColumnStatus("permission", "Zdieľanie")
-            ->addOption('', "Verejný")
+            ->addOption('pub', "Verejný")
             ->endOption()
             ->addOption('registered', "Registrovaný")
             ->endOption()
             ->addOption('student', "Zapísaný")
             ->endOption()
-            ->onChange[] = function($id, $value): void {
-            $this->studentCourseModel->edit((int) $id, ["status" => $value]);
-            $this->redirect("this");
+            ->onChange[] = function($id, $value) use ($grid): void {
+                $this->eventFileModel->edit((int) $id, ["permission" => $value]);
+                $grid->redrawItem($id);
         };
 
 
