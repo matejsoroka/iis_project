@@ -76,7 +76,7 @@ final class CoursePresenter extends BasePresenter
     public function actionEdit(int $id = 0)
     {
         $this->id = $id;
-
+        $this->course = $this->courseModel->getItem($id);
         if (!$this->user->isAllowed("EditCourseStatus")) {
             if ($id) {
                 if (!($this->courseLectorModel->isLector($this->user->getId(), $id) || $this->course->garant == $this->user->getId())) { // De Morgan
