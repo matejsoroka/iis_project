@@ -14,6 +14,7 @@ use App\Model\CourseRoomModel;
 use App\Model\StudentCourseModel;
 use App\Model\StudentPointsModel;
 use Nette\Application\UI\Form;
+use Nette\Database\Table\ActiveRow;
 use Nette\Database\UniqueConstraintViolationException;
 use Ublaboo\DataGrid\DataGrid;
 
@@ -37,6 +38,9 @@ final class CoursePresenter extends BasePresenter
 
     /** @var StudentPointsModel @inject */
     public $studentPointsModel;
+
+    /** @var ActiveRow */
+    public $course;
 
     /** @persistent */
     private $id;
@@ -74,9 +78,12 @@ final class CoursePresenter extends BasePresenter
         $this->id = $id;
 
         if (!$this->user->isAllowed("EditCourseStatus")) {
-            if (!$this->courseLectorModel->isLector($this->user->getId(), $id)) {
-                $this->flashMessage("Nemáte oprávnenie pre správu kurzu", "warning");
-                $this->redirect("Course:");
+            if ($id) {
+                $this->course = $this->courseModel->getItem($id);
+                if (!($this->courseLectorModel->isLector($this->user->getId(), $id) || $this->course->garant == $this->user->getId())) { // De Morgan
+                    $this->flashMessage("Nemáte oprávnenie pre správu kurzu", "warning");
+                    $this->redirect("Course:");
+                }
             }
         }
     }
@@ -86,7 +93,7 @@ final class CoursePresenter extends BasePresenter
         $this->hasGrid = true;
         $this->template->courseId = $id;
         if ($id) {
-            $this->template->course = $this->courseModel->getItem($id);
+            $this->template->course = $this->course;
             $this->template->events = $this->eventModel->getEvents(['course_id' => $this->id]);
         }
     }
@@ -97,7 +104,7 @@ final class CoursePresenter extends BasePresenter
     protected function createComponentCourseForm(): Form
     {
         return $this->courseFormFactory->create(function (): void {
-            $this->redirect('Course:');
+            $this->redirect('Course:edit', $this->presenter->getParameter("id"));
         }, $this->user->id, (int) $this->presenter->getParameter("id"));
     }
 
