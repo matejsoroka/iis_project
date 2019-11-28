@@ -97,7 +97,7 @@ final class CoursePresenter extends BasePresenter
     protected function createComponentCourseForm(): Form
     {
         return $this->courseFormFactory->create(function (): void {
-            $this->redirect('Course:');
+            $this->redirect('Course:edit', $this->presenter->getParameter("id"));
         }, $this->user->id, (int) $this->presenter->getParameter("id"));
     }
 

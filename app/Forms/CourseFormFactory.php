@@ -99,6 +99,7 @@ final class CourseFormFactory
                         $this->courseRoomModel->add($array);
                     }
                     unset($values['room']);
+                    $this->courseLectorModel->delete(['course_id' => $values["id"]]);
                     foreach ($values['lectors'] as $lector) {
                         $array = ['lector_id' => $lector, 'course_id' => $values["id"]];
                         $this->courseLectorModel->add($array);
