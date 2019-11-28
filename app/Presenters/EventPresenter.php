@@ -83,7 +83,13 @@ final class EventPresenter extends BasePresenter
     public function actionEdit(int $courseId, int $eventId = null)
     {
         $this->hasGrid = true;
-        $date = $this->eventModel->getItem($eventId)->date;
+
+        if ($eventId) {
+            $date = $this->eventModel->getItem($eventId)->date;
+        } else {
+            $date = date("Y-m-d");
+        }
+
         $this->eventModel->getSchedule(6, $date);
 
         if (!$this->user->isAllowed("EditCourseStatus")) {
