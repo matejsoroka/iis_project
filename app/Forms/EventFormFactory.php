@@ -156,6 +156,7 @@ class EventFormFactory
                 $form['title']->addError('Názov je už použitý, vytvorte nový, prosím.');
                 return;
             }
+
             $form->getPresenter()->flashMessage('Uložené.', 'success');
             $onSuccess();
         };
