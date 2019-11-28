@@ -311,7 +311,8 @@ $(document).ready(function () {
             type: 'GET',
             url: window.changeRoom,
             data: {
-                'roomIds': values
+                'roomIds': values,
+                'date' : $('#frm-eventForm-date').attr('value')
             },
             success: function () {
                 setTimeout(function(){

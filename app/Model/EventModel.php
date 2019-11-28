@@ -103,45 +103,60 @@ class EventModel extends BaseModel
         return 0;
     }
 
-    public function updateSchedule(int $roomId, string $timeFrom, string $timeTo, string $date)
+    public function getSchedule(int $roomId, string $date) : string
     {
-        $from = (int)substr($timeFrom, 0, 2);
-        $to = (int)substr($timeTo, 0, 2) + 2;
-        $weekDay = date('w', strtotime($date));
+        $rooms = $this->eventRoomModel->getItems(['room_id' => $roomId])->fetchAll();
 
-        $room = $this->roomModel->getItem($roomId);
-        $inArray = false;
+        $dateFrom = date('Y-m-d', strtotime("previous monday", strtotime($date)));
+        $dateTo = date('Y-m-d', strtotime("this friday", strtotime($date)));
+
+        $events = [];
+        /* get events in selected room */
+        foreach ($rooms as $room) {
+            $event = $this->db->table($this->table)->where('`id` = ? AND `date` BETWEEN ? AND ?', $room->event_id, $dateFrom.' 00:00:00', $dateTo.' 23:59:59')->fetch();
+            if ($event) {
+                $events[] = $event;
+            }
+        }
+
         $schedule = [];
-        if (!$room->schedule || $room->schedule == '[]') {
-            while ($from != $to) {
-                $schedule[$weekDay][] = (string)$from . ':00';
-                $from++;
-            }
-        } else {
-            $roomSchedule = json_decode($room->schedule, true);
-            foreach ($roomSchedule as $key => $item) {
-                if ($weekDay == $key) {
-                    while ($from != $to) {
-                        array_push($item, (string)$from . ':00');
-                        $from++;
-                    }
-                    sort($item);
-                    $inArray = true;
-                    $schedule[$key] = $item;
-                }
-            }
+        $inArray = false;
 
-            if (!$inArray) {
-                $schedule = $roomSchedule;
+        foreach ($events as $event) {
+            /* weekday of event */
+            $weekDay = date('w', strtotime($event->date));
+            $from = (int)substr($event->time_from, 0, 2);
+            $to = (int)substr($event->time_to, 0, 2) + 2;
+
+            if (!sizeof($schedule)) {
                 while ($from != $to) {
                     $schedule[$weekDay][] = (string)$from . ':00';
                     $from++;
                 }
-            }
+            } else {
+                foreach ($schedule as $key => $item) {
+                    if ($weekDay == $key) {
+                        while ($from != $to) {
+                            array_push($item, (string)$from . ':00');
+                            $from++;
+                        }
+                        sort($item);
+                        $inArray = true;
+                        $schedule[$key] = $item;
+                    }
+                }
 
+                if (!$inArray) {
+                    while ($from != $to) {
+                        $schedule[$weekDay][] = (string)$from . ':00';
+                        $from++;
+                    }
+                }
+
+            }
         }
 
-        $this->roomModel->edit($roomId, ['schedule' => json_encode($schedule)]);
+        return json_encode($schedule);
 
     }
 

@@ -20,7 +20,7 @@ final class TimetablePresenter extends BasePresenter
     public $eventModel;
 
     public function renderDefault()
-    {   $this->eventModel->updateSchedule(1, '15:30:00', '16:50:00', '21.11.2019');
+    {
         $this->template->courses = $this->studentCourses->getItems(["student_id" => $this->user->getId()]);
         $this->template->points = $this->studentCourses->getPoints($this->user->getId());
     }

@@ -210,12 +210,12 @@
                     <div class="col-md-12">
                         <div class="collapse" id="collapseExample">
                             <div class="col-md-12" id="schedule-container" class="schedule">
-                                {foreach $roomSchedules as $i => $item} {dump $roomSchedules}
+                                {foreach $roomSchedules as $i => $item}
                                 {if $iterator->counter % 3 == 0}
                                 <div class="col-md-4">
-                                    <h3 class="room-number">{$item->number}</h3>
+                                    <h3 class="room-number">{$item['number']}</h3>
                                     <div id="mySchedule_{$i}"></div>
-                                    <p class="hidden" id="hours_{$i}">{$item->schedule}</p>
+                                    <p class="hidden" id="hours_{$i}">{$item['schedule']}</p>
                                     <script>
                                         window.schedules = {$roomSchedules};
                                     </script>
@@ -224,18 +224,18 @@
                             {elseif $iterator->counter % 3 == 1}
                             <div class="row">
                                 <div class="col-md-4">
-                                    <h3 class="room-number">{$item->number}</h3>
+                                    <h3 class="room-number">{$item['number']}</h3>
                                     <div id="mySchedule_{$i}"></div>
-                                    <p class="hidden" id="hours_{$i}">{$item->schedule}</p>
+                                    <p class="hidden" id="hours_{$i}">{$item['schedule']}</p>
                                     <script>
                                         window.schedules = {$roomSchedules};
                                     </script>
                                 </div>
                                 {elseif $iterator->counter % 3 == 2}
                                 <div class="col-md-4">
-                                    <h3 class="room-number">{$item->number}</h3>
+                                    <h3 class="room-number">{$item['number']}</h3>
                                     <div id="mySchedule_{$i}"></div>
-                                    <p class="hidden" id="hours_{$i}">{$item->schedule}</p>
+                                    <p class="hidden" id="hours_{$i}">{$item['schedule']}</p>
                                     <script>
                                         window.schedules = {$roomSchedules};
                                     </script>
@@ -246,39 +246,38 @@
                         </div>
                     </div>
                 {/snippet}
-
-                {if $eventId}
-                <div class="col-12">
-                    <h2>Hodnotenie študentov</h2>
-                    <form n:name="eventPointsForm">
-                        <input n:name="save" value="Uložiť hodnotenie" class="btn btn-success">
-                        <table class="table mt-3">
-                            {foreach $registered as $student}
-                                <tr>
-                                    <td>
-                                        {$student->student->name}
-                                    </td>
-                                    <td>
-                                        {$student->student->surname}
-                                    </td>
-                                    <td>
-                                        {$student->student->username}
-                                    </td>
-                                    <td>
-                                        <input n:name="{$student->student->id}">
-                                    </td>
-                                </tr>
-                            {/foreach}
-                        </table>
-                    </form>
-                </div>
-                {/if}
             </div>
         </div>
-        </div>
+    </div>
 
+    {if $eventId}
+        <div class="col-12">
+            <h2>Hodnotenie študentov</h2>
+            <form n:name="eventPointsForm">
+                <input n:name="save" value="Uložiť hodnotenie" class="btn btn-success">
+                <table class="table mt-3">
+                    {foreach $registered as $student}
+                        <tr>
+                            <td>
+                                {$student->student->name}
+                            </td>
+                            <td>
+                                {$student->student->surname}
+                            </td>
+                            <td>
+                                {$student->student->username}
+                            </td>
+                            <td>
+                                <input n:name="{$student->student->id}">
+                            </td>
+                        </tr>
+                    {/foreach}
+                </table>
+            </form>
+        </div>
+    {/if}
     <script>
-        window.changeRoom = {link changeRoom! []};
+        window.changeRoom = {link changeRoom! [], ''};
         window.countRooms = {$countRooms};
         window.schedules = {$roomSchedules};
     </script>

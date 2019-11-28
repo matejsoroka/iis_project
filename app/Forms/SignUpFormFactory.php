@@ -45,7 +45,7 @@ final class SignUpFormFactory
 
         $this->id = $id;
 
-        $form->addText('email', 'Email*')
+        $form->addEmail('email', 'Email*')
             ->setRequired('Prosím, zadajte váš email');
 
         $form->addText('name', 'Meno*')
@@ -81,15 +81,23 @@ final class SignUpFormFactory
         $form->onSuccess[] = function (Form $form, array $values) use ($onSuccess): void {
             unset($values['checkPassword']);
 
-            if ($this->id) {
-                $this->userManager->edit($this->id, $values['name'], $values['surname'], $values['email'], $values['password']);
-                $form->getPresenter()->flashMessage('Úpravy sú uložené.', 'success');
-            } else {
-                $login = $this->userModel->createLogin($values['name'], $values['surname']);
-                $this->userManager->add($login, $values['name'], $values['surname'], $values['email'], $values['password']);
+            try {
+                if ($this->id) {
+                    $this->userManager->edit($this->id, $values['name'], $values['surname'], $values['email'], $values['password']);
+                    $form->getPresenter()->flashMessage('Úpravy sú uložené.', 'success');
+                } else {
+                    $login = $this->userModel->createLogin($values['name'], $values['surname']);
+                    $this->userManager->add($login, $values['name'], $values['surname'], $values['email'], $values['password']);
 
-                $this->mailSender->sendEmail($login, $values['email']);
-                $form->getPresenter()->flashMessage('Registrácia prebehla úspešne.', 'success');
+                    $this->mailSender->sendEmail($login, $values['email']);
+                    $form->getPresenter()->flashMessage('Registrácia prebehla úspešne.', 'success');
+                }
+            } catch (Model\DuplicateNameException $e) {
+                $form['email']->addError('Email už existuje');
+                return;
+            } catch (Nette\Mail\SendException $e) {
+                $form->getPresenter()->flashMessage('Z technických príčin nebol odoslaný email s potvrdením registrácie. Skúste to neskôr, prosím.', 'warning');
+                return;
             }
 
             $onSuccess();

@@ -80,6 +80,8 @@ final class EventPresenter extends BasePresenter
 
     public function actionEdit(int $courseId, int $eventId = null)
     {
+        $date = $this->eventModel->getItem($eventId)->date;
+        $this->eventModel->getSchedule(6, $date);
 
         if (!$this->user->isAllowed("EditCourseStatus")) {
             if (!$this->courseLectorModel->isLector($this->user->getId(), $courseId)) {
@@ -94,7 +96,12 @@ final class EventPresenter extends BasePresenter
 
         if ($eventId) {
             $this->event = $this->eventModel->getItem($eventId);
-            $this->schedules = $this->eventRoomModel->getAvailableSchedules($eventId);
+            $rooms = $this->eventRoomModel->getItems(['event_id' => $eventId])->fetchAll();
+
+            foreach ($rooms as $room) {
+                $this->schedules[$room->room_id] = $this->roomModel->getItem($room->room_id)->toArray();
+                $this->schedules[$room->room_id]['schedule'] = $this->eventModel->getSchedule($room->room_id, $this->event->date);
+            }
         } else {
             $this->schedules = [];
         }
@@ -132,17 +139,16 @@ final class EventPresenter extends BasePresenter
         $this->course_id, $this->id, $this->event->points);
     }
 
-    public function handleChangeRoom(array $roomIds)
+    public function handleChangeRoom(array $roomIds, string $date)
     {
         if (count($roomIds) > 0) {
-            $rooms = [];
             foreach ($roomIds as $id) {
-                $rooms[$id] = $this->roomModel->getItem($id);
+                $this->schedules[$id] = $this->roomModel->getItem($id)->toArray();
+                $this->schedules[$id]['schedule'] = $this->eventModel->getSchedule($id, $date);
             }
 
-            $this->schedules = $rooms;
-            $this->redrawControl('scheduleSnippet');
             $this->redrawControl('scheduleButton');
+            $this->redrawControl('scheduleSnippet');
 
         } else {
             $this->schedules  = [];
