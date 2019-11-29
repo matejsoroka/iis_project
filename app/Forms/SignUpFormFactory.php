@@ -66,7 +66,8 @@ final class SignUpFormFactory
         }
 
         $form->addPassword('checkPassword', 'Zadajte znovu heslo:')
-            ->addConditionOn($form['password'], FORM::FILLED, FALSE)
+            ->addConditionOn($form['password'], FORM::FILLED, TRUE)
+            ->setRequired('Prosim, zadajte kontrolné heslo')
             ->addRule(Form::EQUAL, 'Zadané heslá sa nezhodujú!', $form['password']);;
 
         $form->addSubmit('send', 'Zaregistrovať sa')
@@ -90,7 +91,7 @@ final class SignUpFormFactory
                     $this->userManager->add($login, $values['name'], $values['surname'], $values['email'], $values['password']);
 
                     $this->mailSender->sendEmail($login, $values['email']);
-                    $form->getPresenter()->flashMessage('Registrácia prebehla úspešne.', 'success');
+                    $form->getPresenter()->flashMessage('Registrácia prebehla úspešne. Počkajte, prosím, na potvrdzujúci email.', 'success');
                 }
             } catch (Model\DuplicateNameException $e) {
                 $form['email']->addError('Email už existuje');
@@ -108,7 +109,7 @@ final class SignUpFormFactory
 
     public function handleError(Form $form)
     {
-        $presenter = $form->getPresenter(); \Tracy\Debugger::barDump('tu');
+        $presenter = $form->getPresenter();
         if ($presenter->isAjax()) {
             $presenter->redrawControl('userFormSnippet');
         }

@@ -206,6 +206,12 @@ final class CoursePresenter extends BasePresenter
                 ->setClass('btn btn-xs btn-primary');
         }
 
+        if ($this->user->isAllowed("Course:deleteCourse")) {
+            $grid->addAction('deleteCourse', '', 'deleteCourse!')
+                ->setIcon('trash')
+                ->setClass('btn btn-xs btn-danger');
+        }
+
         if ($this->user->isAllowed("Course:register")) {
             $grid->addAction('register', 'Registrovať sa', 'Register!')
                 ->setIcon('check')
@@ -255,6 +261,21 @@ final class CoursePresenter extends BasePresenter
         }
 
         $this->redirect('Course:edit', $courseId);
+
+    }
+
+    public function handleDeleteCourse(int $id)
+    {
+        $course = $this->courseModel->getItem($id);
+
+        if (!$course) {
+            $this->flashMessage("Kurz nebol nájdený", "warning");
+        } else {
+            $this->courseModel->delete(['id' => $id]);
+            $this->flashMessage("Kurz uspešne zmazaný", "success");
+        }
+
+        $this->redirect('Course:default');
 
     }
 }

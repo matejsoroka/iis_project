@@ -1,55 +1,57 @@
 {block content}
 <div class="row">
-    {form signInForm}
-    <div class="col-12">
-        <h1 n:block=title>Prihlásenie</h1>
-        <div class="row">
-            <div class="col-md-6">
-                <div n:class="$form['username']->hasErrors() ? 'form-group has-error' : 'form-group'">
-                    <div class="row">
-                        <div class="col-md-4">
-                            {label username, class => 'form-label'}
+    {snippet signInSnippet}
+        {form signInForm}
+            <div class="col-12">
+                <h1 n:block=title>Prihlásenie</h1>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div n:class="$form['username']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    {label username, class => 'form-label'}
+                                </div>
+                                <div class="col-md-6">
+                                    {input username, class => 'form-input'}
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            {input username, class => 'form-input'}
+                        <div n:if="$form['username']->hasErrors()">
+                            <span class="invalid-feedback">{inputError username}</span>
                         </div>
                     </div>
                 </div>
-                <div n:if="$form['username']->hasErrors()">
-                    <span class="invalid-feedback">{inputError username}</span>
-                </div>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-6">
-                <div n:class="$form['password']->hasErrors() ? 'form-group has-error' : 'form-group'">
-                    <div class="row">
-                        <div class="col-md-4">
-                            {label password, class => 'form-label'}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div n:class="$form['password']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    {label password, class => 'form-label'}
+                                </div>
+                                <div class="col-md-6">
+                                    {input password, class => 'form-input'}
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            {input password, class => 'form-input'}
+                        <div n:if="$form['password']->hasErrors()">
+                            <span class="invalid-feedback">{inputError password}</span>
                         </div>
                     </div>
                 </div>
-                <div n:if="$form['password']->hasErrors()">
-                    <span class="invalid-feedback">{inputError password}</span>
+
+                <div class="row">
+                    <div class="col-12">
+                        {label remember}
+                        {input remember}
+                    </div>
+                    <div class="col-12">
+                        <input name="send" id="saveEvent" type="submit" class="ajax" value="Prihlásiť sa">
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-12">
-                {label remember}
-                {input remember}
-            </div>
-            <div class="col-12">
-                <input name="send" id="saveEvent" type="submit" class="ajax" value="Prihlásiť sa">
-            </div>
-        </div>
-    </div>
-    {/form}
+        {/form}
+    {/snippet}
 </div>
 
 

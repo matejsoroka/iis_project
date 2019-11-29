@@ -128,7 +128,8 @@ input[type="submit"] {
 #snippet--courseForm,
 #snippet--eventFormSnippet,
 #frm-eventForm,
-#frm-signInForm {
+#frm-signInForm,
+#snippet--signInSnippet {
   width: 100%;
 }
 .room-number {
