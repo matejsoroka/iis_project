@@ -12,7 +12,7 @@ class AuthFactory
 
         $acl->addRole('guest');
         $acl->addRole('registered', 'guest');
-        $acl->addRole('student', 'guest');
+        $acl->addRole('student', 'registered');
         $acl->addRole('lector', 'student');
         $acl->addRole('garant', 'lector');
         $acl->addRole('leader', 'garant');
@@ -36,6 +36,10 @@ class AuthFactory
         $acl->addResource('Event:detail');          // Zobrazenie terminu
         $acl->allow('guest', 'Event:detail');
 
+        /* Registered*/
+        $acl->addResource('User:edit');             // Uprava uzivatela
+        $acl->allow('registered', 'User:edit');
+
         /* Student */
         $acl->addResource('Course:register');       // Registracia kurzov
         $acl->allow('student', 'Course:register');
@@ -52,9 +56,6 @@ class AuthFactory
         $acl->addResource('Index:timetable');       // Zobrazenie hodnotenia
         $acl->allow('student', 'Index:timetable');
 
-        $acl->addResource('User:edit');             // Uprava uzivatela
-        $acl->allow('student', 'User:edit');
-
         /* Lektor */
         $acl->addResource('Course:edit');           // Uprava kurzu, pozor na restricted inputka
         $acl->allow('lector', 'Course:edit');
@@ -68,6 +69,9 @@ class AuthFactory
 
         $acl->addResource("Course:create");
         $acl->allow("garant", "Course:create");
+
+        $acl->addResource("Course:deleteCourse");
+        $acl->allow("garant", "Course:deleteCourse");
 
         $acl->addResource("Course:editData");
         $acl->allow("garant", "Course:editData");
