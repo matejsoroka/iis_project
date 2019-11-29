@@ -33,6 +33,12 @@
                 <img alt="FIT VUT" src="{$basePath}/images/fit.png">
             </a>
 
+            {if $user->isLoggedIn()}
+                <a n:href="User:edit $user->id" class="link" title="Upraviť">
+                    <i class="fa fa-user"></i> {$user->getIdentity()->username}
+                </a>
+            {/if}
+
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

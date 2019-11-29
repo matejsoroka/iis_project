@@ -154,6 +154,7 @@
                                         <th scope="col">Dátum</th>
                                         <th scope="col">Čas od</th>
                                         <th scope="col">Čas do</th>
+                                        <th colspan="2">Akcie</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -165,6 +166,9 @@
                                         <td>{$event->time_from|date:'%H:%M'}</td>
                                         <td>{$event->time_to|date:'%H:%M'}</td>
                                         <td><a class="btn-sm btn-primary btn-edit" n:href="Event:edit $courseId, $event['id']"><i class="fa fa-pencil"></i></a></td>
+                                        <td n:if="$user->isAllowed('Course:deleteEvent')" class="pl-0 pr-4">
+                                            <a class="btn-sm btn-danger btn-edit" n:href="deleteEvent! $courseId, $event['id']"><i class="fa fa-trash"></i></a>
+                                        </td>
                                     </tr>
                                     {/foreach}
                                     </tbody>

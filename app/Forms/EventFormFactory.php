@@ -90,12 +90,16 @@ class EventFormFactory
 
             /* change format of date */
             $date = date("Y-m-d", strtotime($this->eventModel->getItem($event_id)->date));
-            $form->setDefaults(['date' => $date]);
 
             $selected = $this->eventRoomModel->fetchPairs(['event_id' => $event_id], 'id', 'room_id');
             $form->setDefaults(['room' => $selected]);
+
+        } else {
+            /* today's date */
+            $date = date("Y-m-d");
         }
 
+        $form->setDefaults(['date' => $date]);
         $form->addSubmit('save');
 
         $form->onSuccess[] = function (Form $form, array $values) use ($onSuccess): void {

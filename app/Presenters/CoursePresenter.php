@@ -242,4 +242,19 @@ final class CoursePresenter extends BasePresenter
             $this->flashMessage("Už ste registrovaný", "warning");
         }
     }
+
+    public function handleDeleteEvent(int $courseId, int $eventId)
+    {
+        $event = $this->eventModel->getItem($eventId);
+
+        if (!$event) {
+            $this->flashMessage("Termín nebol nájdený", "warning");
+        } else {
+            $this->eventModel->delete(['id' => $eventId]);
+            $this->flashMessage("Termín uspešne zmazaný", "success");
+        }
+
+        $this->redirect('Course:edit', $courseId);
+
+    }
 }
