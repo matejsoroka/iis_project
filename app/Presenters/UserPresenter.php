@@ -98,6 +98,12 @@ final class UserPresenter extends BasePresenter
                 ->setClass('btn btn-xs btn-primary');
         }
 
+        if ($this->user->isAllowed("User:delete")) {
+            $grid->addAction('delete', '', 'delete!')
+                ->setIcon('trash')
+                ->setClass('btn btn-xs btn-danger');
+        }
+
         return $grid;
     }
 
@@ -126,6 +132,21 @@ final class UserPresenter extends BasePresenter
         return $this->signUpFormFactory->create(function (): void {
             $this->redirect('User:');
         }, $this->id);
+    }
+
+    public function handleDelete(int $id)
+    {
+        $user = $this->userModel->getItem($id);
+
+        if ($this->user->id == $id || $user->role == 'admin') {
+            $this->flashMessage("Nemôžete zmazať tohto používateľa", "warning");
+            $this->redirect('User:');
+
+        } else {
+            $this->userModel->delete(['id' => $id]);
+            $this->flashMessage("Používateľ úspešne vymazaný", "success");
+            $this->redirect('User:');
+        }
     }
 
 }

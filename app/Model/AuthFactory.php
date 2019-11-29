@@ -86,6 +86,9 @@ class AuthFactory
         $acl->addResource('User:edit');             // Uprava uzivatela, uzivatelov
         $acl->allow('admin', 'User:edit');
 
+        $acl->addResource('User:delete');             // Mazanie uzivatela, uzivatelov
+        $acl->allow('admin', 'User:delete');
+
         return $acl;
     }
 }
