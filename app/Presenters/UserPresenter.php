@@ -41,13 +41,13 @@ final class UserPresenter extends BasePresenter
 
         $grid->addColumnText("name", "Meno")
             ->setEditableCallback(function($id, $value): void {
-                $this->columnEdit($id, "first_name", $value); die();
+                $this->columnEdit($id, "name", $value); die();
             })
             ->setFilterText();
 
         $grid->addColumnText("surname", "Priezvisko")
             ->setEditableCallback(function($id, $value): void {
-                $this->columnEdit($id, "second_name", $value); die();
+                $this->columnEdit($id, "surname", $value); die();
             })
             ->setFilterText();
 
