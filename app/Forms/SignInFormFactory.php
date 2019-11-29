@@ -7,6 +7,7 @@ namespace App\Forms;
 use Nette;
 use Nette\Application\UI\Form;
 use Nette\Security\User;
+use App\Model\UserModel;
 
 
 final class SignInFormFactory
@@ -19,11 +20,15 @@ final class SignInFormFactory
 	/** @var User */
 	private $user;
 
+    /** @var UserModel */
+    private $userModel;
 
-	public function __construct(FormFactory $factory, User $user)
+
+	public function __construct(FormFactory $factory, User $user, UserModel $userModel)
 	{
 		$this->factory = $factory;
 		$this->user = $user;
+		$this->userModel = $userModel;
 	}
 
 
@@ -44,6 +49,11 @@ final class SignInFormFactory
 
 		$form->onSuccess[] = function (Form $form, \stdClass $values) use ($onSuccess): void {
 			try {
+			    $user = $this->userModel->getItems(['username' => $values->username])->fetch();
+			    if (!$user) {
+                    $form['username']->addError('Zadaný login neexistuje.');
+                    return;
+                }
 				$this->user->setExpiration($values->remember ? '14 days' : '1 day');
 				$this->user->login($values->username, $values->password);
 			} catch (Nette\Security\AuthenticationException $e) {
@@ -54,6 +64,16 @@ final class SignInFormFactory
 			$onSuccess();
 		};
 
+		$form->onError[] = [$this, 'handleError'];
+
 		return $form;
 	}
+
+    public function handleError(Form $form)
+    {
+        $presenter = $form->getPresenter();
+        if ($presenter->isAjax()) {
+            $presenter->redrawControl('signInSnippet');
+        }
+    }
 }
