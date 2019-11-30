@@ -181,7 +181,7 @@ final class EventPresenter extends BasePresenter
 
         $grid->addColumnText("name", "Názov")
             ->setRenderer(function ($row) {
-                return Html::el('a')->href($row->file->path)->setText($row->file->name);
+                return Html::el('a')->href("/".$row->file->path)->setText($row->file->name);
             });
 
         $grid->addColumnText("type", "Typ")
