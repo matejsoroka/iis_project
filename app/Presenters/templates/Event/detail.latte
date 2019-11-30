@@ -5,7 +5,7 @@
         </div>
         <div class="col-4">
             <h2>{$event->title}</h2>
-            <p>{$event->date}</p>
+            <p>{$event->date|date:'%d.%m.%Y'} {$event->time_from|date:'%H:%M'} - {$event->time_to|date:'%H:%M'}</p>
             <p>Max. bodov: {$event->points}</p>
             <p>Získané body: {$studentPoints}</p>
         </div>

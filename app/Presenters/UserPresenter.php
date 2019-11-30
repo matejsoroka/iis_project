@@ -130,7 +130,7 @@ final class UserPresenter extends BasePresenter
     public function createComponentUserForm()
     {
         return $this->signUpFormFactory->create(function (): void {
-            $this->redirect('User:');
+            $this->redirect('this');
         }, $this->id);
     }
 
