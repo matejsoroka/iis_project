@@ -91,6 +91,7 @@ final class EventPresenter extends BasePresenter
         }
 
         $this->eventModel->getSchedule(6, $date);
+        $this->course = NULL;
 
         if (!$this->user->isAllowed("EditCourseStatus")) {
             if ($courseId) {
@@ -104,7 +105,6 @@ final class EventPresenter extends BasePresenter
 
         $this->id = $eventId;
         $this->course_id = $courseId;
-        $this->course = $this->courseModel->getItem($courseId);
 
         if ($eventId) {
             $this->event = $this->eventModel->getItem($eventId);

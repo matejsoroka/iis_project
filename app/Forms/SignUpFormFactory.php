@@ -14,7 +14,7 @@ final class SignUpFormFactory
 {
     use Nette\SmartObject;
 
-    private const PASSWORD_MIN_LENGTH = 7;
+    private const PASSWORD_MIN_LENGTH = 6;
 
     /** @var FormFactory */
     private $factory;

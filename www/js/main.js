@@ -30,5 +30,5 @@ $(document).ready(function () {
 
     CKEDITOR.replace("frm-courseForm-description");
     CKEDITOR.replace("frm-eventForm-description");
-
+    CKEDITOR.replace("frm-courseForm-equipment");
 });

@@ -57,7 +57,7 @@ final class SignInFormFactory
 				$this->user->setExpiration($values->remember ? '14 days' : '1 day');
 				$this->user->login($values->username, $values->password);
 			} catch (Nette\Security\AuthenticationException $e) {
-				$form->addError('The username or password you entered is incorrect.');
+				$form['password']->addError('Nesprávne prihlasovacie údaje.');
 				return;
 			}
             $form->getPresenter()->flashMessage('Prilásenie prebehlo úspešne.', 'success');

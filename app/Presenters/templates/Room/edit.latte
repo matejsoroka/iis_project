@@ -77,6 +77,24 @@
 
                 <div class="row">
                     <div class="col-md-6">
+                        <div n:class="$form['equipment']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    {label equipment, class => 'form-label'}
+                                </div>
+                                <div class="col-md-6">
+                                    {input equipment, class => 'form-input'}
+                                </div>
+                            </div>
+                        </div>
+                        <div n:if="$form['equipment']->hasErrors()">
+                            <span class="invalid-feedback">{inputError equipment}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <p class="duty">*povinné údaje</p>
                             <input name="send" type="submit" class="ajax btn-primary" value="Uložiť">
