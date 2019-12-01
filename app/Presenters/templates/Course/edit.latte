@@ -148,6 +148,7 @@
                                 <a n:if="$user->isAllowed('Event:edit') && $user->getIdentity()->role != 'lector'" class="btn btn-success btn-create" n:href="Event:edit $courseId">
                                     <i class="fa fa-plus-square"></i> Vytvoriť termín
                                 </a>
+                                {if $events->count()}
                                 <table class="table table-striped">
                                     <thead>
                                     <tr>
@@ -175,6 +176,9 @@
                                     {/foreach}
                                     </tbody>
                                 </table>
+                                {else}
+                                    Garant ešte nevytvoril žiadne termíny pre kurz.
+                                {/if}
                             </div>
                             {if $user->isAllowed("Course:editData")}
                             <div class="col-12">
