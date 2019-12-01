@@ -51,7 +51,7 @@
                                                     {label description, class => 'form-label'}
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <textarea n:name="description" class="form-input textarea"/>
+                                                    <textarea n:name="description"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -177,7 +177,9 @@
                                     </tbody>
                                 </table>
                                 {else}
-                                    Garant ešte nevytvoril žiadne termíny pre kurz.
+                                    {if $user->isInRole('lector')}
+                                        Garant ešte nevytvoril žiadne termíny pre kurz.
+                                    {/if}
                                 {/if}
                             </div>
                             {if $user->isAllowed("Course:editData")}

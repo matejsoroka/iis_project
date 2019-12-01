@@ -142,8 +142,6 @@ final class CoursePresenter extends BasePresenter
                     $this->redirect("this");
                 };
 
-//        $grid->addGroupAction('Schváliť vybraných študentov')->onSelect[] = [$this, 'multiAccept'];
-
         return $grid;
 
     }

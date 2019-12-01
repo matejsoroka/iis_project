@@ -31,4 +31,11 @@ $(document).ready(function () {
     CKEDITOR.replace("frm-courseForm-description");
     CKEDITOR.replace("frm-eventForm-description");
     CKEDITOR.replace("frm-courseForm-equipment");
+
+    for (let i in CKEDITOR.instances) {
+
+        CKEDITOR.instances[i].on('change', function() { CKEDITOR.instances[i].updateElement() });
+
+    }
+
 });

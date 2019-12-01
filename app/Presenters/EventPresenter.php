@@ -82,16 +82,13 @@ final class EventPresenter extends BasePresenter
 
     public function actionEdit(int $courseId, int $eventId = null)
     {
+        $this->id = $eventId;
+        $this->course_id = $courseId;
         $this->hasGrid = true;
-
-        if ($eventId) {
-            $date = $this->eventModel->getItem($eventId)->date;
-        } else {
-            $date = date("Y-m-d");
-        }
+        $date = $eventId ? $date = $this->eventModel->getItem($eventId)->date :  date("Y-m-d");
 
         $this->eventModel->getSchedule(6, $date);
-        $this->course = NULL;
+        $this->course = null;
 
         if (!$this->user->isAllowed("EditCourseStatus")) {
             if ($courseId) {
@@ -103,13 +100,10 @@ final class EventPresenter extends BasePresenter
             }
         }
 
-        $this->id = $eventId;
-        $this->course_id = $courseId;
-
         if ($eventId) {
             $this->event = $this->eventModel->getItem($eventId);
             $rooms = $this->eventRoomModel->getItems(['event_id' => $eventId])->fetchAll();
-
+            $this->schedules = [];
             foreach ($rooms as $room) {
                 $this->schedules[$room->room_id] = $this->roomModel->getItem($room->room_id)->toArray();
                 $this->schedules[$room->room_id]['schedule'] = $this->eventModel->getSchedule($room->room_id, $this->event->date);
