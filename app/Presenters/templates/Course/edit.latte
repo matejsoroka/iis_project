@@ -108,17 +108,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                {if $courseId}
-                                    <div class="row">
-                                        <p class="col-12">Miestnosti</p>
+                                <div class="row">
+                                    <p class="col-12">Miestnosti</p>
+                                </div>
+                                <div class="col-xs-12">
+                                    <div n:class="$form['room']->hasErrors() ? 'form-group has-error' : 'form-group'">
+                                        {input room, class => 'form-input'}
+                                        {if $form['room']->hasErrors()}<span class="invalid-feedback">{inputError tags}</span>{/if}
                                     </div>
-                                    <div class="col-xs-12">
-                                        <div n:class="$form['room']->hasErrors() ? 'form-group has-error' : 'form-group'">
-                                            {input room, class => 'form-input'}
-                                            {if $form['room']->hasErrors()}<span class="invalid-feedback">{inputError tags}</span>{/if}
-                                        </div>
-                                    </div>
-                                {/if}
+                                </div>
                                 <div class="row">
                                     <p class="col-12">Lektori</p>
                                 </div>

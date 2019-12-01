@@ -108,16 +108,25 @@ final class CourseFormFactory
                     $this->courseModel->edit((int) $values["id"], $values);
                 } else {
                     $values["status"] = 0; // needs to by approved by leader
-                    $insert = $this->courseModel->add($values);
-                    $course_id = $insert->id;
-                    foreach ($values['room'] as $room) {
+
+                    $rooms = $values['room'];
+                    unset($values['room']);
+
+                    $lectors = $values['lectors'];
+                    unset($values['lectors']);
+                    
+                    $course_id = $this->courseModel->add($values);
+                    foreach ($rooms as $room) {
                         $array = ['room_id' => $room, 'course_id' => $course_id];
                         $this->courseRoomModel->add($array);
                     }
-                    foreach ($values['lectors'] as $lector) {
+
+                    foreach ($lectors as $lector) {
                         $array = ['lector_id' => $lector, 'course_id' => $course_id];
                         $this->courseLectorModel->add($array);
                     }
+
+
                 }
 			} catch (Model\DuplicateNameException $e) {
 				$form['shortcut']->addError('Skratka je už zabraná, použite prosím inú');
