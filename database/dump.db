@@ -1,8 +1,23 @@
 SET NAMES utf8;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
+SET foreign_key_checks = 0;
 
-CREATE DATABASE `iis_project`
+CREATE DATABASE `iis_project`;
 USE `iis_project`;
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(32) DEFAULT NULL,
+  `password` text DEFAULT NULL,
+  `role` varchar(32) DEFAULT NULL,
+  `email` varchar(128) DEFAULT NULL,
+  `name` varchar(128) DEFAULT NULL,
+  `surname` varchar(128) DEFAULT NULL,
+  `deleted` varchar(128) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_username_uindex` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `course`;
 CREATE TABLE `course` (
@@ -143,21 +158,6 @@ CREATE TABLE `student_points` (
   CONSTRAINT `student_points_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(32) DEFAULT NULL,
-  `password` text DEFAULT NULL,
-  `role` varchar(32) DEFAULT NULL,
-  `email` varchar(128) DEFAULT NULL,
-  `name` varchar(128) DEFAULT NULL,
-  `surname` varchar(128) DEFAULT NULL,
-  `deleted` varchar(128) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `users_username_uindex` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 INSERT INTO `users` (`id`, `username`, `password`, `role`, `email`, `name`, `surname`, `deleted`) VALUES
 (1,	'admin',	'$2y$10$JD9MI3KZlwWrVp504yzdC.MiZbmjdyUuOkEsMlMAYrRXMWwVvXfUC',	'admin',	'admin@iis.com',	'admin',	'admin',	'0'),
 (2,	'xleade00',	'$2y$10$KdlcNrC3f.TH6Um6MMhLkOxya5oa1uH5SEz4xdi.o.bn4sdnYs61a',	'leader',	'leader@iis.com',	'Leader',	'Leader',	'0'),
@@ -165,3 +165,5 @@ INSERT INTO `users` (`id`, `username`, `password`, `role`, `email`, `name`, `sur
 (4,	'xlecto00',	'$2y$10$cBBkZOYdsrIJRJ2LOD7P3ubzEFTBdaW2veqAVBblzk9n3hFbuiWau',	'lector',	'lektor@iis.com',	'Lektor',	'Lektor',	'0'),
 (5,	'xsleza00',	'$2y$10$tp4y84u7FYL2/MNLYofG0uLVNA4iLja.mEU/37dCcTyXHcS.F2ESq',	'student',	'alexandra.slezak@gmail.com',	'Alexandra',	'Slezakova',	'0'),
 (6,	'xsorok00',	'$2y$10$mDloMAZPo9Q.520G7KFlfOVbiux0rKkiA0pGy2M3sxYRLem5/yK5i',	'registered',	'hi@matejsoroka.com',	'Matej',	'Soroka',	'0');
+
+SET foreign_key_checks = 1;
