@@ -36,7 +36,7 @@ class AuthFactory
         $acl->addResource('Event:detail');          // Zobrazenie terminu
         $acl->allow('guest', 'Event:detail');
 
-        /* Registered*/
+        /* Registered */
         $acl->addResource('User:edit');             // Uprava uzivatela
         $acl->allow('registered', 'User:edit');
 

@@ -114,7 +114,7 @@ final class CourseFormFactory
 
                     $lectors = $values['lectors'];
                     unset($values['lectors']);
-                    
+
                     $course_id = $this->courseModel->add($values);
                     foreach ($rooms as $room) {
                         $array = ['room_id' => $room, 'course_id' => $course_id];
