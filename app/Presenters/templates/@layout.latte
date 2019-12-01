@@ -37,6 +37,10 @@
                 <a n:href="User:edit $user->id" class="link" title="Upraviť">
                     <i class="fa fa-user"></i> {$user->getIdentity()->username}
                 </a>
+            {else}
+                <a n:href="Sign:in" class="link">
+                    <i class="fa fa-user"></i> Prihlásenie
+                </a>
             {/if}
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"

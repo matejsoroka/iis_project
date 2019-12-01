@@ -162,13 +162,6 @@ input[type="submit"] {
 .info a {
   color: black;
 }
-.signin {
-  padding: 10px;
-  text-align: center !important;
-  text-transform: uppercase;
-  border-radius: 10px;
-  font-weight: bold;
-}
 .save-event {
   margin: 2.5em 0 0 0 !important;
 }
@@ -178,5 +171,8 @@ input[type="submit"] {
 }
 .link {
   color: rgba(0, 0, 0, 0.5);
+}
+.homepage .homepage-item {
+  margin-top: 1em;
 }
 /*# sourceMappingURL=style.css.map */
