@@ -26,7 +26,7 @@
         popis èinnosti v týmu
     </dd>
     <dt>URL aplikácie</dt>
-    <dd><a href="http://www.stud.fit.vutbr.cz/~xautor01/IIS">http://www.stud.fit.vutbr.cz/~xautor01/IIS</a></dd>
+    <dd><a target="_blank" href="http://iis.matejsoroka.com/">http://iis.matejsoroka.com/</a></dd>
     <dd>(pokud má aplikace více vstupních stránek, napi¹te obdobnì dal¹í URL)</dd>
 </dl>
 
@@ -42,23 +42,100 @@
 </table>
 
 <h2>Implementácia</h2>
-<p>Struèná dokumentace k implementaci, která popisuje, které èásti projektu (napø. PHP skripty) implementují jednotlivé pøípady pou¾ití.</p>
 
-<h3>Databáza</h3>
 
+<h3>Správa u¾ivateµov</h3>
+<ul>
+    <li>Odkaz: /user</li>
+    <li>Prístup: admin</li>
+</ul>
+<p>Na tejto podstránke administrátor priradzuje role výberom z tzv. gridy klikom na rolu a výberom inej role.</p>
+<p>Taktie¾ na tejto stránke administrátor upravuje údaje u¾ivateµa kliknutím na danú bunku a zmenením hodnoty v danej bunke.</p>
+
+
+<h3>Rozvrh</h3>
+<ul>
+    <li>Odkaz: /timetable</li>
+    <li>Prístup: v¹etci okrem neschváleného a neregistrovaného u¾ivateµa</li>
+</ul>
+<p>Na tejto podstránke sa nachádza prehµad ¹tudovaných kurzov s príslu¹ným hodnotením.</p>
+<p>Taktie¾ sa sem nachádza zobrazenie stavu kurzu v kontexte ¹tudenta (èi má ¹túdium kurzu potvrdené).</p>
+<h3>Kurzy</h3>
+<h4>Zoznam</h4>
+<ul>
+    <li>Odkaz: /course</li>
+    <li>Prístup: v¹etci</li>
+</ul>
+<p>Tabuµka kde sa je mo¾né registrova» ako ¹tudent na daný kurz, alebo ako vedúci schváli» kurz, alebo ako garant alebo lektor kurz editova».</p>
+
+
+<h4>Vytvorenie / úprava kurzu</h4>
+<ul>
+    <li>Odkaz: /course/edit?id=?</li>
+    <li>Prístup: leader, admin, garant kurzu a lektor kurzu</li>
+</ul>
+<p>Podstránka so v¹etkými informáciami o kurze, garant a vy¹¹í od neho ju vidia v plnom znení, lektor vidí len zoznam termínov.</p>
+<ul>
+    <li>Vytváranie termínov</li>
+    <li>Schvaµovanie ¹tudentov do kurzu</li>
+    <li>Výber miestností pre termíny</li>
+    <li>Výber lektorov</li>
+</ul>
+
+<h3>Termíny</h3>
+
+<h4>Vytvorenie / úprava termínu</h4>
+<ul>
+    <li>Odkaz: /event/edit?course_id=?</li>
+    <li>Prístup: leader, admin, garant kurzu a lektor kurzu (len editácia)</li>
+</ul>
+<p>Podstránka pre vytvorenie termínu a následné zadávanie bodov registrovaným ¹tudentom</p>
+<p>Taktie¾ pri výbere miestností k danému termínu si mô¾eme prezrie» rozvrh v danom dátume kliknutím na tlaèidlo</p>
+<p>Obsahuje aj správu súborov</p>
+
+<h4>Detail termínu</h4>
+<ul>
+    <li>Odkaz: /event/detail?eventId=?</li>
+    <li>Prístup: V¹etci</li>
+</ul>
+<p>Obsahuje podrobnosti a získané body z termínu</p>
+
+<h3>Miestnosti</h3>
+<ul>
+    <li>Odkaz: /room</li>
+    <li>Prístup: admin</li>
+</ul>
+<p>Správa miestností</p>
+
+<h3>Prihlásenie a registrácia</h3>
+<ul>
+    <li>Odkaz: /sign/in|up</li>
+    <li>Prístup: v¹etci</li>
+</ul>
+<p>Po registrácií sa za¹le na zadanú e-mailovú adresu vygenerovaný login, ktorým sa prihlásite do systému</p>
+<p>To znamená, ¾e je mo¾né sa do systému registrova», no po registrovaní je nutné aby administrátor potvrdil registráciu (zmena role)</p>
+
+<h2>Databázový model</h2>
 <img src="erd.png" alt="databaza">
 
 <h2>Instalace</h2>
 
 Struènì popi¹te:
 <ul>
-    <li>postup instalace na server,</li>
-    <li>softwarové po¾adavky (verze PHP apod.),</li>
-    <li>jak rozbalit, konfigurovat, inicializovat databázi, ...</li>
+    <li>Apache/Nginx server nasmerovaný do zlo¾ky www ktorá obsahuje index.php súbor</li>
+    <li>Doporuèená verzia PHP je 7.3</li>
+    <li>Po rozbalení a nastavení webového serveru je nutné nain¹talova» závislosti:
+        <ul>
+            <li>Backend: v koreòovej zlo¾ke pomocou balíèkového systému composer spusti» príkaz: composer install</li>
+            <li>Frontend: v zlo¾ke www/ pomocou balíèkového systému bower spusti» príkaz: bower install</li>
+        </ul>
+    </li>
+    <li>V zlo¾ke database sa nachádzajú SQL skripty pre vygenerovanie DB ¹truktúry, skripty vytvoria aj u¾ivateµské úèty spomenuté vy¹¹ie</li>
+    <li>Pripojenie na DB server sa realizuje v súbore app/config/local.neon</li>
+    <li>Na nahratom servery sú rovnaké data, t.j. len u¾ivatelia</li>
 </ul>
 
 <h2>Známé problémy</h2>
-<p>Zde popi¹te, které body zadání nejsou implementovány a z jakého dùvodu. Napø. &bdquo;Z èasových dùvodù nebyla implementována správa u¾ivatelù.&rdquo; Pomù¾ete tím zrychlit hodnocení, kdy¾ neimplementované funkce nebudeme muset dlouze hledat.</p>
-
+404
 </body>
 </html>

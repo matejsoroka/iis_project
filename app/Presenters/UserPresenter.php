@@ -92,12 +92,6 @@ final class UserPresenter extends BasePresenter
 
         $grid->addFilterSelect("role", "Rola", $roles);
 
-        if ($this->user->isAllowed("User:edit")) {
-            $grid->addAction('edit', '', 'edit')
-                ->setIcon('pencil')
-                ->setClass('btn btn-xs btn-primary');
-        }
-
         if ($this->user->isAllowed("User:delete")) {
             $grid->addAction('delete', '', 'delete!')
                 ->setIcon('trash')
