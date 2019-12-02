@@ -71,7 +71,8 @@ class EventFormFactory
         $form->addInteger('points', 'Max. bodov*')
             ->setRequired('Prosím, zadajte maximum bodov');
 
-        $form->addMultiUpload('files', 'Pridať súbory');
+        $form->addMultiUpload('files', 'Pridať súbory')
+            ->addRule(Form::MAX_FILE_SIZE, 'Maximálna veľkosť súboru sú 2 MB.', 2 * 1024 * 1024);
 
         $form->addCheckbox('repeat', 'Opakovať týždenne');
 
