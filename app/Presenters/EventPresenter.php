@@ -73,11 +73,14 @@ final class EventPresenter extends BasePresenter
     /** @persistent */
     private $roomIds;
 
+    /** @persistent */
+    private $files;
+
     public function renderEdit(int $courseId, int $eventId = null)
     {
         $this->template->courseHours = [];
         $this->template->eventId = $eventId;
-        $this->template->files = $this->eventFileModel->getItems(["event_id" => $eventId])->fetchAll();
+        $this->template->files = $this->files;
         $this->template->registered = $this->studentCourseModel->getItems(["course_id" => $courseId]);
         $this->template->roomSchedules = $this->schedules;
         $this->template->roomIds = $this->roomIds;
@@ -87,6 +90,7 @@ final class EventPresenter extends BasePresenter
     {
         $this->id = $eventId;
         $this->course_id = $courseId;
+        $this->files = $this->eventFileModel->getItems(["event_id" => $eventId])->fetchAll();
         $this->hasGrid = true;
         $date = $eventId ? $date = $this->eventModel->getItem($eventId)->date :  date("Y-m-d");
 
@@ -179,7 +183,7 @@ final class EventPresenter extends BasePresenter
 
         $grid->setRefreshUrl(FALSE);
 
-        $grid->setDataSource($this->eventFileModel->getItems([]));
+        $grid->setDataSource($this->files);
 
         $grid->addColumnText("name", "Názov")
             ->setRenderer(function ($row) {
