@@ -70,14 +70,17 @@ final class EventPresenter extends BasePresenter
     /** @persistent */
     private $schedules;
 
+    /** @persistent */
+    private $roomIds;
+
     public function renderEdit(int $courseId, int $eventId = null)
     {
         $this->template->courseHours = [];
         $this->template->eventId = $eventId;
-        $this->template->countRooms = $this->roomModel->getTable()->count();
         $this->template->files = $this->eventFileModel->getItems(["event_id" => $eventId]);
         $this->template->registered = $this->studentCourseModel->getItems(["course_id" => $courseId]);
         $this->template->roomSchedules = $this->schedules;
+        $this->template->roomIds = $this->roomIds;
     }
 
     public function actionEdit(int $courseId, int $eventId = null)
@@ -100,16 +103,18 @@ final class EventPresenter extends BasePresenter
             }
         }
 
+        $this->schedules = [];
+        $this->roomIds = [];
+
         if ($eventId) {
             $this->event = $this->eventModel->getItem($eventId);
             $rooms = $this->eventRoomModel->getItems(['event_id' => $eventId])->fetchAll();
-            $this->schedules = [];
+
             foreach ($rooms as $room) {
+                $this->roomIds[] = $room->room_id;
                 $this->schedules[$room->room_id] = $this->roomModel->getItem($room->room_id)->toArray();
                 $this->schedules[$room->room_id]['schedule'] = $this->eventModel->getSchedule($room->room_id, $this->event->date);
             }
-        } else {
-            $this->schedules = [];
         }
     }
 
@@ -147,9 +152,13 @@ final class EventPresenter extends BasePresenter
 
     public function handleChangeRoom(array $roomIds, string $date)
     {
+        $this->roomIds = [];
+        $this->schedules  = [];
+   
         if (count($roomIds) > 0) {
             foreach ($roomIds as $rooms) {
                 foreach ($rooms as $id) {
+                    $this->roomIds[] = $id;
                     $this->schedules[$id] = $this->roomModel->getItem($id)->toArray();
                     $this->schedules[$id]['schedule'] = $this->eventModel->getSchedule($id, $date);
                 }
@@ -159,7 +168,6 @@ final class EventPresenter extends BasePresenter
             $this->redrawControl('scheduleSnippet');
 
         } else {
-            $this->schedules  = [];
             $this->redrawControl('scheduleSnippet');
             $this->redrawControl('scheduleButton');
         }

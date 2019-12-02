@@ -22,6 +22,7 @@
                                             <p class="hidden" id="hours_{$i}">{$item['schedule']}</p>
                                             <script>
                                                 window.schedules = {$roomSchedules};
+                                                window.roomIds = {$roomIds};
                                             </script>
                                         </div>
                                     {/foreach}
@@ -269,7 +270,7 @@
     {/if}
     <script>
         window.changeRoom = {link changeRoom! [], ''};
-        window.countRooms = {$countRooms};
         window.schedules = {$roomSchedules};
+        window.roomIds = {$roomIds};
     </script>
 {/block}

@@ -91,8 +91,18 @@ class EventFormFactory
             /* change format of date */
             $date = date("Y-m-d", strtotime($this->eventModel->getItem($event_id)->date));
 
+            $courseRoom = $this->courseRoomModel->fetchPairs(['course_id' => $course_id], 'id', 'room_id');
             $selected = $this->eventRoomModel->fetchPairs(['event_id' => $event_id], 'id', 'room_id');
-            $form->setDefaults(['room' => $selected]);
+            $inArray = true;
+
+            foreach ($selected as $i => $select) {
+                if (is_bool(array_search($select, $courseRoom))) {
+                    $this->eventRoomModel->delete(['id' => $i]);
+                    $inArray = false;
+                }
+            }
+
+            if ($inArray) $form->setDefaults(['room' => $selected]);
 
         } else {
             /* today's date */
@@ -140,16 +150,14 @@ class EventFormFactory
                     unset($values['room']);
                     $this->eventModel->edit((int) $values["id"], $values);
                 } else {
-                    $nextId = $this->eventModel->getNextId();
-
                     $rooms = $values['room'];
 
                     unset($values['room']);
-                    $this->eventModel->add($values);
+                    $nextId = $this->eventModel->add($values);
 
                     if ($rooms) {
                         foreach ($rooms as $room) {
-                            $array = ['room_id' => $room, 'event_id' => $nextId];
+                            $array = ['room_id' => $room, 'event_id' => $nextId->id];
                             $this->eventRoomModel->add($array);
                         }
                     }

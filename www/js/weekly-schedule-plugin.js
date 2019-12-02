@@ -304,6 +304,12 @@ $(document).ready(function () {
     roomSelect.multiSelect({
         'afterSelect' : function(values){
             valuesArray.push(values);
+            let length = window.roomIds.length;
+
+            if (length > 0) {
+                valuesArray.push(window.roomIds);
+            }
+
             let date = $('#frm-eventForm-date').val();
             let time_from = $('#frm-eventForm-time_from').val();
             let time_to = $('#frm-eventForm-time_to').val();
@@ -353,18 +359,20 @@ $(document).ready(function () {
                     success: function () {
                         setTimeout(function(){
                             index = [];
-                            initSchedule(window.countRooms, window.schedules);
-                        }, 20);
+                            initSchedule(window.roomIds, window.schedules);
+                        }, 50);
+                        valuesArray = [];
                     },
                 });
             }
         },
     });
 
-    initSchedule(window.countRooms, window.schedules);
+    initSchedule(window.roomIds, window.schedules);
 });
 
 function changeSchedule(scheduleId, schedule) {
+
     if (typeof(schedule) != "undefined" && schedule !== null && schedule !== "") {
         schedule = JSON.parse(schedule);
         // MONDAY
@@ -414,108 +422,25 @@ function changeSchedule(scheduleId, schedule) {
     }
 }
 
-function initSchedule(countRooms, schedules)
+function initSchedule(roomIds)
 {
     let value;
-    for (let i = 1; i < countRooms + 1; i++) {
-        if (typeof(schedules[i]) != "undefined" && schedules[i] !== null) {
-            index.push(i);
-            $('#mySchedule_'+i).weekly_schedule({
-                days: ["Po", "Ut", "St", "Št", "Pia"],
-                fontColor: "black",
-                fontWeight: "100",
-                fontSize: "0.8em",
-                hoverColor: "#0091bf",
-                selectionColor: "#00A9E4",
-                headerBackgroundColor: "transparent",
-            });
-            value = $('#hours_'+i).text();
-            changeSchedule('#mySchedule_'+i, value);
-        }
-    }
+    let length = roomIds.length;
 
-    // let mousedown = false;
-    // let devarionMode = false;
-    // let id;
-    //
-    // $('#mySchedule_' + index[0] + ' .hour').on('mouseenter', function() {
-    //     id = $(this).attr('id');
-    //     if (!mousedown) {
-    //         $(this).addClass('hover');
-    //         for (let i = 1; i < index.length; i++) {
-    //             $('#mySchedule_'+ index[i] + ' #' + id).addClass('hover');
-    //         }
-    //     }
-    //     else {
-    //         if (devarionMode) {
-    //             $(this).removeClass('selected-now');
-    //             for (let i = 1; i < index.length; i++) {
-    //                 if (!$('#mySchedule_'+ index[i] + ' #' + id).hasClass('selected')) {
-    //                     $('#mySchedule_'+ index[i] + ' #' + id).removeClass('selected-now');
-    //                 }
-    //             }
-    //             outputArray = getAllSelectedHour();
-    //             selectedHours = getSelectedHour();
-    //         }
-    //         else {
-    //             $(this).addClass('selected-now');
-    //             for (let i = 1; i < index.length; i++) {
-    //                 if ($('#mySchedule_'+ index[i] + ' #' + id).hasClass('selected')) {
-    //                     for (let j = 1; j < index.length + 1; j++) {
-    //                         $('#mySchedule_'+ index[j] + ' #' + id).removeClass('selected-now');
-    //                     }
-    //                     $(this).removeClass('selected-now');
-    //                     alert('Nie je možné vybrať miestnosť v tejto hodine.')
-    //                 } else {
-    //                     $('#mySchedule_'+ index[i] + ' #' + id).addClass('selected-now');
-    //                 }
-    //             }
-    //             outputArray = getAllSelectedHour();
-    //             selectedHours = getSelectedHour();
-    //         }
-    //     }
-    // }).on('mousedown', function() {
-    //     mousedown = true;
-    //
-    //     if ($(this).hasClass('selected')) {
-    //         $(this).removeClass('selected-now');
-    //         for (let i = 1; i < index.length; i++) {
-    //             if (!$('#mySchedule_'+ index[i] + ' #' + id).hasClass('selected')) {
-    //                 $('#mySchedule_'+ index[i] + ' #' + id).removeClass('selected-now');
-    //             }
-    //         }
-    //         devarionMode = true;
-    //         outputArray = getAllSelectedHour();
-    //         selectedHours = getSelectedHour();
-    //     }
-    //     else {
-    //         $(this).addClass('selected-now');
-    //         for (let i = 1; i < index.length; i++) {
-    //             if ($('#mySchedule_'+ index[i] + ' #' + id).hasClass('selected')) {
-    //                 for (let j = 1; j < index.length; j++) {
-    //                     $('#mySchedule_'+ index[j] + ' #' + id).removeClass('selected-now');
-    //                 }
-    //                 $(this).removeClass('selected-now');
-    //                 alert('Nie je možné vybrať miestnosť v tejto hodine.')
-    //             } else {
-    //                 $('#mySchedule_'+ index[i] + ' #' + id).addClass('selected-now');
-    //             }
-    //         }
-    //         outputArray = getAllSelectedHour();
-    //         selectedHours = getSelectedHour();
-    //     }
-    //     $(this).removeClass('hover');
-    // }).on('mouseup', function() {
-    //     devarionMode = false;
-    //     mousedown = false;
-    // }).on('mouseleave', function () {
-    //     if (!mousedown) {
-    //         $(this).removeClass('hover');
-    //         for (let i = 1; i < index.length; i++) {
-    //             $('#mySchedule_'+ index[i] + ' #' + id).removeClass('hover');
-    //         }
-    //     }
-    // });
+    for (let i = 0; i < length; i++) {
+        index.push(roomIds[i]);
+        $('#mySchedule_'+roomIds[i]).weekly_schedule({
+            days: ["Po", "Ut", "St", "Št", "Pia"],
+            fontColor: "black",
+            fontWeight: "100",
+            fontSize: "0.8em",
+            hoverColor: "#0091bf",
+            selectionColor: "#00A9E4",
+            headerBackgroundColor: "transparent",
+        });
+        value = $('#hours_'+roomIds[i]).text();
+        changeSchedule('#mySchedule_'+roomIds[i], value);
+    }
 }
 
 
