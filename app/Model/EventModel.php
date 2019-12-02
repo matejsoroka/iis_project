@@ -88,14 +88,14 @@ class EventModel extends BaseModel
                         $isSame = true;
                     }
                 }
-            }
 
-            if ($isSame) {
-                if (strtotime($time_from) >= strtotime($event->time_from) && strtotime($time_to) <= strtotime($event->time_to)
-                    || (strtotime($time_from) < strtotime($event->time_from) && strtotime($time_to) >= strtotime($event->time_from) && strtotime($time_to) <= strtotime($event->time_to))
-                    || (strtotime($time_from) >= strtotime($event->time_from) && strtotime($time_from) <= strtotime($event->time_to) && strtotime($time_to) > strtotime($event->time_to))
-                    || (strtotime($time_from) < strtotime($event->time_from) && strtotime($time_to) > strtotime($event->time_to))) {
-                    return 1;
+                if ($isSame) {
+                    if (strtotime($time_from) >= strtotime($event->time_from) && strtotime($time_to) <= strtotime($event->time_to)
+                        || (strtotime($time_from) < strtotime($event->time_from) && strtotime($time_to) >= strtotime($event->time_from) && strtotime($time_to) <= strtotime($event->time_to))
+                        || (strtotime($time_from) >= strtotime($event->time_from) && strtotime($time_from) <= strtotime($event->time_to) && strtotime($time_to) > strtotime($event->time_to))
+                        || (strtotime($time_from) < strtotime($event->time_from) && strtotime($time_to) > strtotime($event->time_to))) {
+                        return 1;
+                    }
                 }
             }
         }

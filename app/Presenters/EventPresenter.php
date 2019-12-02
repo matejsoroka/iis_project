@@ -154,7 +154,7 @@ final class EventPresenter extends BasePresenter
     {
         $this->roomIds = [];
         $this->schedules  = [];
-   
+
         if (count($roomIds) > 0) {
             foreach ($roomIds as $rooms) {
                 foreach ($rooms as $id) {
